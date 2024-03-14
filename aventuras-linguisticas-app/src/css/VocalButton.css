@@ -18,8 +18,8 @@
   }  
     
   .VocalButton .image-container img {  
-    width: 100px; /* Tamaño de la imagen */  
-    height: 100px;  
+    width: 170px; /* Tamaño de la imagen */  
+    height: 170px;  
     object-fit: cover; /* Esto asegura que la imagen cubra todo el espacio disponible */  
   }  
   
