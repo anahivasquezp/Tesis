@@ -1,0 +1,18 @@
+/* VocalMenu.css */  
+  
+.vocal-menu {  
+    display: flex;  
+    flex-direction: column;  
+    align-items: center;  
+    justify-content: center;  
+    height: 100vh; /* Esto hace que el menú ocupe toda la altura de la pantalla */  
+  }  
+    
+  .vocal-container {  
+    display: flex;  
+    justify-content: space-around;  
+    flex-wrap: wrap; /* Esto permite que los botones se pasen a la siguiente línea si no hay suficiente espacio */  
+    width: 80%; /* Tamaño del contenedor de los botones */  
+    max-width: 800px; /* Ancho máximo del contenedor para evitar que sea demasiado grande en pantallas grandes */  
+  }  
+  

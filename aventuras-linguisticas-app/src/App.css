@@ -1,0 +1,9 @@
+/* App.css */  
+  
+.app {  
+    min-height: 100vh;
+    background-image: url('./images/farm_background.jpg');  
+    background-size: cover; /* Esto asegura que la imagen cubra toda la pantalla */  
+    background-repeat: no-repeat; /* Esto evita que la imagen se repita */  
+  }  
+  
