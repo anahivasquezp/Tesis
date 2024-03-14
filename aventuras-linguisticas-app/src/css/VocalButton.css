@@ -8,7 +8,7 @@
   }  
     
   .VocalButton button {  
-    background: purple; /* Color de fondo del botón */  
+    background: blue; /* Color de fondo del botón */  
     color: white; /* Color del texto del botón */  
     padding: 10px 20px; /* Espaciado interno del botón */  
     border: none; /* Remover el borde por defecto del botón */  
