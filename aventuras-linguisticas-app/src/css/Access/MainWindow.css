@@ -1,0 +1,25 @@
+.main-container {    
+    display: flex;    
+    flex-direction: column;    
+    justify-content: center;    
+    align-items: center;    
+    height: 100vh;    
+  }    
+  
+.button-container {    
+    display: flex;    
+    justify-content: space-around;    
+    align-items: center;  
+    width: 50%;    
+    flex-wrap: wrap;  
+  }    
+  
+button {    
+    transition: background-color 0.5s ease;    
+    padding: 10px 20px;   
+    font-size: 1em;  
+}    
+  
+button:hover {    
+    background-color: #bada55;    
+}    

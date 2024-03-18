@@ -1,0 +1,57 @@
+  /*ÍCONOS*/
+  .main-container {  
+    display: flex;  
+    flex-direction: column;  
+    justify-content: center;  
+    align-items: center;  
+    height: 100vh;  
+  }  
+    
+  .button-container {  
+    display: flex;  
+    justify-content: space-between;  
+    width: 100%;  
+    position: fixed;  /* Hace que la barra de botones se mantenga en la parte superior de la pantalla */  
+    top: 0;  
+  }  
+    
+  .button-left, .button-right {  
+    align-self: flex-start;  
+    margin: 10px;
+  }  
+    
+
+  button {  
+    transition: background-color 0.5s ease;  
+  }  
+    
+  button:hover {  
+    background-color: #bada55;  
+  }  
+
+  .speech-bubble {  
+    position: relative;  
+    background: #00aabb;  
+    border-radius: 0.4em;  
+    color: white;  
+    padding: 1em;  
+    text-align: center;  
+    width: fit-content;  
+    margin: 0 auto;  
+  }  
+    
+  .speech-bubble:after {  
+    content: '';  
+    position: absolute;  
+    top: 0;  
+    left: 50%;  
+    width: 0;  
+    height: 0;  
+    border: 20px solid transparent;  
+    border-bottom-color: #00aabb;  
+    border-top: 0;  
+    border-left: 0;  
+    margin-left: -10px;  
+    margin-top: -20px;  
+  }  
+  

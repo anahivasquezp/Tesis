@@ -1,16 +1,23 @@
 // Importamos React, useEffect y useState desde la biblioteca 'react'
 import React, { useEffect, useState } from 'react';
 // Importamos el archivo apiUnsplash que contiene la instancia de axios configurada para acceder a la API de Unsplash
-import apiUnsplash from '../apis/apiUnsplash';
+import apiUnsplash from '../../apis/apiUnsplash';
 // Importamos el componente VocalButton
-import VocalButton from '../components/VocalButton';
+import VocalButton from './VocalButton';
 // Importamos los estilos CSS para el menú vocal
-import '../css/VocalMenu.css';
+import '../../css/Vocals/VocalMenu.css';
+//ÍCONOS
+import { FaHome } from 'react-icons/fa';  
+
+
+
+
 
 // Definimos un componente funcional llamado App
 function App() {
   // Definimos un estado para almacenar las URLs de las imágenes de cada vocal
   const [imagenes, setImagenes] = useState({ a: '', e: '', i: '', o: '', u: '' });
+  
 
   // Definimos listas de palabras para cada vocal
   const palabrasConA = ['abeja', 'araña', 'avión', 'ancla', 'auto'];
@@ -82,18 +89,22 @@ function App() {
 
   // Renderizamos el contenido del componente
   return (
-    <div className="vocal-menu">
-      <div>
-        <h1>Ejercicios con Vocales</h1>
-      </div>
-      <div className='vocal-container'>
-        {/* Renderizamos el componente VocalButton para cada vocal con sus respectivas imágenes */}
-        <VocalButton vocal="a" imagen={imagenes.a} />
-        <VocalButton vocal="e" imagen={imagenes.e} />
-        <VocalButton vocal="i" imagen={imagenes.i} />
-        <VocalButton vocal="o" imagen={imagenes.o} />
-        <VocalButton vocal="u" imagen={imagenes.u} />
-      </div>
+
+    <div className="main-container"> 
+      <button className="button-left"><FaHome size={50}/></button> 
+      <div className="vocal-menu">
+        <div>
+          <h1>Ejercicios con Vocales</h1>
+        </div>
+        <div className='vocal-container'>
+          {/* Renderizamos el componente VocalButton para cada vocal con sus respectivas imágenes */}
+          <VocalButton vocal="a" imagen={imagenes.a} />
+          <VocalButton vocal="e" imagen={imagenes.e} />
+          <VocalButton vocal="i" imagen={imagenes.i} />
+          <VocalButton vocal="o" imagen={imagenes.o} />
+          <VocalButton vocal="u" imagen={imagenes.u} />
+        </div>
+      </div> 
     </div>
   );
 }

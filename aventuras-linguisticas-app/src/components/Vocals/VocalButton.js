@@ -1,7 +1,7 @@
 // Importamos React y el componente Link de react-router-dom
 import React from 'react';
 import { Link } from 'react-router-dom';
-import '../css/VocalButton.css'; // Importamos los estilos CSS para el componente
+import '../../css/Vocals/VocalButton.css'; // Importamos los estilos CSS para el componente
 
 // Definimos un componente funcional llamado VocalButton que recibe dos propiedades: vocal e imagen
 const VocalButton = ({ vocal, imagen }) => {

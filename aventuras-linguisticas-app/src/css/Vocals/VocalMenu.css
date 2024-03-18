@@ -15,4 +15,13 @@
     width: 80%; /* Tamaño del contenedor de los botones */  
     max-width: 800px; /* Ancho máximo del contenedor para evitar que sea demasiado grande en pantallas grandes */  
   }  
+
+  .main-container {  
+    display: flex;  
+    flex-direction: column;  
+    align-items: center;  
+    justify-content: center;  
+    height: 100vh;
+  }  
+  
   

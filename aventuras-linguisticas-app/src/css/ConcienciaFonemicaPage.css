@@ -1,0 +1,64 @@
+  /*ÍCONOS*/
+  .main-container {  
+    display: flex;  
+    flex-direction: column;  
+    justify-content: center;  
+    align-items: center;  
+    height: 100vh;  
+  }  
+    
+  .button-container {  
+    display: flex;  
+    justify-content: space-between;  
+    width: 100%;  
+    position: fixed;  /* Hace que la barra de botones se mantenga en la parte superior de la pantalla */  
+    top: 0;  
+  }  
+
+  .action-buttons {  
+    display: flex;  
+    justify-content: space-around;  
+    width: 100%;  
+    margin-top: 1em;  /* Añadir un margen arriba para separar los botones de la imagen */  
+  }  
+    
+  .button-left, .button-right {  
+    align-self: flex-start;  
+    margin: 10px;
+  }  
+
+  .reproducir-sonido {  
+    display: flex;  
+    justify-content: center;  
+    align-items: center;  
+    position: fixed;  
+    bottom: 100px; /* Ajusta la distancia desde la parte inferior de la página a tu gusto */  
+    left: 50%; /* Centra el botón horizontalmente */  
+    transform: translateX(-50%); /* Ajusta la posición del botón para que esté perfectamente centrado */  
+    padding: 10px 20px; /* Ajusta el relleno del botón a tu gusto */  
+    font-size: 20px; /* Ajusta el tamaño del texto a tu gusto */  
+    text-align: center;  
+  }  
+    
+  
+    
+
+  button {  
+    transition: background-color 0.5s ease;  
+  }  
+    
+  button:hover {  
+    background-color: #bada55;  
+  }  
+
+  .button-check, .button-times {  
+    transition: background-color 0.5s ease;  
+  }  
+    
+  .button-check:hover {  
+    background-color: #bada55;  
+  }  
+    
+  .button-times:hover {  
+    background-color: #ff0000;  
+  } 
