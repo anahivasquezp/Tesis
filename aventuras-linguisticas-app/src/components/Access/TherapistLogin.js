@@ -1,20 +1,26 @@
 import React, { useState } from "react";  
-import { Link } from 'react-router-dom';  
-import { auth } from "../../firebase";
+import { Link , useNavigate} from 'react-router-dom';  
+import { auth, signInWithEmailAndPassword } from "../../firebase";
 import '../../css/Access/therapistLogin.css';  
 
 function TherapistLogin() {  
   const [email, setEmail] = useState("");  
   const [password, setPassword] = useState("");  
   const [error, setError] = useState(null);  
+  const navigate = useNavigate();
   
   const signInWithEmailAndPasswordHandler =   
           (event,email, password) => { 
               event.preventDefault();  
-              auth.signInWithEmailAndPassword(email, password).catch(error => {  
-                setError("Error signing in with password and email!");  
-                console.error("Error signing in with password and email", error);  
-              });  
+              signInWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                  // Signed in 
+                  navigate("/chooseChild"); // Replace "/next-page" with the path you want to navigate to
+                })
+                .catch(error => {  
+                  setError("Error signing in with password and email!");  
+                  console.error("Error signing in with password and email", error);  
+                });  
   };  
   
   const onChangeHandler = (event) => {  
@@ -64,11 +70,7 @@ function TherapistLogin() {
           >  
             Iniciar sesión  
           </button>  
-        </form>  
-        <p className="text-center my-3">o</p>  
-        <button className="bg-red-500 hover:bg-red-600 w-full py-2 text-white">  
-          Iniciar sesión con Google  
-        </button>  
+        </form>   
         <p className="text-center my-3">  
           ¿No tienes una cuenta? {" "}  
           <Link to="/registerTherapist" className="text-blue-500 hover:text-blue-600">  

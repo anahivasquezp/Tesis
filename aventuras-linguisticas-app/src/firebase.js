@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 
 // Your web app's Firebase configuration
@@ -19,5 +19,5 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth();
 
 // Export the Firebase Auth service
-export { auth };
+export { auth, signInWithEmailAndPassword };
 export default app;
