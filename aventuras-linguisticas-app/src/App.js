@@ -25,7 +25,7 @@ function App() {
             <Route path="/therapistLogin" element={<TherapistLogin />} /> 
             <Route path="/guest" element={<Guest />} /> 
             <Route path="/registerTherapist" element={<RegisterTherapist />} /> 
-            <Route path="/chooseChild" element={<ChooseChild />} /> 
+            <Route path="/chooseChild"c                        element={<ChooseChild />} /> 
             <Route path="/registerChild" element={<RegisterChild />} /> 
             <Route path="/Menu" element={<PrincipalMenu />} /> 
             <Route path="/vocal/:vocal" element={<VocalPage />} /> 

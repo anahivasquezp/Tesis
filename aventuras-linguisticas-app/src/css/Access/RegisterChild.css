@@ -1,0 +1,22 @@
+.container {  
+    display: flex;  
+  }  
+    
+  .image-container {  
+    flex: 1;  
+  }  
+    
+  .image-container img {  
+    width: 100px;  
+    height: 100px;  
+  }  
+    
+  .form-container {  
+    flex: 1;  
+  }  
+    
+  .form-container input {  
+    display: block;  
+    margin-bottom: 10px;  
+  }  
+  
