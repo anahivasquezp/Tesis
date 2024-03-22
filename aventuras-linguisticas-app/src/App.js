@@ -13,26 +13,30 @@ import ChooseChild from './components/Access/ChooseChild'; // Este es un compone
 import RegisterChild from './components/Access/RegisterChild'; // Este es un componente personalizado para registrar el niño
 import PrincipalMenu from './components/Access/PrincipalMenu'; // Este es un componente personalizado para el menú principal
 
+import { ChildProvider } from './components/Access/ChildContext'; 
 
 // Definimos el componente App  
 function App() {  
   // El componente retorna un elemento Router que define las rutas de nuestra aplicación  
   return (  
-    <Router>
-        <div className="app">
-          <Routes>  
-            <Route path="/" element={<MainWindow />} /> 
-            <Route path="/therapistLogin" element={<TherapistLogin />} /> 
-            <Route path="/guest" element={<Guest />} /> 
-            <Route path="/registerTherapist" element={<RegisterTherapist />} /> 
-            <Route path="/chooseChild"c                        element={<ChooseChild />} /> 
-            <Route path="/registerChild" element={<RegisterChild />} /> 
-            <Route path="/Menu" element={<PrincipalMenu />} /> 
-            <Route path="/vocal/:vocal" element={<VocalPage />} /> 
-            <Route path="/vocal/:vocal/conciencia-fonemica" element={<ConcienciaFonemicaPage />} />
-          </Routes> 
-        </div>       
-    </Router>  
+    <ChildProvider>
+      <Router>
+          <div className="app">
+            <Routes>  
+              <Route path="/" element={<MainWindow />} /> 
+              <Route path="/therapistLogin" element={<TherapistLogin />} /> 
+              <Route path="/guest" element={<Guest />} /> 
+              <Route path="/registerTherapist" element={<RegisterTherapist />} /> 
+              <Route path="/chooseChild"c                        element={<ChooseChild />} /> 
+              <Route path="/registerChild" element={<RegisterChild />} /> 
+              <Route path="/vocalMenu" element={<VocalMenu />} /> 
+              <Route path="/Menu" element={<PrincipalMenu />} /> 
+              <Route path="/vocal/:vocal" element={<VocalPage />} /> 
+              <Route path="/vocal/:vocal/conciencia-fonemica" element={<ConcienciaFonemicaPage />} />
+            </Routes> 
+          </div>       
+      </Router>  
+    </ChildProvider>
   ); 
 }  
   

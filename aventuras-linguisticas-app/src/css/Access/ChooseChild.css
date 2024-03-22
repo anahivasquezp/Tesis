@@ -27,4 +27,9 @@
     font-size: 50px;  
     text-decoration: none;  
   }  
+
+  .child-container.selected {  
+    border: 2px solid blue;  
+  }  
+  
   
