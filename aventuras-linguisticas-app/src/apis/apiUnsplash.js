@@ -1,13 +1,23 @@
-// Importamos axios para realizar solicitudes HTTP
 import axios from 'axios';
 
-// Definimos una instancia de axios con la configuración base para acceder a la API de Unsplash
 const api = axios.create({
-  baseURL: 'https://api.unsplash.com',  // URL base de la API de Unsplash
+  baseURL: 'https://api.unsplash.com',
   headers: {
-    Authorization: 'Client-ID gbtVJRxcMYkjn7Fn_QYSVUJS8Z_RuWt_uNR94zrIoa4'  // Clave de acceso de cliente para autenticación
+    Authorization: 'Client-ID gbtVJRxcMYkjn7Fn_QYSVUJS8Z_RuWt_uNR94zrIoa4'
   }
 });
 
-// Exportamos la instancia de axios configurada para que esté disponible para su uso en otros archivos
+// Función para obtener una imagen por palabra clave
+export const getPhotoByKeyword = async (keyword) => {
+  try {
+    const response = await api.get(`/search/photos`, {
+      params: { query: keyword, per_page: 1 }
+    });
+    return response.data.results[0].urls.regular;  // Asegúrate de manejar el caso en que no hay resultados
+  } catch (error) {
+    console.error('Error fetching image from Unsplash:', error);
+    return null;  // Puedes manejar los errores de manera más específica si lo deseas
+  }
+};
+
 export default api;

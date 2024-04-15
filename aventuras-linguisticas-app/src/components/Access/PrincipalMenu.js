@@ -23,7 +23,7 @@ function PrincipalMenu() {
     };
 
     const handleNavigatePhonemicAwareness = () => {
-        navigate('/phonemic-awareness'); // Navigate to Phonemic Awareness page
+        navigate('/phonemic-awareness-piano'); // Navigate to Phonemic Awareness page
     };
 
     const handleNavigatePhonologicalExercises = () => {
