@@ -22,6 +22,14 @@ function PrincipalMenu() {
         navigate('/'); // Redirect to the home or login page
     };
 
+    const handleNavigatePhonemicAwareness = () => {
+        navigate('/phonemic-awareness'); // Navigate to Phonemic Awareness page
+    };
+
+    const handleNavigatePhonologicalExercises = () => {
+        navigate('/phonological-exercises'); // Navigate to Phonological Exercises page
+    };
+
     return (
         <div className="menu-container">
             <div className="user-info">
@@ -46,8 +54,8 @@ function PrincipalMenu() {
                 )}
             </div>
             <div className="button-container">
-                <button>Conciencia fonética</button>
-                <button>Ejercicios fonológicos</button>
+                <button onClick={handleNavigatePhonemicAwareness}>Conciencia fonética</button>
+                <button onClick={handleNavigatePhonologicalExercises}>Ejercicios fonológicos</button>
                 <button onClick={handleSignOut}>Cerrar Sesión</button>
             </div>
         </div>

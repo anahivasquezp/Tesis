@@ -1,9 +1,9 @@
 // Importamos React y hooks de react-router-dom y apiGiphy
 import React, { useEffect, useState } from 'react';
-import getGifUrl from '../apis/apiGiphy'; // Importamos la función getGifUrl desde apiGiphy
+import getGifUrl from '../../apis/apiGiphy'; // Importamos la función getGifUrl desde apiGiphy
 import { Link, useParams } from 'react-router-dom';
 import { FaHome, FaArrowLeft, FaCheck, FaTimes } from 'react-icons/fa';
-import '../css/ConcienciaFonemicaPage.css'; // Importamos los estilos CSS para el componente
+import '../../css/Vocals/ConcienciaFonemicaPage.css'; // Importamos los estilos CSS para el componente
 
 // Definimos un componente funcional llamado PhonemicAwarenessPage
 const ConcienciaFonemicaPage = () => {

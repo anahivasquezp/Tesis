@@ -3,7 +3,7 @@ import React from 'react'; // React es la biblioteca base para construir compone
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; // Estos son componentes de enrutamiento de la biblioteca 'react-router-dom'  
 import VocalMenu from './components/Vocals/VocalMenu'; // Este es un componente personalizado para el menú de vocales  
 import VocalPage from './components/Vocals/VocalPage'; // Este es un componente personalizado para la página de una vocal específica  
-import ConcienciaFonemicaPage from './components/ConcienciaFonemicaPage'; // Este es un componente personalizado para la página de conciencia fonémica de una vocal  
+import ConcienciaFonemicaPage from './components/Vocals/ConcienciaFonemicaPage'; // Este es un componente personalizado para la página de conciencia fonémica de una vocal  
 import './App.css'; // Este es el archivo de estilos CSS para este componente  
 import MainWindow from './components/Access/MainWindow'; // Este es un componente personalizado para la ventana principal
 import TherapistLogin from './components/Access/TherapistLogin'; // Este es un componente personalizado para el login del terapeuta
@@ -12,8 +12,12 @@ import RegisterTherapist from './components/Access/RegisterTherapist'; // Este e
 import ChooseChild from './components/Access/ChooseChild'; // Este es un componente personalizado para elegir el niño
 import RegisterChild from './components/Access/RegisterChild'; // Este es un componente personalizado para registrar el niño
 import PrincipalMenu from './components/Access/PrincipalMenu'; // Este es un componente personalizado para el menú principal
-
 import { ChildProvider } from './components/Access/ChildContext'; 
+import PhonemicAwareness from './components/Exercises/PhonemicAwareness'; // Import the missing component
+import PhonologicalExercises from './components/Exercises/PhonologicaExercises'; // Import the missing component
+import AgeFonemas from './components/Exercises/AgeFonemas';
+import Congratulations from './components/Exercises/Congratulations';
+
 
 // Definimos el componente App  
 function App() {  
@@ -33,6 +37,10 @@ function App() {
               <Route path="/Menu" element={<PrincipalMenu />} /> 
               <Route path="/vocal/:vocal" element={<VocalPage />} /> 
               <Route path="/vocal/:vocal/conciencia-fonemica" element={<ConcienciaFonemicaPage />} />
+              <Route path="/phonemic-awareness" element={<PhonemicAwareness />} />
+              <Route path="/phonological-exercises" element={<PhonologicalExercises />} />
+              <Route path="/age-fonemas/:age" element={<AgeFonemas />} />
+              <Route path="/congratulations" element={<Congratulations />} />
             </Routes> 
           </div>       
       </Router>  
