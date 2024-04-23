@@ -16,27 +16,26 @@
   margin-bottom: 20px; /* Espacio entre el título y los botones */
 }
 
-#game-title1 {
+#game-title1, #game-title2 {
   font-family: 'Fredoka One', cursive; /* Fuente amigable para niños */
+  font-weight: bold; /* Hace que la fuente sea más gruesa */
   font-size: 4em; /* Tamaño del título */
-  color: #4A752C; /* Color que combine con la imagen de fondo */
-  text-shadow: 2px 2px 4px #ffffff; /* Sombra para hacer el título más legible */
+  text-shadow: 3px 3px 6px #000000; /* Sombra oscura para más contraste */
   padding: 0.5em 1em;
-  background-color: rgba(255, 255, 255, 0.7); /* Fondo ligeramente transparente */
+  background-color: rgba(255, 255, 255, 0.5); /* Fondo más transparente */
   border-radius: 15px; /* Esquinas redondeadas para el contenedor del título */
+}
+
+#game-title1 {
+  color: #dc9100; /* Color amarillo vivo para parte del título */
   margin-top: 18vh; /* Ajusta esta propiedad para mover el título hacia arriba */
 }
 
 #game-title2 {
-  font-family: 'Fredoka One', cursive; /* Fuente amigable para niños */
-  font-size: 4em; /* Tamaño del título */
-  color: #4A752C; /* Color que combine con la imagen de fondo */
-  text-shadow: 2px 2px 4px #ffffff; /* Sombra para hacer el título más legible */
-  padding: 0.5em 1em;
-  background-color: rgba(255, 255, 255, 0.7); /* Fondo ligeramente transparente */
-  border-radius: 15px; /* Esquinas redondeadas para el contenedor del título */
+  color: #79d70f; /* Color azul claro vivo para parte del título */
   margin-top: -32vh; /* Ajusta esta propiedad para mover el título hacia arriba */
 }
+
 
 .button-container {
   display: flex;
