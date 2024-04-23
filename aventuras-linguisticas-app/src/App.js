@@ -12,9 +12,7 @@ import RegisterTherapist from './components/Access/RegisterTherapist'; // Este e
 import ChooseChild from './components/Access/ChooseChild'; // Este es un componente personalizado para elegir el niño
 import RegisterChild from './components/Access/RegisterChild'; // Este es un componente personalizado para registrar el niño
 import PrincipalMenu from './components/Access/PrincipalMenu'; // Este es un componente personalizado para el menú principal
-import { ChildProvider } from './components/Access/ChildContext'; 
-import PhonemicAwareness from './components/Exercises/PhonemicAwareness'; // Import the missing component
-import PhonemicExercisePiano from './components/Exercises/PhonemicExercisePiano'; // Import the missing component
+import { ChildProvider } from './components/Access/ChildContext'; import PhonemicExercisePiano from './components/Exercises/PhonemicExercisePiano'; // Import the missing component
 import PhonemicExerciseDog from './components/Exercises/PhonemicExerciseDog'; // Import the missing component
 import PhonemicExerciseAmbulance from './components/Exercises/PhonemicExerciseAmbulance';
 import PhonologicalExercises from './components/Exercises/PhonologicaExercises'; // Import the missing component
@@ -40,7 +38,6 @@ function App() {
               <Route path="/Menu" element={<PrincipalMenu />} /> 
               <Route path="/vocal/:vocal" element={<VocalPage />} /> 
               <Route path="/vocal/:vocal/conciencia-fonemica" element={<ConcienciaFonemicaPage />} />
-              <Route path="/phonemic-awareness" element={<PhonemicAwareness />} />
               <Route path="/phonemic-awareness-piano" element={<PhonemicExercisePiano />} />
               <Route path="/phonemic-awareness-dog" element={<PhonemicExerciseDog />} />
               <Route path="/phonemic-awareness-ambulance" element={<PhonemicExerciseAmbulance />} />

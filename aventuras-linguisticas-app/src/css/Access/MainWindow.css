@@ -1,25 +1,80 @@
-.main-container {    
-    display: flex;    
-    flex-direction: column;    
-    justify-content: center;    
-    align-items: center;    
-    height: 100vh;    
-  }    
-  
-.button-container {    
-    display: flex;    
-    justify-content: space-around;    
-    align-items: center;  
-    width: 50%;    
-    flex-wrap: wrap;  
-  }    
-  
-button {    
-    transition: background-color 0.5s ease;    
-    padding: 10px 20px;   
-    font-size: 1em;  
-}    
-  
-button:hover {    
-    background-color: #bada55;    
-}    
+/* MainWindow.css */
+.main-container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.title-container {
+  text-align: center; /* Centra el título horizontalmente */
+  margin-bottom: 20px; /* Espacio entre el título y los botones */
+}
+
+#game-title1 {
+  font-family: 'Fredoka One', cursive; /* Fuente amigable para niños */
+  font-size: 4em; /* Tamaño del título */
+  color: #4A752C; /* Color que combine con la imagen de fondo */
+  text-shadow: 2px 2px 4px #ffffff; /* Sombra para hacer el título más legible */
+  padding: 0.5em 1em;
+  background-color: rgba(255, 255, 255, 0.7); /* Fondo ligeramente transparente */
+  border-radius: 15px; /* Esquinas redondeadas para el contenedor del título */
+  margin-top: 18vh; /* Ajusta esta propiedad para mover el título hacia arriba */
+}
+
+#game-title2 {
+  font-family: 'Fredoka One', cursive; /* Fuente amigable para niños */
+  font-size: 4em; /* Tamaño del título */
+  color: #4A752C; /* Color que combine con la imagen de fondo */
+  text-shadow: 2px 2px 4px #ffffff; /* Sombra para hacer el título más legible */
+  padding: 0.5em 1em;
+  background-color: rgba(255, 255, 255, 0.7); /* Fondo ligeramente transparente */
+  border-radius: 15px; /* Esquinas redondeadas para el contenedor del título */
+  margin-top: -32vh; /* Ajusta esta propiedad para mover el título hacia arriba */
+}
+
+.button-container {
+  display: flex;
+  justify-content: center; /* Centra los botones horizontalmente */
+  align-items: center; /* Alineación vertical */
+  flex-wrap: wrap; /* Permite que los botones se ajusten en pantallas pequeñas */
+  margin-top: 50vh;
+  gap: 900px; /* Espacio entre los botones */
+  font-size: 50px;
+}
+
+.access-button {
+  font-family: 'Fredoka One', cursive;
+  font-size: 1.2em;
+  color: #FFFFFF;
+  padding: 10px 20px;
+  border-radius: 30px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3);
+  transition: transform 0.1s, box-shadow 0.1s;
+  margin: 0 10px;
+}
+
+.terapista-btn {
+  background: linear-gradient(145deg, #f0a500, #dc9100); /* Gradiente para Terapista */
+}
+
+.guest-btn {
+  background: linear-gradient(145deg, #79d70f, #57cc99); /* Gradiente para Invitado */
+}
+
+.access-button:hover {
+  transform: scale(1.05); /* Efecto de hover para hacer los botones ligeramente más grandes */
+  box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.45); /* Sombra más profunda en hover */
+}
+
+.access-button:active {
+  transform: translateY(2px); /* Efecto de clic */
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2); /* Sombra más pequeña en clic */
+}
