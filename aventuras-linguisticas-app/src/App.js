@@ -17,6 +17,10 @@ import PhonemicExerciseDog from './components/Exercises/PhonemicExerciseDog'; //
 import PhonemicExerciseAmbulance from './components/Exercises/PhonemicExerciseAmbulance';
 import PhonologicalExercises from './components/Exercises/PhonologicaExercises'; // Import the missing component
 import AgeFonemas from './components/Exercises/AgeFonemas';
+import FonemaExercise from './components/Exercises/FonemaExercise';
+import PhonemicExerciseFull from './components/Exercises/PhonemicExerciseFull'; // Import the missing component
+import SyllableExercise from './components/Exercises/SyllableExercise'; // Import the missing component
+import PhraseExercise from './components/Exercises/PhraseExercise'; // Import the missing component
 import Congratulations from './components/Exercises/Congratulations';
 
 
@@ -43,7 +47,11 @@ function App() {
               <Route path="/phonemic-awareness-ambulance" element={<PhonemicExerciseAmbulance />} />
               <Route path="/phonological-exercises" element={<PhonologicalExercises />} />
               <Route path="/age-fonemas/:age" element={<AgeFonemas />} />
-              <Route path="/congratulations" element={<Congratulations />} />
+              <Route path="/exercise/:fonema" element={<FonemaExercise />} />   
+              <Route path="/PhonemicExerciseFull/:fonema" element={<PhonemicExerciseFull />} />  
+              <Route path="/SyllableExercise/:fonema" element={<SyllableExercise />} />  
+              <Route path="/PhraseExercise/:fonema" element={<PhraseExercise />} />  
+              <Route path="/congratulations/:fonema" element={<Congratulations />} />
             </Routes> 
           </div>       
       </Router>  
