@@ -1,15 +1,16 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useDocumentData } from 'react-firebase-hooks/firestore';
-import { db } from "../../firebase";  // Importa tu instancia de Firestore
-import { collection, doc, updateDoc } from 'firebase/firestore';
+import { getFirestore, doc, collection, updateDoc } from 'firebase/firestore';
 import { getStorage, ref, getDownloadURL } from 'firebase/storage';
 import { ChildContext } from '../Access/ChildContext';
+
+const db = getFirestore(); // Inicializa Firestore
 
 function ConcienciaFonemicaExerciseFull() {
   const { fonema } = useParams();
   const navigate = useNavigate();
-  const { selectedChild } = useContext(ChildContext);
+  const { selectedChild, setSelectedChild } = useContext(ChildContext); // Obtén y actualiza el niño seleccionado
   const [value, loading, error] = useDocumentData(
     doc(collection(db, 'exercises'), fonema)
   );
@@ -52,10 +53,22 @@ function ConcienciaFonemicaExerciseFull() {
   };
 
   const handleVisto = async () => {
+    const newScore = (selectedChild.scores?.[fonema] || 0) + 1;
+    const updatedChild = {
+      ...selectedChild,
+      scores: {
+        ...selectedChild.scores,
+        [fonema]: newScore
+      }
+    };
+    
     const childRef = doc(db, 'children', selectedChild.id);
     await updateDoc(childRef, {
-      [`scores.${fonema}`]: (selectedChild.scores?.[fonema] || 0) + 1
+      [`scores.${fonema}`]: newScore
     });
+
+    setSelectedChild(updatedChild); // Actualiza el contexto con el nuevo puntaje
+
     handleNextVideo(); // Move to the next video after updating the score
   };
 

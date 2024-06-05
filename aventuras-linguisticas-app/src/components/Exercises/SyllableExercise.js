@@ -1,16 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useDocumentData } from 'react-firebase-hooks/firestore';
-import { db } from "../../firebase";  // Importa tu instancia de Firestore
-import { collection, doc } from 'firebase/firestore';
+import { getFirestore, doc, collection, updateDoc } from 'firebase/firestore'; // Importa collection correctamente
 import { getPhotoByKeyword } from '../../apis/apiUnsplash';
+import { ChildContext } from '../Access/ChildContext';
 
+const db = getFirestore(); // Inicializa Firestore
 
 const syllableTypes = ['silaba_inicial', 'silaba_media', 'silaba_final', 'silaba_inversa'];
 
 function SyllableExercise() {
   const { fonema } = useParams();
   const navigate = useNavigate();
+  const { selectedChild, setSelectedChild } = useContext(ChildContext); // Obtén y actualiza el niño seleccionado
+
   const [value, loading, error] = useDocumentData(
     doc(collection(db, 'exercises'), fonema)
   );
@@ -45,7 +48,30 @@ function SyllableExercise() {
     } else {
       navigate(`/PhraseExercise/${fonema}`);
     }
-  }
+  };
+
+  const handleVisto = async () => {
+    if (selectedChild) {
+      const newScore = (selectedChild.scores?.[fonema] || 0) + 1;
+      const updatedChild = {
+        ...selectedChild,
+        scores: {
+          ...selectedChild.scores,
+          [fonema]: newScore
+        }
+      };
+
+      const childRef = doc(db, 'children', selectedChild.id);
+      await updateDoc(childRef, {
+        [`scores.${fonema}`]: newScore
+      });
+
+      setSelectedChild(updatedChild); // Actualiza el contexto con el nuevo puntaje
+      handleNextPage();
+    } else {
+      console.error("No child selected");
+    }
+  };
 
   return (
     <div>
@@ -68,7 +94,7 @@ function SyllableExercise() {
               <audio src={value.audios ? value.audios[word] : null} controls />
             </div>
           ))}
-          <button onClick={() => alert('Visto!')}>Visto</button>
+          <button onClick={handleVisto}>Visto</button>
           <button onClick={() => alert('X!')}>X</button>
           <button onClick={handleNextPage}>Siguiente</button>
         </div>
