@@ -6,7 +6,7 @@ function AgeFonemas() {
 
   const loadFonemasByAge = (age) => {
     const fonemas = {
-      '3': ['m', 'ch', 'k', 'n', 'ñ', 'p', 't', 'f', 'y', 'l', 'j'],
+      '3': ['m', 'ch', 'k', 'n', 'enie', 'p', 't', 'f', 'y', 'l', 'j'],
       '4': ['b', 'd', 'g', 'bl', 'pl'],
       '5': ['r', 'fl', 'kl', 'br', 'kr', 'gr'],
       '6': ['rr', 's', 'gl', 'fr', 'pr', 'tr', 'dr']

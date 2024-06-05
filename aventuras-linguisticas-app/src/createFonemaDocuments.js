@@ -15,7 +15,7 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();  
 
 const fonemas = {  
-  '3': ['m', 'ch', 'k', 'n', 'ñ', 'p', 't', 'f', 'y', 'l', 'j'],  
+  '3': ['m', 'ch', 'k', 'n', 'enie', 'p', 't', 'f', 'y', 'l', 'j'],  
   '4': ['b', 'd', 'g', 'bl', 'pl'],  
   '5': ['r', 'fl', 'kl', 'br', 'kr', 'gr'],  
   '6': ['rr', 's', 'gl', 'fr', 'pr', 'tr', 'dr']  
@@ -26,7 +26,7 @@ async function createFonemaDocuments() {
       for (const age in fonemas) {  
         for (let fonema of fonemas[age]) {  
           // Reemplaza la ñ con enie y cualquier otro caracter no alfanumérico con un guión
-          fonema = fonema.replace('ñ', 'enie').replace(/[^a-z0-9]/gi, '-');
+          //fonema = fonema.replace('ñ', 'enie').replace(/[^a-z0-9]/gi, '-');
           const data = {  
             image: 'https://example.com/default_image.jpg',  
             audio: 'https://example.com/default_audio.mp3',  

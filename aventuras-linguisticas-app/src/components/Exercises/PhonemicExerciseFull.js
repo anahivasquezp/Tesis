@@ -1,40 +1,87 @@
-import React from 'react';  
-import { useParams, useNavigate } from 'react-router-dom';  
-import { useDocumentData } from 'react-firebase-hooks/firestore';  
+import React, { useState, useEffect, useContext } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { useDocumentData } from 'react-firebase-hooks/firestore';
 import { db } from "../../firebase";  // Importa tu instancia de Firestore
-import { collection, doc } from 'firebase/firestore';  
-  
-function ConcienciaFonemicaExerciseFull() {  
-  const { fonema } = useParams(); 
-  const navigate = useNavigate(); 
-  const [value, loading, error] = useDocumentData(  
-    doc(collection(db, 'exercises'), fonema)  
-  ); 
+import { collection, doc, updateDoc } from 'firebase/firestore';
+import { getStorage, ref, getDownloadURL } from 'firebase/storage';
+import { ChildContext } from '../Access/ChildContext';
 
-  const handleNextPage = () => {
-    navigate(`/SyllableExercise/${fonema}`); // Asegúrate de que la ruta sea correcta
-  }
+function ConcienciaFonemicaExerciseFull() {
+  const { fonema } = useParams();
+  const navigate = useNavigate();
+  const { selectedChild } = useContext(ChildContext);
+  const [value, loading, error] = useDocumentData(
+    doc(collection(db, 'exercises'), fonema)
+  );
+
+  const [videoIndex, setVideoIndex] = useState(0);
+  const [videoURL, setVideoURL] = useState(null);
+  const [videoLoading, setVideoLoading] = useState(true);
   
-  return (  
-    <div>  
-      {loading && <p>Cargando...</p>}  
-      {error && <p>Error :(</p>}  
-      {value && (  
-        <div>  
-          <h1>Conciencia Fonémica de la {fonema.toUpperCase()}</h1>  
-          {value.concienciaFonemica.map((item, index) => (  
-            <div key={index}>  
-              <video src={item.video} controls />  
-              <audio src={item.audio} controls />  
-              <button onClick={() => alert('Visto!')}>Visto</button>  
-              <button onClick={() => alert('X!')}>X</button>  
-              <button onClick={handleNextPage}>Siguiente</button>  
-            </div>  
-          ))}  
-        </div>  
-      )}  
-    </div>  
-  );  
-}  
+  const syllables = ["A", "E", "I", "O", "U"];
   
-export default ConcienciaFonemicaExerciseFull;  
+  useEffect(() => {
+    if (videoIndex < syllables.length) {
+      const storage = getStorage();
+      const videoPath = `videos/${fonema.toUpperCase()}/Audio_ConcienciaFonemica_${fonema.toUpperCase()}${syllables[videoIndex]}.mp4`;
+      const videoRef = ref(storage, videoPath);
+
+      console.log(`Fetching video from path: ${videoPath}`);
+
+      getDownloadURL(videoRef)
+        .then((url) => {
+          console.log("Video URL fetched:", url);
+          setVideoURL(url);
+          setVideoLoading(false);
+        })
+        .catch((error) => {
+          console.error("Error al obtener la URL de descarga del video", error);
+          setVideoLoading(false);
+        });
+    }
+  }, [videoIndex, fonema]);
+
+  const handleNextVideo = () => {
+    if (videoIndex < syllables.length - 1) {
+      setVideoIndex(videoIndex + 1);
+      setVideoLoading(true);
+      setVideoURL(null); // Reset URL for loading next video
+    } else {
+      navigate(`/SyllableExercise/${fonema}`);
+    }
+  };
+
+  const handleVisto = async () => {
+    const childRef = doc(db, 'children', selectedChild.id);
+    await updateDoc(childRef, {
+      [`scores.${fonema}`]: (selectedChild.scores?.[fonema] || 0) + 1
+    });
+    handleNextVideo(); // Move to the next video after updating the score
+  };
+
+  return (
+    <div>
+      {loading && <p>Cargando...</p>}
+      {error && <p>Error :(</p>}
+      {value && (
+        <div>
+          <h1>Conciencia Fonémica de la {fonema.toUpperCase()}</h1>
+          {videoLoading ? (
+            <p>Cargando video...</p>
+          ) : videoURL ? (
+            <video src={videoURL} controls />
+          ) : (
+            <p>No se pudo cargar el video.</p>
+          )}
+          <div>
+            <button onClick={handleVisto}>Visto</button>
+            <button onClick={() => alert('X!')}>X</button>
+            <button onClick={handleNextVideo}>Siguiente</button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default ConcienciaFonemicaExerciseFull;
