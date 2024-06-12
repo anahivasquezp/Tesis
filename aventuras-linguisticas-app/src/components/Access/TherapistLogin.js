@@ -1,5 +1,5 @@
 import React, { useState } from "react";  
-import { Link , useNavigate} from 'react-router-dom';  
+import { Link , useNavigate } from 'react-router-dom';  
 import { auth, signInWithEmailAndPassword } from "../../firebase";
 import '../../css/Access/therapistLogin.css';  
 
@@ -10,7 +10,7 @@ function TherapistLogin() {
   const navigate = useNavigate();
   
   const signInWithEmailAndPasswordHandler =   
-          (event,email, password) => { 
+          (event, email, password) => { 
               event.preventDefault();  
               signInWithEmailAndPassword(auth, email, password)
                 .then((userCredential) => {
@@ -18,13 +18,13 @@ function TherapistLogin() {
                   navigate("/chooseChild"); // Replace "/next-page" with the path you want to navigate to
                 })
                 .catch(error => {  
-                  setError("Error signing in with password and email!");  
+                  setError("Error al ingresar con correo electrónico y contraseña");  
                   console.error("Error signing in with password and email", error);  
                 });  
   };  
   
   const onChangeHandler = (event) => {  
-      const {name, value} = event.currentTarget;  
+      const { name, value } = event.currentTarget;  
   
       if(name === 'userEmail') {  
           setEmail(value);  
@@ -35,45 +35,48 @@ function TherapistLogin() {
   };  
   
   return (  
-    <div className="mt-8">  
-      <h1 className="text-3xl mb-2 text-center font-bold">Iniciar sesión como Terapista</h1>  
-      <div className="border border-blue-300 mx-auto w-11/12 md:w-2/4 rounded py-8 px-4 md:px-8">  
-        {error !== null && <div className = "py-4 bg-red-600 w-full text-white text-center mb-3">{error}</div>}  
-        <form className="">  
-          <label htmlFor="userEmail" className="w-full block">  
-            Email:  
+    <div className="login-container">  
+      <div className="login-form-container">
+        <Link to="/" className="btn btn-secondary back-button">
+          <i className="fas fa-home"></i>
+        </Link>
+        <h1 className="login-title">Iniciar sesión como Terapista</h1>  
+        {error !== null && <div className="error-message">{error}</div>}  
+        <form className="login-form">  
+          <label htmlFor="userEmail" className="form-label">  
+            Correo Electrónico:  
           </label>  
           <input  
             type="email"  
-            className="my-1 p-1 w-full"  
+            className="form-input"  
             name="userEmail"  
-            value = {email}  
+            value={email}  
             placeholder="E.g: faruq123@gmail.com"  
             id="userEmail"  
-            onChange = {(event) => onChangeHandler(event)}  
+            onChange={(event) => onChangeHandler(event)}  
           />  
-          <label htmlFor="userPassword" className="w-full block">  
+          <label htmlFor="userPassword" className="form-label">  
             Contraseña:  
           </label>  
           <input  
             type="password"  
-            className="mt-1 mb-3 p-1 w-full"  
+            className="form-input"  
             name="userPassword"  
-            value = {password}  
+            value={password}  
             placeholder="Tu Contraseña"  
             id="userPassword"  
-            onChange = {(event) => onChangeHandler(event)}  
+            onChange={(event) => onChangeHandler(event)}  
           />  
           <button  
-            className="bg-green-400 hover:bg-green-500 w-full py-2 text-white"  
-            onClick = {(event) => {signInWithEmailAndPasswordHandler(event, email, password)}}  
+            className="login-button"  
+            onClick={(event) => {signInWithEmailAndPasswordHandler(event, email, password)}}  
           >  
             Iniciar sesión  
           </button>  
         </form>   
         <p className="text-center my-3">  
           ¿No tienes una cuenta? {" "}  
-          <Link to="/registerTherapist" className="text-blue-500 hover:text-blue-600">  
+          <Link to="/registerTherapist" className="register-link">  
             Regístrate aquí  
           </Link>{" "}  
         </p>  
@@ -82,4 +85,4 @@ function TherapistLogin() {
   );  
 }  
   
-export default TherapistLogin;  
+export default TherapistLogin;
