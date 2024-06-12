@@ -1,5 +1,6 @@
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
+import '../../css/Exercises/AgeFonemas.css';
 
 function AgeFonemas() {
   const { age } = useParams();
@@ -13,19 +14,19 @@ function AgeFonemas() {
     };
     return fonemas[age] || [];
   };
-  
 
-  // Asumiendo que tienes un método para cargar fonemas por edad
   const fonemas = loadFonemasByAge(age);
 
   return (
-    <div>
-      <h1>Fonemas para {age} años</h1>
-      {fonemas.map(fonema => (
-        <button key={fonema}>
-          <Link to={`/exercise/${fonema}`}>{fonema.toUpperCase()}</Link>
-        </button>
-      ))}
+    <div className="main-container">
+      <h1 className="title">Fonemas para {age} años</h1>
+      <div className="fonemas-container">
+        {fonemas.map(fonema => (
+          <button key={fonema} className="fonema-button">
+            <Link to={`/exercise/${fonema}`}>{fonema.toUpperCase()}</Link>
+          </button>
+        ))}
+      </div>
     </div>
   );
 }

@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useDocumentData } from 'react-firebase-hooks/firestore';
-import { getFirestore, doc, collection, updateDoc } from 'firebase/firestore'; // Importa collection correctamente
+import { getFirestore, doc, collection, updateDoc } from 'firebase/firestore';
 import { getPhotoByKeyword } from '../../apis/apiUnsplash';
 import { ChildContext } from '../Access/ChildContext';
+import '../../css/Exercises/SyllableExercise.css'; // Importamos los estilos CSS
 
 const db = getFirestore(); // Inicializa Firestore
 
@@ -74,29 +75,31 @@ function SyllableExercise() {
   };
 
   return (
-    <div>
+    <div className="main-container">
       {loading && <p>Cargando...</p>}
       {error && <p>Error :(</p>}
       {value && (
-        <div>
-          <h1>Sílabas de la {fonema.toUpperCase()}</h1>
-          <h2>{currentSyllableType.replace('silaba_', 'Sílabas ').toUpperCase()}</h2>
+        <div className="content-container">
+          <h1 className="title">Sílabas de la {fonema.toUpperCase()}</h1>
+          <h2 className="subtitle">{currentSyllableType.replace('silaba_', 'Sílabas ').toUpperCase()}</h2>
           {value[currentSyllableType] && value[currentSyllableType].map((word, index) => (
-            <div key={index}>
+            <div key={index} className="word-container">
               <p>{word}</p>
               {imageLoading ? (
                 <p>Cargando imagen...</p>
               ) : images[word] ? (
-                <img src={images[word]} alt={word} />
+                <img src={images[word]} alt={word} className="syllable-image" />
               ) : (
                 <p>No se pudo cargar la imagen.</p>
               )}
-              <audio src={value.audios ? value.audios[word] : null} controls />
+              <audio src={value.audios ? value.audios[word] : null} controls className="audio-control" />
             </div>
           ))}
-          <button onClick={handleVisto}>Visto</button>
-          <button onClick={() => alert('X!')}>X</button>
-          <button onClick={handleNextPage}>Siguiente</button>
+          <div className="button-group">
+            <button onClick={handleVisto} className="action-button button-check">Visto</button>
+            <button onClick={() => alert('X!')} className="action-button button-times">X</button>
+            <button onClick={handleNextPage} className="action-button next-button">Siguiente</button>
+          </div>
         </div>
       )}
     </div>

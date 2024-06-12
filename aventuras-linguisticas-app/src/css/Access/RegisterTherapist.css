@@ -1,0 +1,113 @@
+/* Asegúrate de que la ruta de la imagen sea correcta */
+.register-container {
+    width: 100vw;
+    height: 100vh;
+    background-image: url('../../images/therapist_login_bg.webp');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .register-form-container {
+    width: 60%;
+    background-color: rgba(255, 255, 255, 0.7); /* Fondo transparente */
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    position: relative; /* Necesario para la posición absoluta de los botones de regreso */
+  }
+  
+  .register-title {
+    font-family: 'Poppins', sans-serif; /* Letra más gordita y en negrita */
+    font-weight: 700; /* Negrita */
+    font-size: 3rem; /* Tamaño grande para que puedan observarlo */
+    color: #A05A25; /* Usando uno de los colores extraídos de la imagen */
+    margin-bottom: 20px;
+  }
+  
+  .form-label {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.5rem;
+    color: #71401a;
+    text-align: left;
+    display: block;
+  }
+  
+  .form-input {
+    width: 100%;
+    padding: 20px;
+    margin: 10px 0;
+    border: 2px solid #b49e8d;
+    border-radius: 10px;
+    font-size: 1.5rem;
+  }
+  
+  .register-button {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.5rem;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    background-color: #2D817A; /* Usando otro color extraído de la imagen */
+    color: white;
+    transition: transform 0.2s, background-color 0.2s, box-shadow 0.2s;
+    margin-top: 20px;
+  }
+  
+  .register-button:hover {
+    transform: scale(1.1);
+    background-color: #67B97D; /* Cambiando el color de fondo al hacer hover */
+    box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.3); /* Sombreado más pronunciado */
+  }
+  
+  .error-message {
+    background-color: #dc544b;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .back-home-button {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.2rem;
+    padding: 10px 20px;
+    border-radius: 15px;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: #A05A25; /* Usando otro color extraído de la imagen */
+    color: white;
+    text-decoration: none;
+    transition: background-color 0.2s, transform 0.2s;
+  }
+  
+  .back-home-button:hover {
+    background-color: #71401a; /* Color de hover */
+    transform: scale(1.1);
+  }
+  
+  .back-login-button {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.2rem;
+    padding: 10px 20px;
+    border-radius: 15px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #A05A25; /* Usando otro color extraído de la imagen */
+    color: white;
+    text-decoration: none;
+    transition: background-color 0.2s, transform 0.2s;
+  }
+  
+  .back-login-button:hover {
+    background-color: #71401a; /* Color de hover */
+    transform: scale(1.1);
+  }
+  

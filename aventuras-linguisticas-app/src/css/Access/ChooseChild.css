@@ -1,35 +1,117 @@
-.container {  
-    display: flex;  
-    flex-direction: column;  
-    align-items: center;  
-  }  
-    
-  .child-container {  
-    display: flex;  
-    flex-direction: column;  
-    align-items: center;  
-    margin-bottom: 20px;  
-  }  
-    
-  .child-container img {  
-    width: 100px;  
-    height: 100px;  
-  }  
-    
-  .add-button {  
-    display: flex;  
-    align-items: center;  
-    justify-content: center;  
-    width: 100px;  
-    height: 100px;  
-    border: 2px solid black;  
-    border-radius: 50%;  
-    font-size: 50px;  
-    text-decoration: none;  
-  }  
+/* Asegúrate de que la ruta de la imagen sea correcta */
+.choose-child-container {
+  width: 100vw;
+  height: 100vh;
+  background-image: url('../../images/therapist_login_bg.webp');
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
 
-  .child-container.selected {  
-    border: 2px solid blue;  
-  }  
-  
-  
+.choose-child-title {
+  font-family: 'Poppins', sans-serif; /* Letra más gordita y en negrita */
+  font-weight: 700; /* Negrita */
+  font-size: 3rem; /* Tamaño grande para que puedan observarlo */
+  color: #A05A25; /* Usando uno de los colores extraídos de la imagen */
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.children-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  width: 80%;
+}
+
+.child-container {
+  background-color: rgba(255, 255, 255, 0.7); /* Fondo transparente */
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+}
+
+.child-container.selected {
+  border: 3px solid #2D817A; /* Usando otro color extraído de la imagen */
+  transform: scale(1.05);
+}
+
+.child-container h2 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.5rem;
+  color: #71401a;
+}
+
+.child-image {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin-top: 10px;
+}
+
+.add-button {
+  font-family: 'Poppins', sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+  height: 100px;
+  background-color: #2D817A; /* Usando otro color extraído de la imagen */
+  color: white;
+  border-radius: 50%;
+  font-size: 3rem;
+  text-decoration: none;
+  margin-top: 20px;
+  transition: transform 0.2s, background-color 0.2s;
+}
+
+.add-button:hover {
+  background-color: #67B97D; /* Cambiando el color de fondo al hacer hover */
+  transform: scale(1.1);
+}
+
+.back-home-button {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.2rem;
+  padding: 10px 20px;
+  border-radius: 15px;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: #A05A25; /* Usando otro color extraído de la imagen */
+  color: white;
+  text-decoration: none;
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+.back-home-button:hover {
+  background-color: #71401a; /* Color de hover */
+  transform: scale(1.1);
+}
+
+.back-login-button {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.2rem;
+  padding: 10px 20px;
+  border-radius: 15px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: #A05A25; /* Usando otro color extraído de la imagen */
+  color: white;
+  text-decoration: none;
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+.back-login-button:hover {
+  background-color: #71401a; /* Color de hover */
+  transform: scale(1.1);
+}

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import apiUnsplash from '../../apis/apiUnsplash'; // Asegúrate que la ruta está correcta
+import { useNavigate, Link } from 'react-router-dom';
+import apiUnsplash from '../../apis/apiUnsplash'; // Asegúrate de que la ruta es correcta
+import '../../css/Access/Guest.css';
 
 function Guest() {
     const [characters, setCharacters] = useState([]);
@@ -26,9 +27,12 @@ function Guest() {
     };
 
     return (
-        <div>
-            <h1>Invitado</h1>
-            <h2>Seleccione su personaje:</h2>
+        <div className="guest-container">
+            <Link to="/" className="btn btn-secondary back-home-button">
+                <i className="fas fa-home"></i>
+            </Link>
+            <h1 className="guest-title">Invitado</h1>
+            <h2 className="guest-subtitle">Seleccione su personaje:</h2>
             <div className="character-container">
                 {characters.map((character) => (
                     <img
@@ -36,7 +40,7 @@ function Guest() {
                         src={character.urls.small}
                         alt={character.alt_description}
                         onClick={() => handleCharacterSelect(character)}
-                        style={{ cursor: 'pointer' }}
+                        className="character-image"
                     />
                 ))}
             </div>

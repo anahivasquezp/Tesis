@@ -18,8 +18,8 @@
   flex-direction: column; /* Asegurar que los botones estén debajo del título */
   align-items: center;
   text-align: center;
-  padding-bottom: 140px; /* Ajuste manual de la posición vertical */
-  padding-top: 140px; /* Ajuste manual de la posición vertical */
+  padding-bottom: 150px; /* Ajuste manual de la posición vertical */
+  padding-top: 130px; /* Ajuste manual de la posición vertical */
   padding-left: 50px;
   padding-RIGHT: 50px;
 }
@@ -58,7 +58,7 @@
 .access-button.guest-btn {
   background-color: #d64439; /* Usando otro color extraído de la imagen */
   color: white;
-  margin-left: 190px; /* Ajuste manual de la posición horizontal */
+
 
 }
 

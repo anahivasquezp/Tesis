@@ -4,6 +4,7 @@ import { useDocumentData } from 'react-firebase-hooks/firestore';
 import { getFirestore, doc, collection, updateDoc } from 'firebase/firestore';
 import { getStorage, ref, getDownloadURL } from 'firebase/storage';
 import { ChildContext } from '../Access/ChildContext';
+import '../../css/Exercises/PhonemicExerciseFull.css'; // Importamos los estilos CSS
 
 const db = getFirestore(); // Inicializa Firestore
 
@@ -73,23 +74,23 @@ function ConcienciaFonemicaExerciseFull() {
   };
 
   return (
-    <div>
+    <div className="main-container">
       {loading && <p>Cargando...</p>}
       {error && <p>Error :(</p>}
       {value && (
-        <div>
-          <h1>Conciencia Fonémica de la {fonema.toUpperCase()}</h1>
+        <div className="content-container">
+          <h1 className="title">Conciencia Fonémica de la {fonema.toUpperCase()}</h1>
           {videoLoading ? (
             <p>Cargando video...</p>
           ) : videoURL ? (
-            <video src={videoURL} controls />
+            <video src={videoURL} controls className="fonema-video" />
           ) : (
             <p>No se pudo cargar el video.</p>
           )}
-          <div>
-            <button onClick={handleVisto}>Visto</button>
-            <button onClick={() => alert('X!')}>X</button>
-            <button onClick={handleNextVideo}>Siguiente</button>
+          <div className="button-group">
+            <button onClick={handleVisto} className="action-button button-check">Visto</button>
+            <button onClick={() => alert('X!')} className="action-button button-times">X</button>
+            <button onClick={handleNextVideo} className="action-button next-button">Siguiente</button>
           </div>
         </div>
       )}

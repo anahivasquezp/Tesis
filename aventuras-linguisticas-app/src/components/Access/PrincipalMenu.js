@@ -1,7 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { ChildContext } from './ChildContext';
 import { getAuth, signOut } from 'firebase/auth';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+import '../../css/Access/PrincipalMenu.css';
 
 function PrincipalMenu() {
     const { selectedChild } = useContext(ChildContext);
@@ -32,6 +33,9 @@ function PrincipalMenu() {
 
     return (
         <div className="menu-container">
+            <Link to="/" className="btn btn-secondary back-home-button">
+                <i className="fas fa-home"></i>
+            </Link>
             <div className="user-info">
                 {/* Show user info only if a user is logged in */}
                 {auth.currentUser && (
@@ -40,7 +44,7 @@ function PrincipalMenu() {
                         {selectedChild && (
                             <>
                                 <h2>{selectedChild.name}</h2>
-                                <img src={selectedChild.characterImage} alt={selectedChild.character} />
+                                <img src={selectedChild.characterImage} alt={selectedChild.character} className="character-image" />
                             </>
                         )}
                     </>
@@ -49,14 +53,14 @@ function PrincipalMenu() {
                 {!auth.currentUser && guestCharacter && (
                     <>
                         <h2>{guestCharacter.alt_description}</h2>
-                        <img src={guestCharacter.urls.small} alt="Selected Character" />
+                        <img src={guestCharacter.urls.small} alt="Selected Character" className="character-image" />
                     </>
                 )}
             </div>
             <div className="button-container">
-                <button onClick={handleNavigatePhonemicAwareness}>Conciencia fonética</button>
-                <button onClick={handleNavigatePhonologicalExercises}>Ejercicios fonológicos</button>
-                <button onClick={handleSignOut}>Cerrar Sesión</button>
+                <button className="menu-button" onClick={handleNavigatePhonemicAwareness}>Conciencia fonética</button>
+                <button className="menu-button" onClick={handleNavigatePhonologicalExercises}>Ejercicios fonológicos</button>
+                <button className="menu-button" onClick={handleSignOut}>Cerrar Sesión</button>
             </div>
         </div>
     );

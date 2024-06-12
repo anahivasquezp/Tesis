@@ -1,25 +1,47 @@
-/* VocalButton.css */  
-  
-.VocalButton {  
-    display: flex;  
-    flex-direction: column;  
-    align-items: center;  
-    margin: 20px;  
-  }  
-    
-  .VocalButton button {  
-    background: blue; /* Color de fondo del botón */  
-    color: white; /* Color del texto del botón */  
-    padding: 10px 20px; /* Espaciado interno del botón */  
-    border: none; /* Remover el borde por defecto del botón */  
-    border-radius: 10px; /* Hacer las esquinas del botón redondeadas */  
-    font-size: 20px; /* Tamaño del texto del botón */  
-    margin-bottom: 10px; /* Espacio entre el botón y la imagen */  
-  }  
-    
-  .VocalButton .image-container img {  
-    width: 170px; /* Tamaño de la imagen */  
-    height: 170px;  
-    object-fit: cover; /* Esto asegura que la imagen cubra todo el espacio disponible */  
-  }  
-  
+/* Asegúrate de que la ruta de la imagen sea correcta */
+.vocal-button-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.7); /* Fondo transparente */
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2);
+  margin: 20px;
+  width: 150px; /* Ajusta el tamaño del contenedor */
+  text-align: center;
+  transition: transform 0.2s;
+}
+
+.vocal-button-container:hover {
+  transform: scale(1.05);
+}
+
+.vocal-button {
+  font-family: 'Poppins', sans-serif; /* Letra más gordita y en negrita */
+  font-weight: 700; /* Negrita */
+  font-size: 2rem; /* Tamaño grande para que puedan observarlo */
+  background-color: #2D817A; /* Usando otro color extraído de la imagen */
+  color: white;
+  border: none;
+  border-radius: 15px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+.vocal-button:hover {
+  background-color: #67B97D;
+  transform: scale(1.1);
+}
+
+.image-container {
+  margin-top: 10px;
+}
+
+.vocal-image {
+  width: 100px;
+  height: 100px;
+  border-radius: 10px;
+  box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2);
+}

@@ -11,13 +11,23 @@ function PhonologicalExercises() {
 
     return (
         <div className="phonological-exercises-container">
-            <h1>Ejercicios Fonológicos</h1>
+            <h1 className="exercise-title">Ejercicios Fonológicos</h1>
             <div className="button-group">
-                <button onClick={() => handleNavigate('/vocalMenu')}>Vocales</button>
-                <button onClick={() => handleNavigate('/age-fonemas/3')}>3 años</button>
-                <button onClick={() => handleNavigate('/age-fonemas/4')}>4 años</button>
-                <button onClick={() => handleNavigate('/age-fonemas/5')}>5 años</button>
-                <button onClick={() => handleNavigate('/age-fonemas/6')}>6 años</button>
+                <button className="exercise-button" onClick={() => handleNavigate('/vocalMenu')}>
+                    <i className="fas fa-font"></i> Vocales
+                </button>
+                <button className="exercise-button" onClick={() => handleNavigate('/age-fonemas/3')}>
+                    <i className="fas fa-child"></i> 3 años
+                </button>
+                <button className="exercise-button" onClick={() => handleNavigate('/age-fonemas/4')}>
+                    <i className="fas fa-child"></i> 4 años
+                </button>
+                <button className="exercise-button" onClick={() => handleNavigate('/age-fonemas/5')}>
+                    <i className="fas fa-child"></i> 5 años
+                </button>
+                <button className="exercise-button" onClick={() => handleNavigate('/age-fonemas/6')}>
+                    <i className="fas fa-child"></i> 6 años
+                </button>
             </div>
         </div>
     );

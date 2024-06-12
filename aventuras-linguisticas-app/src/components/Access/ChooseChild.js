@@ -33,18 +33,26 @@ function ChooseChild() {
   };
 
   return (
-    <div className="container">
-      <h1>Elige un niño</h1>
-      {children.map((child) => (
-        <div
-          key={child.id}
-          className={`child-container ${child.id === selectedId ? 'selected' : ''}`}
-          onClick={() => handleChildClick(child)}
-        >
-          <h2>{child.name}</h2>
-          <img src={child.characterImage} alt={child.character} />
-        </div>
-      ))}
+    <div className="choose-child-container">
+      <Link to="/" className="btn btn-secondary back-home-button">
+        <i className="fas fa-home"></i>
+      </Link>
+      <Link to="/therapistLogin" className="btn btn-secondary back-login-button">
+        <i className="fas fa-arrow-left"></i>
+      </Link>
+      <h1 className="choose-child-title">Elige un niño</h1>
+      <div className="children-list">
+        {children.map((child) => (
+          <div
+            key={child.id}
+            className={`child-container ${child.id === selectedId ? 'selected' : ''}`}
+            onClick={() => handleChildClick(child)}
+          >
+            <h2>{child.name}</h2>
+            <img src={child.characterImage} alt={child.character} className="child-image" />
+          </div>
+        ))}
+      </div>
       <Link to="/registerChild" className="add-button">+</Link>
     </div>
   );

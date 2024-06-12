@@ -4,13 +4,14 @@ import { useDocumentData } from 'react-firebase-hooks/firestore';
 import { getFirestore, doc, collection, updateDoc } from 'firebase/firestore';
 import { getStorage, ref, getDownloadURL } from 'firebase/storage';
 import { ChildContext } from '../Access/ChildContext';
+import '../../css/Exercises/FonemaExercise.css'; // Importamos los estilos CSS
 
-const db = getFirestore(); // Inicializa Firestore
+const db = getFirestore();
 
 function FonemaExercise() {
   const { fonema } = useParams();
   const navigate = useNavigate();
-  const { selectedChild, setSelectedChild } = useContext(ChildContext); // Obtén y actualiza el niño seleccionado
+  const { selectedChild, setSelectedChild } = useContext(ChildContext);
 
   const [value, loading, error] = useDocumentData(
     doc(collection(db, 'exercises'), fonema)
@@ -26,12 +27,8 @@ function FonemaExercise() {
     const imageRef = ref(storage, `images/fonemas/Fonema_${fonema.toUpperCase()}.webp`);
     const audioRef = ref(storage, `audios/fonemas/Audio_Fonema_${fonema.toUpperCase()}.m4a`);
 
-    console.log(`Fetching image for Fonema_${fonema.toUpperCase()}.webp`);
-    console.log(`Fetching audio for Audio_Fonema_${fonema.toUpperCase()}.m4a`);
-
     getDownloadURL(imageRef)
       .then((url) => {
-        console.log("Image URL fetched:", url);
         setImageURL(url);
         setImageLoading(false);
       })
@@ -42,7 +39,6 @@ function FonemaExercise() {
 
     getDownloadURL(audioRef)
       .then((url) => {
-        console.log("Audio URL fetched:", url);
         setAudioURL(url);
         setAudioLoading(false);
       })
@@ -53,7 +49,7 @@ function FonemaExercise() {
   }, [fonema]);
 
   const handleNextPage = () => {
-    navigate(`/PhonemicExerciseFull/${fonema}`); // Asegúrate de que la ruta sea correcta
+    navigate(`/PhonemicExerciseFull/${fonema}`);
   }
 
   const playAudio = () => {
@@ -70,41 +66,43 @@ function FonemaExercise() {
         [fonema]: newScore
       }
     };
-    
+
     const childRef = doc(db, 'children', selectedChild.id);
     await updateDoc(childRef, {
       [`scores.${fonema}`]: newScore
     });
 
-    setSelectedChild(updatedChild); // Actualiza el contexto con el nuevo puntaje
+    setSelectedChild(updatedChild);
 
     navigate(`/PhonemicExerciseFull/${fonema}`);
   };
 
   return (
-    <div>
+    <div className="main-container">
       {loading && <p>Cargando...</p>}
       {error && <p>Error :(</p>}
       {value && (
-        <div>
-          <h1>Fonema de la {fonema.toUpperCase()}</h1>
+        <div className="content-container">
+          <h1 className="title">Fonema de la {fonema.toUpperCase()}</h1>
           {imageLoading ? (
             <p>Cargando imagen...</p>
           ) : imageURL ? (
-            <img src={imageURL} alt={`Imagen del fonema ${fonema}`} />
+            <img src={imageURL} alt={`Imagen del fonema ${fonema}`} className="fonema-image" />
           ) : (
             <p>No se pudo cargar la imagen.</p>
           )}
           {audioLoading ? (
             <p>Cargando audio...</p>
           ) : audioURL ? (
-            <button onClick={playAudio}>Reproducir sonido</button>
+            <button onClick={playAudio} className="audio-button">Reproducir sonido</button>
           ) : (
             <p>No se pudo cargar el audio.</p>
           )}
-          <button onClick={handleVisto}>Visto</button>
-          <button onClick={() => alert('X!')}>X</button>
-          <button onClick={handleNextPage}>Siguiente</button>
+          <div className="button-group">
+            <button onClick={handleVisto} className="action-button button-check">Visto</button>
+            <button onClick={() => alert('X!')} className="action-button button-times">X</button>
+            <button onClick={handleNextPage} className="action-button next-button">Siguiente</button>
+          </div>
         </div>
       )}
     </div>

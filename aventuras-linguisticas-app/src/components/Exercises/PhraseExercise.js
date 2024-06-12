@@ -4,6 +4,7 @@ import { useDocumentData } from 'react-firebase-hooks/firestore';
 import { getFirestore, doc, collection, updateDoc } from 'firebase/firestore';
 import { getStorage, ref, getDownloadURL } from 'firebase/storage';
 import { ChildContext } from '../Access/ChildContext';
+import '../../css/Exercises/PhraseExercise.css'; // Importamos los estilos CSS
 
 const db = getFirestore(); // Inicializa Firestore
 
@@ -66,24 +67,26 @@ function FraseExercise() {
   };
 
   return (
-    <div>
+    <div className="main-container">
       {loading && <p>Cargando...</p>}
       {error && <p>Error :(</p>}
       {value && (
-        <div>
-          <h1>Frase de la {fonema.toUpperCase()}</h1>
-          <p>{value.frase}</p>
+        <div className="content-container">
+          <h1 className="title">Frase de la {fonema.toUpperCase()}</h1>
+          <p className="phrase">{value.frase}</p>
           {imageLoading ? (
             <p>Cargando imagen...</p>
           ) : imageURL ? (
-            <img src={imageURL} alt={`Frase ${fonema}`} />
+            <img src={imageURL} alt={`Frase ${fonema}`} className="frase-image" />
           ) : (
             <p>No se pudo cargar la imagen.</p>
           )}
-          <audio src={value.audio} controls />
-          <button onClick={handleVisto}>Visto</button>
-          <button onClick={() => alert('X!')}>X</button>
-          <button onClick={handleNextPage}>Siguiente</button>
+          <audio src={value.audio} controls className="audio-control" />
+          <div className="button-group">
+            <button onClick={handleVisto} className="action-button button-check">Visto</button>
+            <button onClick={() => alert('X!')} className="action-button button-times">X</button>
+            <button onClick={handleNextPage} className="action-button next-button">Siguiente</button>
+          </div>
         </div>
       )}
     </div>

@@ -1,8 +1,9 @@
-import React, { useState } from "react";      
+import React, { useState } from "react";  
+import { Link, useNavigate } from 'react-router-dom';  
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";    
 import { getFirestore, doc, setDoc } from "firebase/firestore";    
-import { useNavigate } from 'react-router-dom';    
-  
+import '../../css/Access/RegisterTherapist.css';    
+
 function RegisterTherapist() {      
   const [email, setEmail] = useState("");      
   const [password, setPassword] = useState("");      
@@ -54,42 +55,62 @@ function RegisterTherapist() {
   }  
   
   return (      
-    <div>    
-      <h1>Registrarse como Terapista</h1>    
+    <div className="register-container">    
+      <div className="register-form-container">
+        <Link to="/" className="btn btn-secondary back-home-button">
+          <i className="fas fa-home"></i>
+        </Link>
+        <Link to="/therapistLogin" className="btn btn-secondary back-login-button">
+          <i className="fas fa-arrow-left"></i>
+        </Link>
+        <h1 className="register-title">Registrarse como Terapista</h1>    
   
-      {error && <p>{error}</p>}  
+        {error && <div className="error-message">{error}</div>}  
   
-      <form>      
-        <input      
-          type="email"    
-          name="email"    
-          value={email}    
-          placeholder="Tu Email"    
-          onChange={(e) => setEmail(e.target.value)}    
-        />      
+        <form className="register-form">      
+          <label htmlFor="userEmail" className="form-label">  
+            Correo Electrónico:  
+          </label>  
+          <input      
+            type="email"    
+            className="form-input"    
+            name="email"    
+            value={email}    
+            placeholder="E.g: faruq123@gmail.com"    
+            onChange={(e) => setEmail(e.target.value)}    
+          />      
   
-        <input      
-          type="password"    
-          name="password"    
-          value={password}    
-          placeholder="Tu Contraseña"    
-          onChange={(e) => setPassword(e.target.value)}    
-        />    
+          <label htmlFor="userPassword" className="form-label">  
+            Contraseña:  
+          </label>  
+          <input      
+            type="password"    
+            className="form-input"    
+            name="password"    
+            value={password}    
+            placeholder="Tu Contraseña"    
+            onChange={(e) => setPassword(e.target.value)}    
+          />    
   
-        <input      
-          type="date"      
-          name="birthDate"      
-          value = {birthDate}      
-          placeholder="Tu Fecha de Nacimiento"      
-          onChange = {(event) => setBirthDate(event.target.value)}      
-        />      
+          <label htmlFor="birthDate" className="form-label">  
+            Fecha de Nacimiento:  
+          </label>  
+          <input      
+            type="date"      
+            className="form-input"      
+            name="birthDate"      
+            value={birthDate}      
+            placeholder="Tu Fecha de Nacimiento"      
+            onChange={(event) => setBirthDate(event.target.value)}      
+          />      
   
-        <button onClick={registerTherapist}>    
-          Registrarse    
-        </button>    
-      </form>    
+          <button className="register-button" onClick={registerTherapist}>    
+            Registrarse    
+          </button>    
+        </form>    
+      </div>    
     </div>    
   );     
 }      
   
-export default RegisterTherapist;    
+export default RegisterTherapist;

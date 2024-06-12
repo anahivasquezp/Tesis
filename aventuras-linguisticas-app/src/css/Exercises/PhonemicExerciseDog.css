@@ -1,5 +1,5 @@
 /* Asegúrate de que la ruta de la imagen sea correcta */
-.phonological-exercises-container {
+.exercise-container {
     width: 100vw;
     height: 100vh;
     background-image: url('../../images/therapist_login_bg.webp');
@@ -21,11 +21,18 @@
     text-align: center;
   }
   
-  .button-group {
+  .exercise-image {
+    width: 300px;
+    height: auto;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2); /* Sombreado */
+  }
+  
+  .button-container {
     display: flex;
-    flex-direction: column;
     gap: 20px;
-    align-items: center;
+    margin-top: 20px;
   }
   
   .exercise-button {
@@ -46,9 +53,32 @@
     margin-right: 10px;
   }
   
+  .correct-button {
+    background-color: #67B97D; /* Usando otro color extraído de la imagen */
+  }
+  
+  .incorrect-button {
+    background-color: #dc544b; /* Usando otro color extraído de la imagen */
+  }
+  
+  .next-button {
+    background-color: #A05A25; /* Usando otro color extraído de la imagen */
+  }
+  
   .exercise-button:hover {
     transform: scale(1.1);
-    background-color: #67B97D; /* Cambiando el color de fondo al hacer hover */
     box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.3); /* Sombreado más pronunciado */
+  }
+  
+  .correct-button:hover {
+    background-color: #4caf50; /* Color de hover */
+  }
+  
+  .incorrect-button:hover {
+    background-color: #f44336; /* Color de hover */
+  }
+  
+  .next-button:hover {
+    background-color: #71401a; /* Color de hover */
   }
   

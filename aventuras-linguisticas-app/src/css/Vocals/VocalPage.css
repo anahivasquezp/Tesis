@@ -1,57 +1,76 @@
-  /*ÍCONOS*/
-  .main-container {  
-    display: flex;  
-    flex-direction: column;  
-    justify-content: center;  
-    align-items: center;  
-    height: 100vh;  
-  }  
-    
-  .button-container {  
-    display: flex;  
-    justify-content: space-between;  
-    width: 100%;  
-    position: fixed;  /* Hace que la barra de botones se mantenga en la parte superior de la pantalla */  
-    top: 0;  
-  }  
-    
-  .button-left, .button-right {  
-    align-self: flex-start;  
-    margin: 10px;
-  }  
-    
+/* Asegúrate de que la ruta de la imagen sea correcta */
+.main-container {
+  width: 100vw;
+  height: 100vh;
+  background-image: url('../../images/therapist_login_bg.webp');
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
 
-  button {  
-    transition: background-color 0.5s ease;  
-  }  
-    
-  button:hover {  
-    background-color: #bada55;  
-  }  
+.button-container {
+  position: absolute;
+  top: 10px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 20px;
+}
 
-  .speech-bubble {  
-    position: relative;  
-    background: #00aabb;  
-    border-radius: 0.4em;  
-    color: white;  
-    padding: 1em;  
-    text-align: center;  
-    width: fit-content;  
-    margin: 0 auto;  
-  }  
-    
-  .speech-bubble:after {  
-    content: '';  
-    position: absolute;  
-    top: 0;  
-    left: 50%;  
-    width: 0;  
-    height: 0;  
-    border: 20px solid transparent;  
-    border-bottom-color: #00aabb;  
-    border-top: 0;  
-    border-left: 0;  
-    margin-left: -10px;  
-    margin-top: -20px;  
-  }  
-  
+.button-left, .button-right, .next-button {
+  background-color: #A05A25; /* Usando otro color extraído de la imagen */
+  color: white;
+  padding: 10px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+.button-left:hover, .button-right:hover, .next-button:hover {
+  background-color: #71401a;
+  transform: scale(1.1);
+}
+
+.content-container {
+  width: 60%;
+  background-color: rgba(255, 255, 255, 0.7); /* Fondo transparente */
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+.vocal-title {
+  font-family: 'Poppins', sans-serif; /* Letra más gordita y en negrita */
+  font-weight: 700; /* Negrita */
+  font-size: 3rem; /* Tamaño grande para que puedan observarlo */
+  color: #A05A25; /* Usando uno de los colores extraídos de la imagen */
+  margin-bottom: 20px;
+}
+
+.speech-bubble {
+  position: relative;
+  background: #FFF;
+  border-radius: .4em;
+  padding: 20px;
+  text-align: left;
+  box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2); /* Sombreado */
+}
+
+.speech-bubble:after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border: 20px solid transparent;
+  border-top-color: #FFF;
+  border-bottom: 0;
+  border-right: 0;
+  margin-left: -10px;
+  margin-top: -1px;
+}

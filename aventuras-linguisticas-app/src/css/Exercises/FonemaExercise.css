@@ -1,0 +1,103 @@
+/* Asegúrate de que la ruta de la imagen sea correcta */
+.main-container {
+    width: 100vw;
+    height: 100vh;
+    background-image: url('../../images/therapist_login_bg.webp');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    text-align: center;
+  }
+  
+  .content-container {
+    width: 60%;
+    background-color: rgba(255, 255, 255, 0.7); /* Fondo transparente */
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .title {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 3rem;
+    color: #A05A25; /* Usando uno de los colores extraídos de la imagen */
+    margin-bottom: 20px;
+  }
+  
+  .fonema-image {
+    width: 300px;
+    height: auto;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2); /* Sombreado */
+  }
+  
+  .audio-button {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.5rem;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    background-color: #2D817A; /* Usando otro color extraído de la imagen */
+    color: white;
+    transition: transform 0.2s, background-color 0.2s, box-shadow 0.2s;
+    margin-top: 20px;
+  }
+  
+  .audio-button:hover {
+    background-color: #67B97D;
+    transform: scale(1.1);
+    box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2); /* Sombreado */
+  }
+  
+  .button-group {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+  }
+  
+  .action-button {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.5rem;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: transform 0.2s, background-color 0.2s, box-shadow 0.2s;
+  }
+  
+  .button-check {
+    background-color: #2D817A; /* Usando otro color extraído de la imagen */
+    color: white;
+  }
+  
+  .button-check:hover {
+    background-color: #67B97D;
+    transform: scale(1.1);
+  }
+  
+  .button-times {
+    background-color: #dc544b;
+    color: white;
+  }
+  
+  .button-times:hover {
+    background-color: #ff0000;
+    transform: scale(1.1);
+  }
+  
+  .next-button {
+    background-color: #A05A25; /* Usando otro color extraído de la imagen */
+    color: white;
+  }
+  
+  .next-button:hover {
+    background-color: #71401a;
+    transform: scale(1.1);
+  }
+  
