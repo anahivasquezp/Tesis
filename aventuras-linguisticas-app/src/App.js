@@ -1,4 +1,5 @@
 // Importamos las bibliotecas y componentes necesarios  
+import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react'; // React es la biblioteca base para construir componentes  
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; // Estos son componentes de enrutamiento de la biblioteca 'react-router-dom'  
 import VocalMenu from './components/Vocals/VocalMenu'; // Este es un componente personalizado para el menú de vocales  
@@ -22,6 +23,8 @@ import PhonemicExerciseFull from './components/Exercises/PhonemicExerciseFull'; 
 import SyllableExercise from './components/Exercises/SyllableExercise'; // Import the missing component
 import PhraseExercise from './components/Exercises/PhraseExercise'; // Import the missing component
 import Congratulations from './components/Exercises/Congratulations';
+
+
 
 
 // Definimos el componente App  

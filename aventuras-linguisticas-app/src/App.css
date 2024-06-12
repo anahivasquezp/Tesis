@@ -2,7 +2,7 @@
   
 .app {  
     min-height: 100vh;
-    background-image: url('./images/farm_background.jpg');  
+    background-image: url('./images/background1.webp');  
     background-size: cover; /* Esto asegura que la imagen cubra toda la pantalla */  
     background-repeat: no-repeat; /* Esto evita que la imagen se repita */  
   }  
