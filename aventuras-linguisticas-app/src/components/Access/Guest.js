@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import apiUnsplash from '../../apis/apiUnsplash'; // Asegúrate de que la ruta es correcta
-import '../../css/Access/Guest.css';
+import { getStorage, ref, getDownloadURL } from 'firebase/storage'; // Importa las funciones necesarias de Firebase
+import styles from '../../css/Access/Guest.module.css';
+import characterImage from '../../images/personaje_neutral.jpg';
 
 function Guest() {
     const [characters, setCharacters] = useState([]);
@@ -9,41 +10,54 @@ function Guest() {
 
     useEffect(() => {
         const fetchCharacters = async () => {
-            const response = await apiUnsplash.get('/search/photos', {
-                params: {
-                    query: 'cartoon animal',
-                    per_page: 5
-                }
-            });
-            setCharacters(response.data.results);
+            const storage = getStorage();
+            const characterPromises = [];
+
+            for (let i = 1; i <= 9; i++) {
+                const imageRef = ref(storage, `images/invitados/invitado${i}.webp`);
+                characterPromises.push(
+                    getDownloadURL(imageRef).then((url) => ({ id: `invitado${i}`, url }))
+                );
+            }
+
+            const characters = await Promise.all(characterPromises);
+            setCharacters(characters);
         };
 
         fetchCharacters();
     }, []);
 
     const handleCharacterSelect = (character) => {
-        sessionStorage.setItem('guestCharacter', JSON.stringify(character)); // Guarda el personaje seleccionado en sessionStorage
-        navigate('/Menu'); // Redirige al menú principal
+        sessionStorage.setItem('guestCharacter', JSON.stringify(character));
+        navigate('/Menu');
     };
 
     return (
-        <div className="guest-container">
-            <Link to="/" className="btn btn-secondary back-home-button">
-                <i className="fas fa-home"></i>
-            </Link>
-            <h1 className="guest-title">Invitado</h1>
-            <h2 className="guest-subtitle">Seleccione su personaje:</h2>
-            <div className="character-container">
-                {characters.map((character) => (
-                    <img
-                        key={character.id}
-                        src={character.urls.small}
-                        alt={character.alt_description}
-                        onClick={() => handleCharacterSelect(character)}
-                        className="character-image"
-                    />
-                ))}
+        <div className={styles.guestContainer}>
+            <div className={styles.topButtonsContainer}>
+                <Link to="/" className={`${styles.topButton} ${styles.homeButton}`}>
+                    <i className="fas fa-home"></i>
+                </Link>
+                <button className={`${styles.topButton} ${styles.infoButton}`}>
+                    <i className="fas fa-info"></i>
+                </button>
             </div>
+            <div className={styles.contentContainer}>
+                <h1 className={styles.guestTitle}>Invitado</h1>
+                <h2 className={styles.guestSubtitle}>Seleccione su personaje:</h2>
+                <div className={styles.characterContainer}>
+                    {characters.map((character) => (
+                        <img
+                            key={character.id}
+                            src={character.url}
+                            alt={character.id}
+                            onClick={() => handleCharacterSelect(character)}
+                            className={styles.guestCharacterImage}
+                        />
+                    ))}
+                </div>
+            </div>
+            <img src={characterImage} alt="Character" className={styles.mainCharacterImage} />
         </div>
     );
 }
