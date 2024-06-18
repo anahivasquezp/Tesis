@@ -1,22 +1,29 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import '../../css/Access/MainWindow.css';
-import farmBackground from '../../images/therapist_login_bg.webp'; // Asegúrate de que la ruta de la imagen sea correcta
+import styles from '../../css/Access/MainWindow.module.css';
+import farmBackground from '../../images/therapist_login_bg.webp';
+import characterImage from '../../images/personaje_neutral.jpg';
 
 function App() {
     return (
-        <div className="main-container" style={{ backgroundImage: `url(${farmBackground})` }}>
-            <div className="title-container d-flex flex-column justify-content-center align-items-center">
-                <h1 id="game-title1">AVENTURAS LINGÜÍSTICAS EN LA GRANJA</h1>
-                <div className="button-container d-flex justify-content-center">
+        <div className={styles.mainContainer} style={{ backgroundImage: `url(${farmBackground})` }}>
+            <div className={styles.topButtonsContainer}>
+                <button className={`${styles.topButton} ${styles.infoButton}`}>
+                    <i className="fas fa-info"></i>
+                </button>
+            </div>
+            <div className={styles.contentContainer}>
+                <h1 className={styles.gameTitle}>AVENTURAS LINGÜÍSTICAS EN LA GRANJA</h1>
+                <div className={styles.buttonContainer}>
                     <Link to="/therapistLogin">
-                        <button className="access-button terapista-btn">Terapista</button>
+                        <button className={`${styles.accessButton} ${styles.terapistaBtn}`}>Terapista</button>
                     </Link>
                     <Link to="/Guest">
-                        <button className="access-button guest-btn">Invitado</button>
+                        <button className={`${styles.accessButton} ${styles.guestBtn}`}>Invitado</button>
                     </Link>
                 </div>
             </div>
+            <img src={characterImage} alt="Character" className={styles.characterImage} />
         </div>
     );
 }
