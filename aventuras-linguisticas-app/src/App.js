@@ -23,6 +23,7 @@ import SyllableExercise from './components/Exercises/SyllableExercise'; // Impor
 import PhraseExercise from './components/Exercises/PhraseExercise'; // Import the missing component
 import Congratulations from './components/Exercises/Congratulations';
 import CongratulationsVocales from './components/Vocals/CongratulationsVocales';
+import CongratulationsPhonetic from './components/Exercises/CongratulationsPhonetic';
 
 
 
@@ -47,6 +48,7 @@ function App() {
               <Route path="/vocal/:vocal/conciencia-fonemica" element={<VocalPage />} />
               <Route path="/congratulationsVocales" element={<CongratulationsVocales />} />
               <Route path="/phonetic-exercises" element={<PhoneticExercises />} />
+              <Route path="/congratulationsPhonetic" element={<CongratulationsPhonetic />} />
               <Route path="/phonological-exercises" element={<PhonologicalExercises />} />
               <Route path="/age-fonemas/:age" element={<AgeFonemas />} />
               <Route path="/exercise/:fonema" element={<FonemaExercise />} />   

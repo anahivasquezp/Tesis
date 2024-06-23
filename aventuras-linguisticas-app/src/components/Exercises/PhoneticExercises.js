@@ -67,7 +67,7 @@ function PhoneticExercises() {
   };
 
   const handleNext = () => {
-    navigate('/Menu');
+    navigate('/congratulationsPhonetic');
   };
 
   const isAuthenticated = auth.currentUser && selectedChild;
