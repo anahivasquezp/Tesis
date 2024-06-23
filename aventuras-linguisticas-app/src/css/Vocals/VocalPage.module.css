@@ -1,4 +1,4 @@
-.exerciseContainer {
+.mainContainer {
   width: 100vw;
   height: 100vh;
   background-image: url('../../images/therapist_login_bg.webp');
@@ -85,7 +85,7 @@
   text-align: center;
 }
 
-.exerciseTitle {
+.vocalTitle {
   font-family: 'Poppins', sans-serif;
   font-weight: 700;
   font-size: 3rem;
@@ -93,11 +93,16 @@
   margin-bottom: 20px;
 }
 
-.exerciseImage {
-  width: 300px;
-  height: 300px;
-  border-radius: 15px;
+.videoContainer {
+  width: 100%;
+  height: auto;
   margin-bottom: 20px;
+}
+
+.video {
+  width: 100%;
+  height: auto;
+  border-radius: 15px;
 }
 
 .buttonContainer {
@@ -135,6 +140,14 @@
   transform: scale(0.9);
 }
 
+.backButton {
+  background-color: #FFA000;
+}
+
+.backButton:hover {
+  background-color: #FFB300;
+}
+
 .correctButton {
   background-color: #4CAF50;
 }
@@ -158,6 +171,7 @@
 .nextButton:hover {
   background-color: #FFB300;
 }
+
 
 .mainCharacterImage {
   position: absolute;

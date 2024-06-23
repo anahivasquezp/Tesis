@@ -4,7 +4,6 @@ import React from 'react'; // React es la biblioteca base para construir compone
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; // Estos son componentes de enrutamiento de la biblioteca 'react-router-dom'  
 import VocalMenu from './components/Vocals/VocalMenu'; // Este es un componente personalizado para el menú de vocales  
 import VocalPage from './components/Vocals/VocalPage'; // Este es un componente personalizado para la página de una vocal específica  
-import ConcienciaFonemicaPage from './components/Vocals/ConcienciaFonemicaPage'; // Este es un componente personalizado para la página de conciencia fonémica de una vocal  
 import './App.css'; // Este es el archivo de estilos CSS para este componente  
 import MainWindow from './components/Access/MainWindow'; // Este es un componente personalizado para la ventana principal
 import TherapistLogin from './components/Access/TherapistLogin'; // Este es un componente personalizado para el login del terapeuta
@@ -23,6 +22,7 @@ import PhonemicExerciseFull from './components/Exercises/PhonemicExerciseFull'; 
 import SyllableExercise from './components/Exercises/SyllableExercise'; // Import the missing component
 import PhraseExercise from './components/Exercises/PhraseExercise'; // Import the missing component
 import Congratulations from './components/Exercises/Congratulations';
+import CongratulationsVocales from './components/Vocals/CongratulationsVocales';
 
 
 
@@ -41,11 +41,11 @@ function App() {
               <Route path="/registerTherapist" element={<RegisterTherapist />} /> 
               <Route path="/chooseChild" element={<ChooseChild />} /> 
               <Route path="/editChild" element={<EditChild />} />
-              <Route path="/registerChild" element={<RegisterChild />} /> 
-              <Route path="/vocalMenu" element={<VocalMenu />} /> 
+              <Route path="/registerChild" element={<RegisterChild />} />               
               <Route path="/Menu" element={<PrincipalMenu />} /> 
-              <Route path="/vocal/:vocal" element={<VocalPage />} /> 
-              <Route path="/vocal/:vocal/conciencia-fonemica" element={<ConcienciaFonemicaPage />} />
+              <Route path="/vocalMenu" element={<VocalMenu />} /> 
+              <Route path="/vocal/:vocal/conciencia-fonemica" element={<VocalPage />} />
+              <Route path="/congratulationsVocales" element={<CongratulationsVocales />} />
               <Route path="/phonetic-exercises" element={<PhoneticExercises />} />
               <Route path="/phonological-exercises" element={<PhonologicalExercises />} />
               <Route path="/age-fonemas/:age" element={<AgeFonemas />} />
