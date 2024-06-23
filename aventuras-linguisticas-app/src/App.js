@@ -21,7 +21,7 @@ import FonemaExercise from './components/Exercises/FonemaExercise';
 import PhonemicExerciseFull from './components/Exercises/PhonemicExerciseFull'; // Import the missing component
 import SyllableExercise from './components/Exercises/SyllableExercise'; // Import the missing component
 import PhraseExercise from './components/Exercises/PhraseExercise'; // Import the missing component
-import Congratulations from './components/Exercises/Congratulations';
+import CongratulationsExercises from './components/Exercises/CongratulationsExercises';
 import CongratulationsVocales from './components/Vocals/CongratulationsVocales';
 import CongratulationsPhonetic from './components/Exercises/CongratulationsPhonetic';
 
@@ -55,7 +55,7 @@ function App() {
               <Route path="/PhonemicExerciseFull/:fonema" element={<PhonemicExerciseFull />} />  
               <Route path="/SyllableExercise/:fonema" element={<SyllableExercise />} />  
               <Route path="/PhraseExercise/:fonema" element={<PhraseExercise />} />  
-              <Route path="/congratulations/:fonema" element={<Congratulations />} />
+              <Route path="/congratulationsExercises/:fonema" element={<CongratulationsExercises />} />
             </Routes> 
           </div>       
       </Router>  

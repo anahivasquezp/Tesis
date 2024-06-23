@@ -1,0 +1,217 @@
+.phonologicalExercisesContainer {
+  width: 100vw;
+  height: 100vh;
+  background-image: url('../../images/therapist_login_bg.webp');
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.topButtonsContainer {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  display: flex;
+  gap: 10px;
+}
+
+.topButton {
+  width: 50px;
+  height: 50px;
+  background-image: url('../../images/button_cuadrado_pequeño.jpg');
+  background-size: cover;
+  background-position: center;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 15px;
+  text-decoration: none;
+}
+
+.topButton i {
+  font-size: 24px;
+  color: white;
+}
+
+.topButton:hover {
+  transform: scale(1.1);
+  box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.topButton:active {
+  transform: scale(0.9);
+  box-shadow: inset 3px 3px 8px rgba(0, 0, 0, 0.4);
+}
+
+.userInfoContainer {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.7);
+  padding: 10px;
+  border-radius: 15px;
+  box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2);
+}
+
+.userName {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: #A05A25;
+  margin-bottom: 10px;
+}
+
+.userImage {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+}
+
+.contentContainer {
+  width: 60%;
+  background-color: rgba(255, 255, 255, 0.7);
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+.title {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  font-size: 3rem;
+  color: #A05A25;
+  margin-bottom: 20px;
+}
+
+.fonemasContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.fonemaButton {
+  background-color: #2D817A;
+  color: white;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.5rem;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: transform 0.2s, background-color 0.2s, box-shadow 0.2s;
+  width: 100px;
+  height: 100px;
+}
+
+.fonemaLink {
+  text-decoration: none;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+
+.fonemaButton:hover {
+  transform: scale(1.1);
+  background-color: #67B97D;
+  box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.fonemaButton:active {
+  transform: scale(0.9);
+}
+
+.mainCharacterImage {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  width: 400px;
+  height: auto;
+}
+
+.modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 80%;
+  max-width: 500px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 15px;
+  box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2);
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.modalTitle {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.8rem;
+  color: #A05A25;
+  margin-bottom: 20px;
+}
+
+.modalButtons {
+  display: flex;
+  justify-content: space-around;
+}
+
+.confirmButton,
+.cancelButton {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.2rem;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: transform 0.2s, background-color 0.2s;
+}
+
+.confirmButton {
+  background-color: #2D817A;
+  color: white;
+}
+
+.confirmButton:hover {
+  background-color: #67B97D;
+  transform: scale(1.1);
+}
+
+.confirmButton:active {
+  transform: scale(0.9);
+}
+
+.cancelButton {
+  background-color: #A05A25;
+  color: white;
+}
+
+.cancelButton:hover {
+  background-color: #71401a;
+  transform: scale(1.1);
+}
+
+.cancelButton:active {
+  transform: scale(0.9);
+}

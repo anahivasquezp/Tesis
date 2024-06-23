@@ -82,7 +82,7 @@ function ChooseChild() {
         </button>
       </div>
       <div className={styles.contentContainer}>
-        <h1 className={styles.chooseChildTitle}>Elige un niño</h1>
+        <h1 className={styles.chooseChildTitle}>Elige un niño para jugar</h1>
         <div className={styles.childrenList}>
           {children.map((child) => (
             <div

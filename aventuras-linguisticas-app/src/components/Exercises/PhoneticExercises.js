@@ -141,7 +141,7 @@ function PhoneticExercises() {
             </>
           )}
           <button className={`${styles.exerciseButton} ${styles.nextButton}`} onClick={handleNext}>
-            <i className="fas fa-arrow-right"></i> Siguiente
+            <i className="fas fa-arrow-right"></i> Adelante
           </button>
         </div>
       </div>
