@@ -121,7 +121,6 @@
     background-color: #2D817A;
     color: white;
     transition: transform 0.2s, background-color 0.2s, box-shadow 0.2s;
-    display: flex;
     align-items: center;
     justify-content: center;
     margin-top: 20px;
