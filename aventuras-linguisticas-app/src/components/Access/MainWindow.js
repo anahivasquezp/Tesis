@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styles from '../../css/Access/MainWindow.module.css';
 import farmBackground from '../../images/therapist_login_bg.webp';
-import characterImage from '../../images/personaje_neutral.jpg';
+import characterImage from '../../images/pig_granjera.png';
 
 function App() {
     return (

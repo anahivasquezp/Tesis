@@ -15,9 +15,16 @@ function ChooseChild() {
 
   useEffect(() => {
     const fetchChildren = async () => {
+      const user = auth.currentUser;
+
+      if (!user) {
+        console.error('No user is authenticated.');
+        return;
+      }
+
       const childrenQuery = query(
         collection(db, 'children'),
-        where('therapistId', '==', auth.currentUser.uid)
+        where('therapistId', '==', user.uid)
       );
       const querySnapshot = await getDocs(childrenQuery);
       setChildren(querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
@@ -30,6 +37,12 @@ function ChooseChild() {
     setSelectedChild(child);
     setSelectedId(child.id);
     navigate('/Menu');
+  };
+
+  const handleEditChild = (child) => {
+    setSelectedChild(child);
+    setSelectedId(child.id);
+    navigate('/editChild');
   };
 
   return (
@@ -46,10 +59,12 @@ function ChooseChild() {
           <div
             key={child.id}
             className={`child-container ${child.id === selectedId ? 'selected' : ''}`}
-            onClick={() => handleChildClick(child)}
           >
-            <h2>{child.name}</h2>
+            <h2 onClick={() => handleChildClick(child)}>{child.name}</h2>
             <img src={child.characterImage} alt={child.character} className="child-image" />
+            <button onClick={() => handleEditChild(child)} className="edit-button">
+              <i className="fas fa-pencil-alt"></i>
+            </button>
           </div>
         ))}
       </div>

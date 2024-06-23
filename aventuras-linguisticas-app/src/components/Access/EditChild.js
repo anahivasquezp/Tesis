@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { getAuth } from 'firebase/auth';
-import { getFirestore, addDoc, collection } from 'firebase/firestore';
+import { getFirestore, doc, updateDoc, deleteDoc } from 'firebase/firestore';
 import { getStorage, ref, getDownloadURL } from 'firebase/storage';
 import { useNavigate, Link } from 'react-router-dom';
+import { ChildContext } from './ChildContext';
 import '../../css/Access/RegisterChild.css';
 
-function RegisterChild() {
+function EditChild() {
+  const { selectedChild } = useContext(ChildContext);
   const [name, setName] = useState('');
   const [birthDate, setBirthDate] = useState('');
   const [characterImages, setCharacterImages] = useState([]);
@@ -17,6 +19,12 @@ function RegisterChild() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (selectedChild) {
+      setName(selectedChild.name);
+      setBirthDate(selectedChild.birthDate);
+      setSelectedImage(selectedChild.characterImage);
+    }
+
     const fetchCharacterImages = async () => {
       const storage = getStorage();
       const characterPromises = [];
@@ -33,25 +41,10 @@ function RegisterChild() {
     };
 
     fetchCharacterImages();
-  }, []);
+  }, [selectedChild]);
 
-  const calculateAge = (dob) => {
-    const birthDate = new Date(dob);
-    const differenceInMs = Date.now() - birthDate.getTime();
-    const ageDt = new Date(differenceInMs);
-
-    return Math.abs(ageDt.getUTCFullYear() - 1970);
-  };
-
-  const registerChild = async (event) => {
+  const handleUpdateChild = async (event) => {
     event.preventDefault();
-
-    const age = calculateAge(birthDate);
-
-    if (age < 3) {
-      setError('El niño debe tener al menos 3 años para ser registrado.');
-      return;
-    }
 
     if (!name || !birthDate || !selectedImage) {
       setError('Todos los campos son obligatorios.');
@@ -66,16 +59,27 @@ function RegisterChild() {
     }
 
     try {
-      await addDoc(collection(db, 'children'), {
+      const childDoc = doc(db, 'children', selectedChild.id);
+      await updateDoc(childDoc, {
         name: name,
         birthDate: birthDate,
         characterImage: selectedImage,
-        therapistId: user.uid,
       });
 
       navigate('/chooseChild');
     } catch (error) {
-      console.error('Error al registrar al niño', error);
+      console.error('Error al actualizar al niño', error);
+    }
+  };
+
+  const handleDeleteChild = async () => {
+    try {
+      const childDoc = doc(db, 'children', selectedChild.id);
+      await deleteDoc(childDoc);
+
+      navigate('/chooseChild');
+    } catch (error) {
+      console.error('Error al eliminar al niño', error);
     }
   };
 
@@ -88,9 +92,9 @@ function RegisterChild() {
         <i className="fas fa-arrow-left"></i>
       </Link>
       <div className="form-container">
-        <h1 className="register-title">Registrar un niño</h1>
+        <h1 className="register-title">Editar un niño</h1>
         {error && <div className="error-message">{error}</div>}
-        <form onSubmit={registerChild}>
+        <form onSubmit={handleUpdateChild}>
           <label htmlFor="name" className="form-label">Nombre:</label>
           <input
             type="text"
@@ -111,8 +115,9 @@ function RegisterChild() {
             onChange={(e) => setBirthDate(e.target.value)}
           />
 
-          <button type="submit" className="register-button">Registrar</button>
+          <button type="submit" className="register-button">Guardar</button>
         </form>
+        <button onClick={handleDeleteChild} className="delete-button">Eliminar</button>
       </div>
       <div className="image-container">
         {characterImages.map((image) => (
@@ -129,4 +134,4 @@ function RegisterChild() {
   );
 }
 
-export default RegisterChild;
+export default EditChild;

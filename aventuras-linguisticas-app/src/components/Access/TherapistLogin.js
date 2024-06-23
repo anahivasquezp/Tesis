@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from 'react-router-dom';
 import { auth, signInWithEmailAndPassword } from "../../firebase";
 import styles from '../../css/Access/therapistLogin.module.css';
-import characterImage from '../../images/personaje_neutral.jpg';
+import characterImage from '../../images/pig_granjera.png';
 
 function TherapistLogin() {
   const [email, setEmail] = useState("");

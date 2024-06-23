@@ -85,6 +85,7 @@
   border-radius: 50%;
   cursor: pointer;
   transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
+  border: 1px solid #A05A25;
 }
 
 .guestCharacterImage:hover {
@@ -103,7 +104,7 @@
   position: absolute;
   bottom: 20px;
   left: 20px;
-  width: 300px;
+  width: 400px;
   height: auto;
 }
 

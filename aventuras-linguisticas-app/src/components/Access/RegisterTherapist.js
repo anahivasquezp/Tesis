@@ -3,12 +3,12 @@ import { Link, useNavigate } from 'react-router-dom';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { getFirestore, doc, setDoc } from "firebase/firestore";
 import styles from '../../css/Access/RegisterTherapist.module.css';
-import characterImage from '../../images/personaje_neutral.jpg';
+import characterImage from '../../images/pig_granjera.png';
 
 function RegisterTherapist() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [birthDate, setBirthDate] = useState("");
+  const [therapistName, setTherapistName] = useState("");
   const [error, setError] = useState(null);
 
   const auth = getAuth();
@@ -19,20 +19,13 @@ function RegisterTherapist() {
   const registerTherapist = async (event) => {
     event.preventDefault();
 
-    const age = calculateAge(birthDate);
-
-    if (age < 18) {
-      setError("Debes tener al menos 18 años para registrarte.");
-      return;
-    }
-
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
       await setDoc(doc(db, "therapists", user.uid), {
         email: email,
-        birthDate: birthDate,
+        therapistName: therapistName,
       });
 
       navigate("/therapistLogin");
@@ -46,14 +39,6 @@ function RegisterTherapist() {
       }
     }
   };
-
-  const calculateAge = (dob) => {
-    const birthDate = new Date(dob);
-    const differenceInMs = Date.now() - birthDate.getTime();
-    const age_dt = new Date(differenceInMs);
-
-    return Math.abs(age_dt.getUTCFullYear() - 1970);
-  }
 
   return (
     <div className={styles.registerContainer}>
@@ -94,16 +79,16 @@ function RegisterTherapist() {
             placeholder="Tu Contraseña"
             onChange={(e) => setPassword(e.target.value)}
           />
-          <label htmlFor="birthDate" className={styles.formLabel}>
-            Fecha de Nacimiento:
+          <label htmlFor="therapistName" className={styles.formLabel}>
+            Nombre del Terapista:
           </label>
           <input
-            type="date"
+            type="text"
             className={styles.formInput}
-            name="birthDate"
-            value={birthDate}
-            placeholder="Tu Fecha de Nacimiento"
-            onChange={(event) => setBirthDate(event.target.value)}
+            name="therapistName"
+            value={therapistName}
+            placeholder="Tu Nombre"
+            onChange={(event) => setTherapistName(event.target.value)}
           />
           <button className={styles.registerButton} onClick={registerTherapist}>
             Registrarse

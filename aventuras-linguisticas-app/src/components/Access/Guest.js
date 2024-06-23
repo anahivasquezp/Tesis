@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { getStorage, ref, getDownloadURL } from 'firebase/storage'; // Importa las funciones necesarias de Firebase
 import styles from '../../css/Access/Guest.module.css';
-import characterImage from '../../images/personaje_neutral.jpg';
+import characterImage from '../../images/pig_granjera.png';
 
 function Guest() {
     const [characters, setCharacters] = useState([]);

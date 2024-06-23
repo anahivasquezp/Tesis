@@ -11,6 +11,7 @@ import TherapistLogin from './components/Access/TherapistLogin'; // Este es un c
 import Guest from './components/Access/Guest'; // Este es un componente personalizado para el login del terapeuta
 import RegisterTherapist from './components/Access/RegisterTherapist'; // Este es un componente personalizado para el registro del terapeuta
 import ChooseChild from './components/Access/ChooseChild'; // Este es un componente personalizado para elegir el niño
+import EditChild from './components/Access/EditChild';
 import RegisterChild from './components/Access/RegisterChild'; // Este es un componente personalizado para registrar el niño
 import PrincipalMenu from './components/Access/PrincipalMenu'; // Este es un componente personalizado para el menú principal
 import { ChildProvider } from './components/Access/ChildContext'; import PhonemicExercisePiano from './components/Exercises/PhonemicExercisePiano'; // Import the missing component
@@ -39,7 +40,8 @@ function App() {
               <Route path="/therapistLogin" element={<TherapistLogin />} /> 
               <Route path="/guest" element={<Guest />} /> 
               <Route path="/registerTherapist" element={<RegisterTherapist />} /> 
-              <Route path="/chooseChild"c                        element={<ChooseChild />} /> 
+              <Route path="/chooseChild" element={<ChooseChild />} /> 
+              <Route path="/editChild" element={<EditChild />} />
               <Route path="/registerChild" element={<RegisterChild />} /> 
               <Route path="/vocalMenu" element={<VocalMenu />} /> 
               <Route path="/Menu" element={<PrincipalMenu />} /> 
