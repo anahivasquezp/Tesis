@@ -1,67 +1,141 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { ChildContext } from './ChildContext';
 import { getAuth, signOut } from 'firebase/auth';
+import { getFirestore, doc, getDoc } from 'firebase/firestore';
 import { useNavigate, Link } from 'react-router-dom';
-import '../../css/Access/PrincipalMenu.css';
+import Modal from 'react-modal';
+import styles from '../../css/Access/PrincipalMenu.module.css';
+import characterImage from '../../images/pig_granjera.png';
+
+Modal.setAppElement('#root'); // Set the app element for accessibility
 
 function PrincipalMenu() {
     const { selectedChild } = useContext(ChildContext);
     const auth = getAuth();
     const navigate = useNavigate();
     const [guestCharacter, setGuestCharacter] = useState(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [therapistName, setTherapistName] = useState('');
 
     useEffect(() => {
         const storedCharacter = sessionStorage.getItem('guestCharacter');
         if (storedCharacter) {
             setGuestCharacter(JSON.parse(storedCharacter));
         }
-    }, []);
+
+        const fetchTherapistName = async () => {
+            if (auth.currentUser) {
+                const db = getFirestore();
+                const docRef = doc(db, 'therapists', auth.currentUser.uid);
+                const docSnap = await getDoc(docRef);
+
+                if (docSnap.exists()) {
+                    setTherapistName(docSnap.data().therapistName);
+                }
+            }
+        };
+
+        fetchTherapistName();
+    }, [auth.currentUser]);
 
     const handleSignOut = () => {
-        signOut(auth); // Firebase sign out for authenticated user
-        sessionStorage.removeItem('guestCharacter'); // Clear guest character information
-        navigate('/'); // Redirect to the home or login page
+        signOut(auth).then(() => {
+            sessionStorage.removeItem('guestCharacter');
+            navigate('/');
+        }).catch((error) => {
+            console.error('Error signing out', error);
+        });
+    };
+
+    const handleLogoutGuest = () => {
+        sessionStorage.removeItem('guestCharacter');
+        navigate('/');
+    };
+
+    const openModal = () => {
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+    };
+
+    const confirmLogout = () => {
+        closeModal();
+        if (auth.currentUser) {
+            handleSignOut();
+        } else {
+            handleLogoutGuest();
+        }
     };
 
     const handleNavigatePhonemicAwareness = () => {
-        navigate('/phonemic-awareness-piano'); // Navigate to Phonemic Awareness page
+        navigate('/phonetic-exercises');
     };
 
     const handleNavigatePhonologicalExercises = () => {
-        navigate('/phonological-exercises'); // Navigate to Phonological Exercises page
+        navigate('/phonological-exercises');
+    };
+
+    const calculateAge = (birthDate) => {
+        const birth = new Date(birthDate);
+        const diff_ms = Date.now() - birth.getTime();
+        const age_dt = new Date(diff_ms);
+
+        return Math.abs(age_dt.getUTCFullYear() - 1970);
     };
 
     return (
-        <div className="menu-container">
-            <Link to="/" className="btn btn-secondary back-home-button">
-                <i className="fas fa-home"></i>
-            </Link>
-            <div className="user-info">
-                {/* Show user info only if a user is logged in */}
-                {auth.currentUser && (
-                    <>
-                        <h2>{auth.currentUser.email}</h2>
-                        {selectedChild && (
+        <div className={styles.menuContainer}>
+            <div className={styles.topButtonsContainer}>
+                <button onClick={openModal} className={`${styles.topButton} ${styles.homeButton}`}>
+                    <i className="fas fa-home"></i>
+                </button>
+                <button className={`${styles.topButton} ${styles.infoButton}`}>
+                    <i className="fas fa-info"></i>
+                </button>
+            </div>
+            <div className={styles.contentContainer}>
+                <div className={styles.userInfo}>
+                    {auth.currentUser ? (
+                        <>
+                            <h2 className={styles.infoText}>Terapista: {therapistName}</h2>
+                            {selectedChild && (
+                                <>
+                                    <h2 className={styles.infoText}>Niño: {selectedChild.name}</h2>
+                                    <img src={selectedChild.characterImage} alt={selectedChild.character} className={styles.characterImage} />
+                                    <h3 className={styles.infoText}>Edad: {calculateAge(selectedChild.birthDate)} años</h3>
+                                </>
+                            )}
+                        </>
+                    ) : (
+                        guestCharacter && (
                             <>
-                                <h2>{selectedChild.name}</h2>
-                                <img src={selectedChild.characterImage} alt={selectedChild.character} className="character-image" />
+                                <h2 className={styles.infoText}>Invitado</h2>
+                                <img src={guestCharacter.url} alt="Selected Character" className={styles.characterImage} />
                             </>
-                        )}
-                    </>
-                )}
-                {/* Show guest character only if no user is logged in */}
-                {!auth.currentUser && guestCharacter && (
-                    <>
-                        <h2>{guestCharacter.alt_description}</h2>
-                        <img src={guestCharacter.urls.small} alt="Selected Character" className="character-image" />
-                    </>
-                )}
+                        )
+                    )}
+                </div>
+                <div className={styles.buttonContainer}>
+                    <button className={styles.menuButton} onClick={handleNavigatePhonemicAwareness}>Conciencia Fonética</button>
+                    <button className={styles.menuButton} onClick={handleNavigatePhonologicalExercises}>Ejercicios fonológicos</button>
+                </div>
             </div>
-            <div className="button-container">
-                <button className="menu-button" onClick={handleNavigatePhonemicAwareness}>Conciencia fonética</button>
-                <button className="menu-button" onClick={handleNavigatePhonologicalExercises}>Ejercicios fonológicos</button>
-                <button className="menu-button" onClick={handleSignOut}>Cerrar Sesión</button>
-            </div>
+            <img src={characterImage} alt="Character" className={styles.mainCharacterImage} />
+            <Modal
+                isOpen={isModalOpen}
+                onRequestClose={closeModal}
+                contentLabel="Confirm Logout"
+                className={styles.modal}
+                overlayClassName={styles.overlay}
+            >
+                <h2 className={styles.modalTitle}>¿Deseas salir?</h2>
+                <div className={styles.modalButtons}>
+                    <button onClick={confirmLogout} className={styles.confirmButton}>Sí</button>
+                    <button onClick={closeModal} className={styles.cancelButton}>No</button>
+                </div>
+            </Modal>
         </div>
     );
 }

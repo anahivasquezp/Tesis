@@ -1,10 +1,13 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { getAuth } from 'firebase/auth';
+import { getAuth, signOut } from 'firebase/auth';
 import { getFirestore, doc, updateDoc, deleteDoc } from 'firebase/firestore';
 import { getStorage, ref, getDownloadURL } from 'firebase/storage';
 import { useNavigate, Link } from 'react-router-dom';
+import Modal from 'react-modal';
 import { ChildContext } from './ChildContext';
-import '../../css/Access/RegisterChild.css';
+import styles from '../../css/Access/EditChild.module.css';
+
+Modal.setAppElement('#root'); // Set the app element for accessibility
 
 function EditChild() {
   const { selectedChild } = useContext(ChildContext);
@@ -13,6 +16,7 @@ function EditChild() {
   const [characterImages, setCharacterImages] = useState([]);
   const [selectedImage, setSelectedImage] = useState(null);
   const [error, setError] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const auth = getAuth();
   const db = getFirestore();
@@ -83,53 +87,92 @@ function EditChild() {
     }
   };
 
+  const handleLogout = () => {
+    signOut(auth).then(() => {
+      navigate('/');
+    }).catch((error) => {
+      console.error('Error signing out', error);
+    });
+  };
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const confirmLogout = () => {
+    closeModal();
+    handleLogout();
+  };
+
   return (
-    <div className="register-child-container">
-      <Link to="/" className="btn btn-secondary back-home-button">
-        <i className="fas fa-home"></i>
-      </Link>
-      <Link to="/chooseChild" className="btn btn-secondary back-choose-child-button">
-        <i className="fas fa-arrow-left"></i>
-      </Link>
-      <div className="form-container">
-        <h1 className="register-title">Editar un niño</h1>
-        {error && <div className="error-message">{error}</div>}
+    <div className={styles.editChildContainer}>
+      <div className={styles.topButtonsContainer}>
+        <button onClick={openModal} className={`${styles.topButton} ${styles.homeButton}`}>
+          <i className="fas fa-home"></i>
+        </button>
+        <button className={`${styles.topButton} ${styles.infoButton}`}>
+                    <i className="fas fa-info"></i>
+        </button>
+        <Link to="/chooseChild" className={`${styles.topButton} ${styles.backButton}`}>
+          <i className="fas fa-arrow-left"></i>
+        </Link>
+      </div>
+      <div className={styles.formContainer}>
+        <h1 className={styles.editTitle}>Editar un niño</h1>
+        {error && <div className={styles.errorMessage}>{error}</div>}
         <form onSubmit={handleUpdateChild}>
-          <label htmlFor="name" className="form-label">Nombre:</label>
+          <label htmlFor="name" className={styles.formLabel}>Nombre:</label>
           <input
             type="text"
             name="name"
-            className="form-input"
+            className={styles.formInput}
             value={name}
             placeholder="Nombre"
             onChange={(e) => setName(e.target.value)}
           />
 
-          <label htmlFor="birthDate" className="form-label">Fecha de nacimiento:</label>
+          <label htmlFor="birthDate" className={styles.formLabel}>Fecha de nacimiento:</label>
           <input
             type="date"
             name="birthDate"
-            className="form-input"
+            className={styles.formInput}
             value={birthDate}
             placeholder="Fecha de nacimiento"
             onChange={(e) => setBirthDate(e.target.value)}
           />
 
-          <button type="submit" className="register-button">Guardar</button>
+          <button type="submit" className={styles.editButton}>Guardar</button>
         </form>
-        <button onClick={handleDeleteChild} className="delete-button">Eliminar</button>
+        <button onClick={handleDeleteChild} className={styles.deleteButton}>Eliminar</button>
       </div>
-      <div className="image-container">
+      <div className={styles.imageContainer}>
         {characterImages.map((image) => (
           <img
             key={image.id}
             src={image.url}
             alt={image.id}
             onClick={() => setSelectedImage(image.url)}
-            className={`character-image ${selectedImage === image.url ? 'selected' : ''}`}
+            className={`${styles.characterImage} ${selectedImage === image.url ? styles.selected : ''}`}
           />
         ))}
       </div>
+      <Modal
+        isOpen={isModalOpen}
+        onRequestClose={closeModal}
+        contentLabel="Confirm Logout"
+        className={styles.modal}
+        overlayClassName={styles.overlay}
+      >
+        <h2 className={styles.modalTitle}>¿Deseas salir?</h2>
+        <div className={styles.modalButtons}>
+          <button onClick={confirmLogout} className={styles.confirmButton}>Sí</button>
+          <button onClick={closeModal} className={styles.cancelButton}>No</button>
+        </div>
+      </Modal>
     </div>
   );
 }

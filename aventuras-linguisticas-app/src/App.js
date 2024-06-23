@@ -14,9 +14,8 @@ import ChooseChild from './components/Access/ChooseChild'; // Este es un compone
 import EditChild from './components/Access/EditChild';
 import RegisterChild from './components/Access/RegisterChild'; // Este es un componente personalizado para registrar el niño
 import PrincipalMenu from './components/Access/PrincipalMenu'; // Este es un componente personalizado para el menú principal
-import { ChildProvider } from './components/Access/ChildContext'; import PhonemicExercisePiano from './components/Exercises/PhonemicExercisePiano'; // Import the missing component
-import PhonemicExerciseDog from './components/Exercises/PhonemicExerciseDog'; // Import the missing component
-import PhonemicExerciseAmbulance from './components/Exercises/PhonemicExerciseAmbulance';
+import { ChildProvider } from './components/Access/ChildContext'; 
+import PhoneticExercises from './components/Exercises/PhoneticExercises'; // Import the missing component  
 import PhonologicalExercises from './components/Exercises/PhonologicaExercises'; // Import the missing component
 import AgeFonemas from './components/Exercises/AgeFonemas';
 import FonemaExercise from './components/Exercises/FonemaExercise';
@@ -47,9 +46,7 @@ function App() {
               <Route path="/Menu" element={<PrincipalMenu />} /> 
               <Route path="/vocal/:vocal" element={<VocalPage />} /> 
               <Route path="/vocal/:vocal/conciencia-fonemica" element={<ConcienciaFonemicaPage />} />
-              <Route path="/phonemic-awareness-piano" element={<PhonemicExercisePiano />} />
-              <Route path="/phonemic-awareness-dog" element={<PhonemicExerciseDog />} />
-              <Route path="/phonemic-awareness-ambulance" element={<PhonemicExerciseAmbulance />} />
+              <Route path="/phonetic-exercises" element={<PhoneticExercises />} />
               <Route path="/phonological-exercises" element={<PhonologicalExercises />} />
               <Route path="/age-fonemas/:age" element={<AgeFonemas />} />
               <Route path="/exercise/:fonema" element={<FonemaExercise />} />   
