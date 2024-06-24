@@ -154,16 +154,18 @@ function AgeFonemas() {
           {fonemas.map(fonema => {
             const { totalExercises, score } = calculateStars(fonema);
             return (
-              <div key={fonema} className={styles.fonemaItem}>
-                <button className={styles.fonemaButton}>
-                  <Link to={`/exercise/${fonema}`} className={styles.fonemaLink}>{fonema.toUpperCase()}</Link>
-                  {totalExercises > 0 && (
-                    <div className={styles.starsContainer}>
-                      {renderStars(score, totalExercises)}
-                    </div>
-                  )}
-                </button>
-              </div>
+              <Link key={fonema} to={`/exercise/${fonema}`} className={styles.fonemaLinkWrapper}>
+                <div className={styles.fonemaItem}>
+                  <button className={styles.fonemaButton}>
+                    <span>{fonema.toUpperCase()}</span>
+                    {totalExercises > 0 && (
+                      <div className={styles.starsContainer}>
+                        {renderStars(score, totalExercises)}
+                      </div>
+                    )}
+                  </button>
+                </div>
+              </Link>
             );
           })}
         </div>
