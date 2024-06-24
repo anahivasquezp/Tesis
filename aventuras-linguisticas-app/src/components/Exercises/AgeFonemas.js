@@ -1,9 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate, Link, useParams } from 'react-router-dom';
 import { getAuth, signOut } from 'firebase/auth';
+import { getFirestore, doc, getDoc } from 'firebase/firestore';
 import Modal from 'react-modal';
 import { ChildContext } from '../Access/ChildContext'; // Ajusta la ruta según sea necesario
 import styles from '../../css/Exercises/AgeFonemas.module.css';
+import starImage from '../../images/star.png';
 import characterImage from '../../images/pig_granjera.png';
 
 Modal.setAppElement('#root'); // Set the app element for accessibility
@@ -15,6 +17,7 @@ function AgeFonemas() {
   const auth = getAuth();
   const { selectedChild } = useContext(ChildContext);
   const [guestCharacter, setGuestCharacter] = useState(null);
+  const [scores, setScores] = useState({});
 
   useEffect(() => {
     const fetchGuestCharacter = () => {
@@ -27,6 +30,20 @@ function AgeFonemas() {
     fetchGuestCharacter();
   }, []);
 
+  useEffect(() => {
+    const fetchScores = async () => {
+      if (selectedChild) {
+        const db = getFirestore();
+        const childDoc = await getDoc(doc(db, 'children', selectedChild.id));
+        if (childDoc.exists()) {
+          setScores(childDoc.data().scores || {});
+        }
+      }
+    };
+
+    fetchScores();
+  }, [selectedChild]);
+
   const loadFonemasByAge = (age) => {
     const fonemas = {
       '3': ['m', 'ch', 'k', 'n', 'enie', 'p', 't', 'f', 'y', 'l', 'j'],
@@ -35,6 +52,47 @@ function AgeFonemas() {
       '6': ['rr', 's', 'gl', 'fr', 'pr', 'tr', 'dr']
     };
     return fonemas[age] || [];
+  };
+
+  const calculateStars = (fonema) => {
+    const keys = [
+      `fonema_${fonema}`,
+      ...["A", "E", "I", "O", "U"].map(syl => `conciencia_fonemica_${fonema}_${syl}`),
+      ...["silaba_inicial", "silaba_media", "silaba_final", "silaba_inversa"].map(type => `syllable_${fonema}_${type}`),
+      `phrase_${fonema}`
+    ];
+    const totalExercises = keys.length;
+    const score = keys.reduce((acc, key) => acc + (scores[key] || 0), 0);
+    const resolvedExercises = keys.filter(key => scores[key] !== undefined).length;
+
+    return { totalExercises: resolvedExercises, score };
+  };
+
+  const renderStars = (score, totalExercises) => {
+    const stars = [];
+    const maxStarsPerRow = 5;
+
+    for (let i = 0; i < totalExercises; i++) {
+      stars.push(
+        <img
+          key={i}
+          src={starImage}
+          alt="star"
+          className={i < score ? styles.filledStar : styles.emptyStar}
+        />
+      );
+    }
+
+    const rows = [];
+    for (let i = 0; i < stars.length; i += maxStarsPerRow) {
+      rows.push(
+        <div key={i} className={styles.starsRow}>
+          {stars.slice(i, i + maxStarsPerRow)}
+        </div>
+      );
+    }
+
+    return rows;
   };
 
   const fonemas = loadFonemasByAge(age);
@@ -93,11 +151,21 @@ function AgeFonemas() {
       <div className={styles.contentContainer}>
         <h1 className={styles.title}>Fonemas para {age} años</h1>
         <div className={styles.fonemasContainer}>
-          {fonemas.map(fonema => (
-            <button key={fonema} className={styles.fonemaButton}>
-              <Link to={`/exercise/${fonema}`} className={styles.fonemaLink}>{fonema.toUpperCase()}</Link>
-            </button>
-          ))}
+          {fonemas.map(fonema => {
+            const { totalExercises, score } = calculateStars(fonema);
+            return (
+              <div key={fonema} className={styles.fonemaItem}>
+                <button className={styles.fonemaButton}>
+                  <Link to={`/exercise/${fonema}`} className={styles.fonemaLink}>{fonema.toUpperCase()}</Link>
+                  {totalExercises > 0 && (
+                    <div className={styles.starsContainer}>
+                      {renderStars(score, totalExercises)}
+                    </div>
+                  )}
+                </button>
+              </div>
+            );
+          })}
         </div>
       </div>
       <img src={characterImage} alt="Character" className={styles.mainCharacterImage} />

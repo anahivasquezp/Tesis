@@ -105,13 +105,17 @@
   color: white;
   font-family: 'Poppins', sans-serif;
   font-size: 1.5rem;
-  padding: 10px 20px;
+  padding: 10px;
   border: none;
   border-radius: 15px;
   cursor: pointer;
   transition: transform 0.2s, background-color 0.2s, box-shadow 0.2s;
-  width: 100px;
-  height: 100px;
+  width: 150px;
+  height: 150px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .fonemaLink {
@@ -120,8 +124,47 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100%;
+  height: 50%;
   width: 100%;
+}
+
+.starsContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 5px;
+}
+
+.starsContainer img {
+  animation: sparkle 2s infinite;
+}
+
+.starsRow {
+  display: flex;
+  justify-content: center;
+  gap: 2px;
+}
+
+.filledStar, .emptyStar {
+  width: 15px;
+  height: 15px;
+}
+
+.filledStar {
+  filter: none;
+}
+
+.emptyStar {
+  filter: grayscale(100%);
+}
+
+@keyframes sparkle {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
 }
 
 .fonemaButton:hover {

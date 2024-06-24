@@ -156,7 +156,7 @@ const CongratulationsExercises = () => {
             <div className={styles.starsContainer}>{renderStars(5, 5)}</div>
           </>
         )}
-        <button className={styles.continueButton} onClick={handleContinue}>
+        <button className={styles.continueButton} onClick={() => navigate(`/age-fonemas/${ageGroup}`)}>
           Continuar
         </button>
       </div>
