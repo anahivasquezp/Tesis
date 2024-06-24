@@ -29,6 +29,7 @@ function FonemaExercise() {
   const [audioURL, setAudioURL] = useState(null);
   const [imageLoading, setImageLoading] = useState(true);
   const [audioLoading, setAudioLoading] = useState(true);
+  const [exerciseScore, setExerciseScore] = useState(0);
 
   useEffect(() => {
     const fetchGuestCharacter = () => {
@@ -40,6 +41,13 @@ function FonemaExercise() {
 
     fetchGuestCharacter();
   }, []);
+
+  useEffect(() => {
+    if (selectedChild) {
+      const currentScore = selectedChild.scores?.[`fonema_${fonema}`];
+      setExerciseScore(currentScore !== undefined ? currentScore : -1); // Set to -1 if score doesn't exist
+    }
+  }, [selectedChild, fonema]);
 
   useEffect(() => {
     const storage = getStorage();
@@ -77,40 +85,41 @@ function FonemaExercise() {
   };
 
   const handleVisto = async () => {
-    const newScore = (selectedChild.scores?.[fonema] || 0) + 1;
+    const newScore = 1;
     const updatedChild = {
       ...selectedChild,
       scores: {
         ...selectedChild.scores,
-        [fonema]: newScore
+        [`fonema_${fonema}`]: newScore
       }
     };
 
     const childRef = doc(db, 'children', selectedChild.id);
     await updateDoc(childRef, {
-      [`scores.${fonema}`]: newScore
+      [`scores.fonema_${fonema}`]: newScore
     });
 
     setSelectedChild(updatedChild);
+    setExerciseScore(newScore); // Marca que se ha clicado "Correcto"
   };
 
   const handleIncorrecto = async () => {
-    const currentScore = selectedChild.scores?.[fonema] || 0;
-    const newScore = currentScore > 0 ? currentScore - 1 : 0;
+    const newScore = 0;
     const updatedChild = {
       ...selectedChild,
       scores: {
         ...selectedChild.scores,
-        [fonema]: newScore
+        [`fonema_${fonema}`]: newScore
       }
     };
 
     const childRef = doc(db, 'children', selectedChild.id);
     await updateDoc(childRef, {
-      [`scores.${fonema}`]: newScore
+      [`scores.fonema_${fonema}`]: newScore
     });
 
     setSelectedChild(updatedChild);
+    setExerciseScore(newScore); // Marca que se ha clicado "Incorrecto"
   };
 
   const openModal = () => {
@@ -138,7 +147,7 @@ function FonemaExercise() {
 
   const getAgeGroup = (fonema) => {
     const ageGroups = {
-      '3': ['m', 'ch', 'k', 'n', 'enie', 'p', 't', 'f', 'y', 'l', 'j'],
+      '3': ['m', 'ch', 'k', 'n', 'ñ', 'p', 't', 'f', 'y', 'l', 'j'],
       '4': ['b', 'd', 'g', 'bl', 'pl'],
       '5': ['r', 'fl', 'kl', 'br', 'kr', 'gr'],
       '6': ['rr', 's', 'gl', 'fr', 'pr', 'tr', 'dr']
@@ -211,15 +220,15 @@ function FonemaExercise() {
               )}
               {isAuthenticated && (
                 <>
-                  <button onClick={handleVisto} className={`${styles.exerciseButton} ${styles.correctButton}`}>
+                  <button onClick={handleVisto} className={`${styles.exerciseButton} ${styles.correctButton}`} disabled={exerciseScore === 1}>
                     <i className="fas fa-check"></i> Correcto
                   </button>
-                  <button onClick={handleIncorrecto} className={`${styles.exerciseButton} ${styles.incorrectButton}`}>
+                  <button onClick={handleIncorrecto} className={`${styles.exerciseButton} ${styles.incorrectButton}`} disabled={exerciseScore === 0}>
                     <i className="fas fa-times"></i> Incorrecto
                   </button>
                 </>
               )}
-              <button onClick={() => navigate(`/PhonemicExerciseFull/${fonema}`)} className={`${styles.exerciseButton} ${styles.nextButton}`}>
+              <button onClick={handleNextPage} className={`${styles.exerciseButton} ${styles.nextButton}`}>
                 <i className="fas fa-arrow-right"></i> Adelante
               </button>
             </div>

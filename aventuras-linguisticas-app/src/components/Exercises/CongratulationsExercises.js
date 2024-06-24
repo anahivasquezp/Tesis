@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { useNavigate, useParams  } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { getAuth, signOut } from 'firebase/auth';
 import { getFirestore, doc, getDoc } from 'firebase/firestore';
 import Modal from 'react-modal';
@@ -16,6 +16,7 @@ const CongratulationsExercises = () => {
   const db = getFirestore();
   const { selectedChild } = useContext(ChildContext);
   const [score, setScore] = useState(0);
+  const [totalExercises, setTotalExercises] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [guestCharacter, setGuestCharacter] = useState(null);
   const { fonema } = useParams();
@@ -26,8 +27,18 @@ const CongratulationsExercises = () => {
         const childDoc = await getDoc(doc(db, 'children', selectedChild.id));
         if (childDoc.exists()) {
           const data = childDoc.data();
-          const totalScore = data.scores?.[fonema] || 0;
+          const exerciseKeys = [
+            `fonema_${fonema}`,
+            ...["A", "E", "I", "O", "U"].map(syl => `conciencia_fonemica_${fonema}_${syl}`),
+            ...["silaba_inicial", "silaba_media", "silaba_final", "silaba_inversa"].map(type => `syllable_${fonema}_${type}`),
+            `phrase_${fonema}`
+          ];
+
+          const totalScore = exerciseKeys.reduce((acc, key) => acc + (data.scores?.[key] || 0), 0);
+          const resolvedExercises = exerciseKeys.filter(key => data.scores?.[key] !== undefined).length;
+
           setScore(totalScore);
+          setTotalExercises(resolvedExercises);
         }
       }
     };
@@ -72,9 +83,27 @@ const CongratulationsExercises = () => {
 
   const isAuthenticated = auth.currentUser && selectedChild;
 
-  const renderStars = (score) => {
+  const getAgeGroup = (fonema) => {
+    const ageGroups = {
+      '3': ['m', 'ch', 'k', 'n', 'ñ', 'p', 't', 'f', 'y', 'l', 'j'],
+      '4': ['b', 'd', 'g', 'bl', 'pl'],
+      '5': ['r', 'fl', 'kl', 'br', 'kr', 'gr'],
+      '6': ['rr', 's', 'gl', 'fr', 'pr', 'tr', 'dr']
+    };
+
+    for (const age in ageGroups) {
+      if (ageGroups[age].includes(fonema)) {
+        return age;
+      }
+    }
+    return null;
+  };
+
+  const ageGroup = getAgeGroup(fonema);
+
+  const renderStars = (score, totalExercises) => {
     const stars = [];
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < totalExercises; i++) {
       stars.push(
         <img
           key={i}
@@ -96,7 +125,7 @@ const CongratulationsExercises = () => {
         <button className={`${styles.topButton} ${styles.infoButton}`}>
           <i className="fas fa-info"></i>
         </button>
-        <button onClick={() => navigate('/vocalMenu')} className={`${styles.topButton} ${styles.menuButton}`}>
+        <button onClick={() => navigate(`/age-fonemas/${ageGroup}`)} className={`${styles.topButton} ${styles.menuButton}`}>
           <i className="fas fa-bars"></i>
         </button>
       </div>
@@ -106,14 +135,14 @@ const CongratulationsExercises = () => {
           <>
             <h1 className={styles.congratulationsTitle}>¡Felicidades {selectedChild.name}!</h1>
             <p className={styles.congratulationsText}>
-              Has completado los ejercicios del fonema {fonema.toUpperCase()} con un puntaje de {score}/5.
+              Has completado los ejercicios del fonema {fonema.toUpperCase()} con un puntaje de {score}/{totalExercises}.
             </p>
             <img
               src={selectedChild.characterImage}
               alt={selectedChild.character}
               className={styles.largeImage}
             />
-            <div className={styles.starsContainer}>{renderStars(score)}</div>
+            <div className={styles.starsContainer}>{renderStars(score, totalExercises)}</div>
           </>
         ) : (
           <>
@@ -124,7 +153,7 @@ const CongratulationsExercises = () => {
             {guestCharacter && (
               <img src={guestCharacter.url} alt="Invitado" className={styles.largeImage} />
             )}
-            <div className={styles.starsContainer}>{renderStars(5)}</div>
+            <div className={styles.starsContainer}>{renderStars(5, 5)}</div>
           </>
         )}
         <button className={styles.continueButton} onClick={handleContinue}>

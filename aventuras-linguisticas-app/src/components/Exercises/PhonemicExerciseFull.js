@@ -28,6 +28,7 @@ function ConcienciaFonemicaExerciseFull() {
   const [videoIndex, setVideoIndex] = useState(0);
   const [videoURL, setVideoURL] = useState(null);
   const [videoLoading, setVideoLoading] = useState(true);
+  const [exerciseScore, setExerciseScore] = useState(0);
 
   const syllables = ["A", "E", "I", "O", "U"];
 
@@ -41,6 +42,13 @@ function ConcienciaFonemicaExerciseFull() {
 
     fetchGuestCharacter();
   }, []);
+
+  useEffect(() => {
+    if (selectedChild) {
+      const currentScore = selectedChild.scores?.[`conciencia_fonemica_${fonema}_${syllables[videoIndex]}`];
+      setExerciseScore(currentScore !== undefined ? currentScore : -1); // Set to -1 if score doesn't exist
+    }
+  }, [selectedChild, fonema, videoIndex]);
 
   useEffect(() => {
     if (videoIndex < syllables.length) {
@@ -84,40 +92,41 @@ function ConcienciaFonemicaExerciseFull() {
   };
 
   const handleVisto = async () => {
-    const newScore = (selectedChild.scores?.[fonema] || 0) + 1;
+    const newScore = 1;
     const updatedChild = {
       ...selectedChild,
       scores: {
         ...selectedChild.scores,
-        [fonema]: newScore
+        [`conciencia_fonemica_${fonema}_${syllables[videoIndex]}`]: newScore
       }
     };
 
     const childRef = doc(db, 'children', selectedChild.id);
     await updateDoc(childRef, {
-      [`scores.${fonema}`]: newScore
+      [`scores.conciencia_fonemica_${fonema}_${syllables[videoIndex]}`]: newScore
     });
 
     setSelectedChild(updatedChild);
+    setExerciseScore(newScore);
   };
 
   const handleIncorrecto = async () => {
-    const currentScore = selectedChild.scores?.[fonema] || 0;
-    const newScore = currentScore > 0 ? currentScore - 1 : 0;
+    const newScore = 0;
     const updatedChild = {
       ...selectedChild,
       scores: {
         ...selectedChild.scores,
-        [fonema]: newScore
+        [`conciencia_fonemica_${fonema}_${syllables[videoIndex]}`]: newScore
       }
     };
 
     const childRef = doc(db, 'children', selectedChild.id);
     await updateDoc(childRef, {
-      [`scores.${fonema}`]: newScore
+      [`scores.conciencia_fonemica_${fonema}_${syllables[videoIndex]}`]: newScore
     });
 
     setSelectedChild(updatedChild);
+    setExerciseScore(newScore);
   };
 
   const openModal = () => {
@@ -212,10 +221,10 @@ function ConcienciaFonemicaExerciseFull() {
               </button>
               {isAuthenticated && (
                 <>
-                  <button onClick={handleVisto} className={`${styles.exerciseButton} ${styles.correctButton}`}>
+                  <button onClick={handleVisto} className={`${styles.exerciseButton} ${styles.correctButton}`} disabled={exerciseScore === 1}>
                     <i className="fas fa-check"></i> Correcto
                   </button>
-                  <button onClick={handleIncorrecto} className={`${styles.exerciseButton} ${styles.incorrectButton}`}>
+                  <button onClick={handleIncorrecto} className={`${styles.exerciseButton} ${styles.incorrectButton}`} disabled={exerciseScore === 0}>
                     <i className="fas fa-times"></i> Incorrecto
                   </button>
                 </>

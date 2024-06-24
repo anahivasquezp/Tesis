@@ -30,6 +30,7 @@ function SyllableExercise() {
   const [syllableIndex, setSyllableIndex] = useState(0);
   const [images, setImages] = useState({});
   const [imageLoading, setImageLoading] = useState(true);
+  const [exerciseScore, setExerciseScore] = useState(0);
 
   const currentSyllableType = syllableTypes[syllableIndex];
 
@@ -43,6 +44,13 @@ function SyllableExercise() {
 
     fetchGuestCharacter();
   }, []);
+
+  useEffect(() => {
+    if (selectedChild) {
+      const currentScore = selectedChild.scores?.[`syllable_${fonema}_${currentSyllableType}`];
+      setExerciseScore(currentScore !== undefined ? currentScore : -1); // Set to -1 if score doesn't exist
+    }
+  }, [selectedChild, fonema, currentSyllableType]);
 
   useEffect(() => {
     const loadImages = async () => {
@@ -93,44 +101,41 @@ function SyllableExercise() {
   };
 
   const handleVisto = async () => {
-    if (selectedChild) {
-      const newScore = (selectedChild.scores?.[fonema] || 0) + 1;
-      const updatedChild = {
-        ...selectedChild,
-        scores: {
-          ...selectedChild.scores,
-          [fonema]: newScore
-        }
-      };
+    const newScore = 1;
+    const updatedChild = {
+      ...selectedChild,
+      scores: {
+        ...selectedChild.scores,
+        [`syllable_${fonema}_${currentSyllableType}`]: newScore
+      }
+    };
 
-      const childRef = doc(db, 'children', selectedChild.id);
-      await updateDoc(childRef, {
-        [`scores.${fonema}`]: newScore
-      });
+    const childRef = doc(db, 'children', selectedChild.id);
+    await updateDoc(childRef, {
+      [`scores.syllable_${fonema}_${currentSyllableType}`]: newScore
+    });
 
-      setSelectedChild(updatedChild);
-    }
+    setSelectedChild(updatedChild);
+    setExerciseScore(newScore);
   };
 
   const handleIncorrecto = async () => {
-    if (selectedChild) {
-      const currentScore = selectedChild.scores?.[fonema] || 0;
-      const newScore = currentScore > 0 ? currentScore - 1 : 0;
-      const updatedChild = {
-        ...selectedChild,
-        scores: {
-          ...selectedChild.scores,
-          [fonema]: newScore
-        }
-      };
+    const newScore = 0;
+    const updatedChild = {
+      ...selectedChild,
+      scores: {
+        ...selectedChild.scores,
+        [`syllable_${fonema}_${currentSyllableType}`]: newScore
+      }
+    };
 
-      const childRef = doc(db, 'children', selectedChild.id);
-      await updateDoc(childRef, {
-        [`scores.${fonema}`]: newScore
-      });
+    const childRef = doc(db, 'children', selectedChild.id);
+    await updateDoc(childRef, {
+      [`scores.syllable_${fonema}_${currentSyllableType}`]: newScore
+    });
 
-      setSelectedChild(updatedChild);
-    }
+    setSelectedChild(updatedChild);
+    setExerciseScore(newScore);
   };
 
   const openModal = () => {
@@ -244,10 +249,10 @@ function SyllableExercise() {
           </button>
           {isAuthenticated && (
             <>
-              <button onClick={handleVisto} className={`${styles.actionButton} ${styles.correctButton}`}>
+              <button onClick={handleVisto} className={`${styles.actionButton} ${styles.correctButton}`} disabled={exerciseScore === 1}>
                 <i className="fas fa-check"></i> Correcto
               </button>
-              <button onClick={handleIncorrecto} className={`${styles.actionButton} ${styles.incorrectButton}`}>
+              <button onClick={handleIncorrecto} className={`${styles.actionButton} ${styles.incorrectButton}`} disabled={exerciseScore === 0}>
                 <i className="fas fa-times"></i> Incorrecto
               </button>
             </>
@@ -259,8 +264,7 @@ function SyllableExercise() {
       </div>
       <img src={characterImage} alt="Character" className={styles.mainCharacterImage} />
       <Modal
-        isOpen={isModalOpen}
-        onRequestClose={closeModal}
+        isOpen={isModalOpen}       
         contentLabel="Confirm Logout"
         className={styles.modal}
         overlayClassName={styles.overlay}

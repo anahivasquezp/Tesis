@@ -25,6 +25,7 @@ function FraseExercise() {
   );
   const [imageURL, setImageURL] = useState(null);
   const [imageLoading, setImageLoading] = useState(true);
+  const [exerciseScore, setExerciseScore] = useState(0);
 
   useEffect(() => {
     const fetchGuestCharacter = () => {
@@ -36,6 +37,13 @@ function FraseExercise() {
 
     fetchGuestCharacter();
   }, []);
+
+  useEffect(() => {
+    if (selectedChild) {
+      const currentScore = selectedChild.scores?.[`phrase_${fonema}`];
+      setExerciseScore(currentScore !== undefined ? currentScore : -1); // Set to -1 if score doesn't exist
+    }
+  }, [selectedChild, fonema]);
 
   useEffect(() => {
     if (value) {
@@ -63,49 +71,48 @@ function FraseExercise() {
   };
 
   const handleVisto = async () => {
-    if (selectedChild) {
-      const newScore = (selectedChild.scores?.[fonema] || 0) + 1;
-      const updatedChild = {
-        ...selectedChild,
-        scores: {
-          ...selectedChild.scores,
-          [fonema]: newScore
-        }
-      };
+    const newScore = 1;
+    const updatedChild = {
+      ...selectedChild,
+      scores: {
+        ...selectedChild.scores,
+        [`phrase_${fonema}`]: newScore
+      }
+    };
 
-      const childRef = doc(db, 'children', selectedChild.id);
-      await updateDoc(childRef, {
-        [`scores.${fonema}`]: newScore
-      });
+    const childRef = doc(db, 'children', selectedChild.id);
+    await updateDoc(childRef, {
+      [`scores.phrase_${fonema}`]: newScore
+    });
 
-      setSelectedChild(updatedChild);
-    }
+    setSelectedChild(updatedChild);
+    setExerciseScore(newScore);
   };
 
   const handleIncorrecto = async () => {
-    if (selectedChild) {
-      const currentScore = selectedChild.scores?.[fonema] || 0;
-      const newScore = currentScore > 0 ? currentScore - 1 : 0;
-      const updatedChild = {
-        ...selectedChild,
-        scores: {
-          ...selectedChild.scores,
-          [fonema]: newScore
-        }
-      };
+    const newScore = 0;
+    const updatedChild = {
+      ...selectedChild,
+      scores: {
+        ...selectedChild.scores,
+        [`phrase_${fonema}`]: newScore
+      }
+    };
 
-      const childRef = doc(db, 'children', selectedChild.id);
-      await updateDoc(childRef, {
-        [`scores.${fonema}`]: newScore
-      });
+    const childRef = doc(db, 'children', selectedChild.id);
+    await updateDoc(childRef, {
+      [`scores.phrase_${fonema}`]: newScore
+    });
 
-      setSelectedChild(updatedChild);
-    }
+    setSelectedChild(updatedChild);
+    setExerciseScore(newScore);
   };
 
   const playPhraseAudio = () => {
-    const utterance = new SpeechSynthesisUtterance(value.frase);
-    speechSynthesis.speak(utterance);
+    if (value && value.frase) {
+      const utterance = new SpeechSynthesisUtterance(value.frase);
+      speechSynthesis.speak(utterance);
+    }
   };
 
   const openModal = () => {
@@ -177,9 +184,9 @@ function FraseExercise() {
       </div>
       <div className={styles.contentContainer}>
         <h1 className={styles.title}>Frase de la {fonema.toUpperCase()}</h1>
-        {value && (
+        {value ? (
           <>
-            <p className={styles.phrase}>{value.frase}</p>
+            <p className={styles.phrase}>{value.frase || "No se pudo cargar la frase."}</p>
             {imageLoading ? (
               <p className={styles.loadingText}>Cargando imagen...</p>
             ) : imageURL ? (
@@ -188,6 +195,8 @@ function FraseExercise() {
               <p>No se pudo cargar la imagen.</p>
             )}
           </>
+        ) : (
+          <p>No se pudo cargar la frase.</p>
         )}
         <div className={styles.buttonGroup}>
           <button onClick={playPhraseAudio} className={styles.audioButton}>
@@ -199,10 +208,10 @@ function FraseExercise() {
             </button>
             {isAuthenticated && (
               <>
-                <button onClick={handleVisto} className={`${styles.actionButton} ${styles.correctButton}`}>
+                <button onClick={handleVisto} className={`${styles.actionButton} ${styles.correctButton}`} disabled={exerciseScore === 1}>
                   <i className="fas fa-check"></i> Correcto
                 </button>
-                <button onClick={handleIncorrecto} className={`${styles.actionButton} ${styles.incorrectButton}`}>
+                <button onClick={handleIncorrecto} className={`${styles.actionButton} ${styles.incorrectButton}`} disabled={exerciseScore === 0}>
                   <i className="fas fa-times"></i> Incorrecto
                 </button>
               </>
