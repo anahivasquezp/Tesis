@@ -14,26 +14,25 @@
   top: 20px;
   left: 20px;
   display: flex;
-  gap: 10px;
+  gap: 20px;
 }
 
 .topButton {
-  width: 50px;
-  height: 50px;
+  width: 70px;
+  height: 70px;
   background-image: url('../../images/button_cuadrado_pequeño.jpg');
   background-size: cover;
   background-position: center;
   border: none;
   cursor: pointer;
-  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 15px; /* Añadido borde redondeado */
+  border-radius: 20px; /* Añade borde redondeado */
 }
 
 .topButton i {
-  font-size: 24px;
+  font-size: 32px; /* Aumenta el tamaño del ícono */
   color: white;
 }
 
@@ -48,7 +47,7 @@
 }
 
 .contentContainer {
-  width: 60%;
+  width: 70%; /* Aumenta el ancho del contenedor */
   height: auto;
   background-color: rgba(255, 255, 255, 0.7);
   border-radius: 15px;
@@ -56,44 +55,36 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding:80px;
+  padding: 40px; /* Reduce el padding */
 }
 
-.gameTitle {
-  font-family: 'Poppins', sans-serif;
-  font-weight: 700;
-  font-size: 4.6rem;
-  color: #A05A25;
-  margin-bottom: 20px;
+.titleImage {
+  width: 80%; /* Ajusta el tamaño de la imagen del título */
+  height: auto;
+  margin-bottom: 20px; /* Añade un margen inferior */
 }
 
 .buttonContainer {
   display: flex;
-  gap: 20px;
+  gap: 40px; /* Aumenta el espacio entre botones */
   margin-top: 20px;
 }
 
 .accessButton {
   font-family: 'Poppins', sans-serif;
-  font-size: 2rem;
-  padding: 15px 30px;
+  font-size: 2.2rem; /* Aumenta el tamaño de la fuente */
+  padding: 20px 40px; /* Aumenta el padding */
   border: none;
-  border-radius: 15px;
+  border-radius: 20px;
   cursor: pointer;
-  background-image: url('../../images/button_rectangular.jpg'); /* Fondo del botón */
+  background-image: url('../../images/button_rectangular.jpg');
   background-size: cover;
   background-position: center;
   color: white;
   box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2);
   transition: transform 0.2s, background-color 0.2s, box-shadow 0.2s;
-}
-
-.terapistaBtn {
-  margin-right: 100px;
-}
-
-.guestBtn {
-  /* Estilos adicionales si es necesario */
+  width: 250px; /* Aumenta el ancho del botón */
+  height: 100px; /* Aumenta la altura del botón */
 }
 
 .accessButton:hover {
@@ -106,10 +97,112 @@
   box-shadow: inset 3px 3px 8px rgba(0, 0, 0, 0.4);
 }
 
-.characterImage {
+.characterContainer {
   position: absolute;
-  bottom: 20px;
+  bottom: 20px; /* Aumenta la distancia desde la parte inferior */
   left: 20px;
-  width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.characterImage {
+  width: 400px; /* Aumenta el tamaño de la imagen del personaje */
   height: auto;
+  margin-top: 20px; /* Añade un margen superior para separar de la burbuja */
+}
+
+.speechBubble {
+  background: rgba(255, 255, 255, 0.9);
+  border: 2px solid #A05A25; /* Añade un borde a la burbuja */
+  border-radius: 30px;
+  padding: 20px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 350px; /* Ajusta el ancho máximo de la burbuja */
+  font-size: 1.2rem; /* Aumenta el tamaño de la letra */
+  color: #A05A25;
+  font-family: 'Poppins', sans-serif;
+  text-align: center;
+}
+
+.speechBubble:after {
+  content: '';
+  position: absolute;
+  bottom: -20px;
+  left: 50px;
+  border-width: 20px;
+  border-style: solid;
+  border-color: rgba(255, 255, 255, 0.9) transparent transparent transparent;
+}
+
+.welcomeText {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.5rem;
+  color: #A05A25;
+  text-align: center;
+}
+
+.soundButton {
+  background-image: url('../../images/button_cuadrado_pequeño.jpg');
+  background-size: cover;
+  background-position: center;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+  width: 50px;
+  height: 50px;
+  margin-top: 10px;
+}
+
+.soundButton i {
+  font-size: 24px;
+  color: white;
+}
+
+.soundButton:hover {
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.soundButton:active {
+  transform: scale(0.9);
+  box-shadow: inset 3px 3px 8px rgba(0, 0, 0, 0.4);
+}
+
+/* Añade las burbujas de pensamiento */
+.bubble {
+  position: absolute;
+  bottom: 50px;
+  left: 50px;
+  width: 20px;
+  height: 20px;
+  background-color: white;
+  border-radius: 50%;
+  border: 2px solid #A05A25;
+}
+
+.bubble:nth-child(2) {
+  bottom: 80px;
+  left: 70px;
+  width: 15px;
+  height: 15px;
+}
+
+.bubble:nth-child(3) {
+  bottom: 110px;
+  left: 90px;
+  width: 10px;
+  height: 10px;
 }

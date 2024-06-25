@@ -24,6 +24,7 @@ import PhraseExercise from './components/Exercises/PhraseExercise'; // Import th
 import CongratulationsExercises from './components/Exercises/CongratulationsExercises';
 import CongratulationsVocales from './components/Vocals/CongratulationsVocales';
 import CongratulationsPhonetic from './components/Exercises/CongratulationsPhonetic';
+import Instructions from './components/Access/Instructions';
 
 
 
@@ -37,6 +38,7 @@ function App() {
           <div className="app">
             <Routes>  
               <Route path="/" element={<MainWindow />} /> 
+              <Route path="/instructions" element={<Instructions/>} />
               <Route path="/therapistLogin" element={<TherapistLogin />} /> 
               <Route path="/guest" element={<Guest />} /> 
               <Route path="/registerTherapist" element={<RegisterTherapist />} /> 

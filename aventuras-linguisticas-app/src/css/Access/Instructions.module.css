@@ -1,0 +1,65 @@
+.mainContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-size: cover;
+    background-position: center;
+}
+
+.topButtonsContainer {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+.topButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 24px;
+    color: white;
+    margin-left: 10px;
+}
+
+.backButton {
+    font-size: 18px;
+}
+
+.contentContainer {
+    text-align: center;
+    color: white;
+}
+
+.instructionsBox {
+    background: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 600px;
+    margin: 20px;
+}
+
+.instructionsTitle {
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+
+.instructionsText {
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+.instructionsList {
+    text-align: left;
+    margin: 0 auto;
+    max-width: 500px;
+    font-size: 18px;
+}
+
+.characterImage {
+    width: 150px;
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+}
