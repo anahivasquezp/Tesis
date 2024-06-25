@@ -1,11 +1,15 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styles from '../../css/Access/MainWindow.module.css';
 import farmBackground from '../../images/therapist_login_bg.webp';
 import characterImage from '../../images/Nica_presenta.png';
 import titleImage from '../../images/title.png';
+import logoEpn from '../../images/logo_epn.png';
+import logoLudolab from '../../images/logo_ludolab.png';
 
 function App() {
+    const [isBubbleVisible, setIsBubbleVisible] = useState(true);
+
     useEffect(() => {
         const message = "¡Bienvenidos a Aventuras Lingüísticas en la Granja! Por favor, elijan si son terapistas o invitados.";
         const utterance = new SpeechSynthesisUtterance(message);
@@ -21,6 +25,14 @@ function App() {
             });
         };
     }, []);
+
+    const handleHideBubble = () => {
+        setIsBubbleVisible(false);
+    };
+
+    const handleShowBubble = () => {
+        setIsBubbleVisible(true);
+    };
 
     return (
         <div className={styles.mainContainer} style={{ backgroundImage: `url(${farmBackground})` }}>
@@ -43,13 +55,29 @@ function App() {
                 </div>
             </div>
             <div className={styles.characterContainer}>
-                <div className={styles.speechBubble}>
-                    <p className={styles.welcomeText}>¡Bienvenidos a Aventuras Lingüísticas en la Granja! Por favor, elijan si son terapistas o invitados.</p>
-                    <button id="soundButton" className={styles.soundButton}>
-                        <i className="fas fa-volume-up"></i>
-                    </button>
-                </div>
+                {isBubbleVisible && (
+                    <div className={styles.speechBubble}>
+                        <p className={styles.welcomeText}>¡Bienvenidos a Aventuras Lingüísticas en la Granja! Por favor, elijan si son terapistas o invitados.</p>
+                        <div className={styles.bubbleButtons}>
+                            <button id="soundButton" className={styles.soundButton}>
+                                <i className="fas fa-volume-up"></i>
+                            </button>
+                            <button className={styles.hideButton} onClick={handleHideBubble}>
+                                <i className="fas fa-chevron-down"></i>
+                            </button>
+                        </div>
+                    </div>
+                )}
                 <img src={characterImage} alt="Character" className={styles.characterImage} />
+                {!isBubbleVisible && (
+                    <button className={styles.showButton} onClick={handleShowBubble}>
+                        <i className="fas fa-chevron-up"></i>
+                    </button>
+                )}
+            </div>
+            <div className={styles.logosContainer}>
+                <img src={logoEpn} alt="Logo EPN" className={styles.logo} />
+                <img src={logoLudolab} alt="Logo Ludolab" className={styles.logo} />
             </div>
         </div>
     );

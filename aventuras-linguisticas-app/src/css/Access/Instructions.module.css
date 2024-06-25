@@ -1,65 +1,317 @@
 .mainContainer {
+    width: 100vw;
+    height: 100vh;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+  
+  .backButton {
+    text-decoration: none;
+  }
+  
+  .topButtonsContainer {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    display: flex;
+    gap: 20px;
+  }
+  
+  .topButton {
+    width: 70px;
+    height: 70px;
+    background-image: url('../../images/button_cuadrado_pequeño.jpg');
+    background-size: cover;
+    background-position: center;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+  }
+  
+  .topButton i {
+    font-size: 32px;
+    color: white;
+  }
+  
+  .topButton:hover {
+    transform: scale(1.1);
+    box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.3);
+  }
+  
+  .topButton:active {
+    transform: scale(0.9);
+    box-shadow: inset 3px 3px 8px rgba(0, 0, 0, 0.4);
+  }
+  
+  .contentContainer {
+    width: 60%;
+    height: auto;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 20px 40px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .logosContainer {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+  
+  .logoLeft {
+    width: 150px;
+    height: auto;
+  }
+  
+  .logoCenter {
+    width: 100px;
+    height: auto;
+  }
+  
+  .logoRight {
+    width: 140px;
+    height: auto;
+  }
+  
+  .instructionsTitle {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 2.5rem;
+    color: #A05A25;
+    margin-top: 15px;
+  }
+  
+  .instructionsText {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.2rem;
+    color: #333;
+    margin-top: 10px;
+    text-align: justify;
+  }
+  
+  .creditsContainer {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 30px;
+  }
+  
+  .creditColumn {
+    width: 30%;
+    text-align: center;
+  }
+  
+  .creditColumn h3 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: #A05A25;
+    margin-bottom: 10px;
+  }
+  
+  .creditColumn p {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.1rem;
+    color: #333;
+  }
+  
+  .directorContainer {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .directorContainer h3 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: #A05A25;
+    margin-bottom: 10px;
+  }
+  
+  .directorContainer p {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.1rem;
+    color: #333;
+  }
+  
+  .socialMediaContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+    margin-top: 20px;
+  }
+  
+  .socialIcon {
+    font-size: 2rem;
+    color: #A05A25;
+    cursor: pointer;
+  }
+  
+  .socialIcon:hover {
+    transform: scale(1.1);
+    box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.3);
+  }
+  
+  .socialIcon:active {
+    transform: scale(0.9);
+    box-shadow: inset 3px 3px 8px rgba(0, 0, 0, 0.4);
+  }
+  
+  .footerContainer {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 30px;
+    align-items: center;
+  }
+  
+  .creativeCommons {
+    width: 215px;
+    height: auto;
+  }
+  
+  .footerText {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.1rem;
+    color: #333;
+  }
+  
+  .characterContainer {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .characterImage {
+    width: 370px;
+    height: auto;
+    margin-top: 20px;
+  }
+  
+  .speechBubble {
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid #A05A25;
+    border-radius: 30px;
+    padding: 20px;
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100vh;
+    max-width: 350px;
+    font-size: 1.2rem;
+    color: #A05A25;
+    font-family: 'Poppins', sans-serif;
+    text-align: center;
+  }
+  
+  .speechBubble:after {
+    content: '';
+    position: absolute;
+    bottom: -20px;
+    left: 50px;
+    border-width: 20px;
+    border-style: solid;
+    border-color: rgba(255, 255, 255, 0.9) transparent transparent transparent;
+  }
+  
+  .welcomeText {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.5rem;
+    color: #A05A25;
+    text-align: center;
+  }
+  
+  .soundButton {
+    background-image: url('../../images/button_cuadrado_pequeño.jpg');
     background-size: cover;
     background-position: center;
-}
-
-.topButtonsContainer {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-}
-
-.topButton {
-    background: none;
     border: none;
     cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    width: 50px;
+    height: 50px;
+    margin-top: 10px;
+  }
+  
+  .soundButton i {
     font-size: 24px;
     color: white;
-    margin-left: 10px;
-}
-
-.backButton {
-    font-size: 18px;
-}
-
-.contentContainer {
-    text-align: center;
+  }
+  
+  .soundButton:hover, .hideButton:hover, .showButton:hover {
+    transform: scale(1.1);
+    box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.3);
+  }
+  
+  .soundButton:active, .hideButton:active, .showButton:active {
+    transform: scale(0.9);
+    box-shadow: inset 3px 3px 8px rgba(0, 0, 0, 0.4);
+  }
+  
+  .hideButton {
+    background-image: url('../../images/button_cuadrado_pequeño.jpg');
+    background-size: cover;
+    background-position: center;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    width: 50px;
+    height: 50px;
+    margin-top: 10px;
+  }
+  
+  .hideButton i {
+    font-size: 24px;
     color: white;
-}
-
-.instructionsBox {
-    background: rgba(255, 255, 255, 0.8);
-    padding: 20px;
-    border-radius: 10px;
-    max-width: 600px;
-    margin: 20px;
-}
-
-.instructionsTitle {
-    font-size: 32px;
-    margin-bottom: 10px;
-}
-
-.instructionsText {
-    font-size: 18px;
-    margin-bottom: 20px;
-}
-
-.instructionsList {
-    text-align: left;
-    margin: 0 auto;
-    max-width: 500px;
-    font-size: 18px;
-}
-
-.characterImage {
-    width: 150px;
+  }
+  
+  .showButton {
+    background-image: url('../../images/button_cuadrado_pequeño.jpg');
+    background-size: cover;
+    background-position: center;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    width: 50px;
+    height: 50px;
     position: absolute;
-    bottom: 20px;
-    right: 20px;
-}
+    top: 25%;
+    left: 20px;
+  }
+  
+  .showButton i {
+    font-size: 24px;
+    color: white;
+  }
+  
+  .bubbleButtons {
+    display: flex;
+    gap: 10px;
+  }
+  

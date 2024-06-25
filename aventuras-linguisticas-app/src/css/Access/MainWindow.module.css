@@ -72,7 +72,7 @@
 
 .accessButton {
   font-family: 'Poppins', sans-serif;
-  font-size: 2.2rem; /* Aumenta el tamaño de la fuente */
+  font-size: 2.5rem; /* Aumenta el tamaño de la fuente */
   padding: 20px 40px; /* Aumenta el padding */
   border: none;
   border-radius: 20px;
@@ -123,7 +123,7 @@
   align-items: center;
   justify-content: center;
   max-width: 350px; /* Ajusta el ancho máximo de la burbuja */
-  font-size: 1.2rem; /* Aumenta el tamaño de la letra */
+  font-size: 1.5rem; /* Aumenta el tamaño de la letra */
   color: #A05A25;
   font-family: 'Poppins', sans-serif;
   text-align: center;
@@ -139,6 +139,12 @@
   border-color: rgba(255, 255, 255, 0.9) transparent transparent transparent;
 }
 
+.bubbleButtons {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
 .welcomeText {
   font-family: 'Poppins', sans-serif;
   font-size: 1.5rem;
@@ -146,7 +152,7 @@
   text-align: center;
 }
 
-.soundButton {
+.soundButton, .hideButton, .showButton {
   background-image: url('../../images/button_cuadrado_pequeño.jpg');
   background-size: cover;
   background-position: center;
@@ -158,27 +164,27 @@
   border-radius: 20px;
   width: 50px;
   height: 50px;
-  margin-top: 10px;
 }
 
-.soundButton i {
+.soundButton i, .hideButton i, .showButton i {
   font-size: 24px;
   color: white;
 }
 
-.soundButton:hover {
-  animation: blink 1s infinite;
+.soundButton:hover, .hideButton:hover, .showButton:hover {
+  transform: scale(1.1);
+  box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.3);
 }
 
-@keyframes blink {
-  50% {
-    opacity: 0.5;
-  }
-}
-
-.soundButton:active {
+.soundButton:active, .hideButton:active, .showButton:active {
   transform: scale(0.9);
   box-shadow: inset 3px 3px 8px rgba(0, 0, 0, 0.4);
+}
+
+.showButton {
+  position: absolute;
+  top: 25%; /* Ajusta la altura para que esté más arriba */
+  left: 20px;
 }
 
 /* Añade las burbujas de pensamiento */
@@ -205,4 +211,17 @@
   left: 90px;
   width: 10px;
   height: 10px;
+}
+
+/* Contenedor de logos */
+.logosContainer {
+  position: absolute;
+  bottom: 20px;
+  display: flex;
+  gap: 20px;
+}
+
+.logo {
+  width: 120px; /* Ajusta el tamaño de los logos */
+  height: auto;
 }

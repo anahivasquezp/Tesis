@@ -1,33 +1,115 @@
-import React from 'react';
-import { Link } from 'react-router-dom';import styles from '../../css/Access/Instructions.module.css'; // Asegúrate de crear el archivo CSS
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import styles from '../../css/Access/Instructions.module.css';
 import farmBackground from '../../images/therapist_login_bg.webp';
-import characterImage from '../../images/pig_granjera.png';
+import characterImage from '../../images/Nica_presenta.png';
+import logoEpn from '../../images/logo_epn.png';
+import logoFis from '../../images/logo_fis.png';
+import logoLudolab from '../../images/logo_ludolab.png';
+import creativeCommons from '../../images/creative_commons.png';
+import { FaFacebook, FaInstagram, FaTwitter } from 'react-icons/fa';
 
 function Instructions() {
+    const [isBubbleVisible, setIsBubbleVisible] = useState(true);
+
+    useEffect(() => {
+        const message = "Conoce más sobre mi juego.";
+        const utterance = new SpeechSynthesisUtterance(message);
+        const soundButton = document.getElementById('soundButton');
+
+        soundButton.addEventListener('click', () => {
+            speechSynthesis.speak(utterance);
+        });
+
+        return () => {
+            soundButton.removeEventListener('click', () => {
+                speechSynthesis.cancel();
+            });
+        };
+    }, []);
+
+    const handleHideBubble = () => {
+        setIsBubbleVisible(false);
+    };
+
+    const handleShowBubble = () => {
+        setIsBubbleVisible(true);
+    };
+
     return (
         <div className={styles.mainContainer} style={{ backgroundImage: `url(${farmBackground})` }}>
             <div className={styles.topButtonsContainer}>
                 <Link to="/">
                     <button className={`${styles.topButton} ${styles.backButton}`}>
-                        <i className="fas fa-arrow-left"></i> Regresar
+                        <i className="fas fa-arrow-left"></i>
                     </button>
                 </Link>
             </div>
             <div className={styles.contentContainer}>
-                <div className={styles.instructionsBox}>
-                    <h1 className={styles.instructionsTitle}>Instrucciones</h1>
-                    <p className={styles.instructionsText}>
-                        Bienvenido a Aventuras Lingüísticas en la Granja. En esta plataforma, los niños pueden aprender fonemas y mejorar sus habilidades lingüísticas a través de juegos interactivos y divertidos. A continuación se detallan algunas instrucciones y consejos para utilizar esta plataforma:
-                    </p>
-                    <ul className={styles.instructionsList}>
-                        <li>Elige el rol de Terapista si eres un profesional y necesitas acceder a las herramientas terapéuticas.</li>
-                        <li>Elige el rol de Invitado para acceder a las actividades como usuario invitado.</li>
-                        <li>Usa el menú superior para navegar a través de las diferentes secciones de la plataforma.</li>
-                        <li>Completa los ejercicios y acumula estrellas para motivar el aprendizaje continuo.</li>
-                    </ul>
+                <div className={styles.logosContainer}>
+                    <img src={logoEpn} alt="Logo EPN" className={styles.logoLeft} />
+                    <img src={logoFis} alt="Logo FIS" className={styles.logoCenter} />
+                    <img src={logoLudolab} alt="Logo Ludolab" className={styles.logoRight} />
+                </div>
+                <h1 className={styles.instructionsTitle}>Créditos</h1>
+                <p className={styles.instructionsText}>
+                    El presente proyecto tiene como objetivo desarrollar un juego serio educativo y gamificado para ayudar a los niños a mejorar la pronunciación de fonemas durante su desarrollo. Este juego está diseñado para ser utilizado bajo la supervisión de un experto, como un terapeuta del lenguaje, o, en su caso, por un padre de familia que haya sido orientado por un terapeuta del lenguaje. A través de distintos ejercicios fonológicos, el juego proporciona una experiencia interactiva y atractiva para los niños. El desarrollo de este proyecto ha sido posible gracias al apoyo del laboratorio LudoLab.
+                </p>
+                <p className={styles.instructionsText}>
+                    LUDOLAB, un laboratorio de Sistemas de Información e Inclusión Social, que responde a los desafíos actuales con un enfoque en investigación, creatividad y responsabilidad. Su misión es contribuir al desarrollo mediante Sistemas de Información centrados en el usuario.
+                </p>
+                <div className={styles.creditsContainer}>
+                    <div className={styles.creditColumn}>
+                        <h3>Tutora</h3>
+                        <p>Ph.D Mayra Carrión Toro</p>
+                    </div>
+                    <div className={styles.creditColumn}>
+                        <h3>Autor</h3>
+                        <p>Srt. Anahí Nicole Vásquez Pacheco</p>
+                    </div>
+                    <div className={styles.creditColumn}>
+                        <h3>Colaboradores</h3>
+                        <p>Ph.D Boris Astudillo</p>
+                        <p>Ph.D Marco Santorum G.</p>
+                        <p>Srt. Angela Vásquez</p>
+                    </div>
+                </div>
+                <div className={styles.directorContainer}>
+                    <h3>Directora LudoLab</h3>
+                    <p>Ph.D Mayra Carrión Toro</p>
+                </div>
+                <div className={styles.socialMediaContainer}>
+                    <FaFacebook className={styles.socialIcon} />
+                    <FaInstagram className={styles.socialIcon} />
+                    <FaTwitter className={styles.socialIcon} />
+                </div>
+                <div className={styles.footerContainer}>
+                    <img src={creativeCommons} alt="Creative Commons" className={styles.creativeCommons} />
+                    <p className={styles.footerText}>ludolab.epn.edu.ec</p>
+                    <p className={styles.footerText}>ludolab@epn.edu.ec</p>
                 </div>
             </div>
-            <img src={characterImage} alt="Character" className={styles.characterImage} />
+            <div className={styles.characterContainer}>
+                {isBubbleVisible && (
+                    <div className={styles.speechBubble}>
+                        <p className={styles.welcomeText}>Conoce más sobre mi juego.</p>
+                        <div className={styles.bubbleButtons}>
+                            <button id="soundButton" className={styles.soundButton}>
+                                <i className="fas fa-volume-up"></i>
+                            </button>
+                            <button className={styles.hideButton} onClick={handleHideBubble}>
+                                <i className="fas fa-chevron-down"></i>
+                            </button>
+                        </div>
+                    </div>
+                )}
+                <img src={characterImage} alt="Character" className={styles.characterImage} />
+                {!isBubbleVisible && (
+                    <button className={styles.showButton} onClick={handleShowBubble}>
+                        <i className="fas fa-chevron-up"></i>
+                    </button>
+                )}
+            </div>
         </div>
     );
 }
