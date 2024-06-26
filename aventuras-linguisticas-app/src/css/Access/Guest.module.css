@@ -1,4 +1,4 @@
-.guestContainer {
+.mainContainer {
   width: 100vw;
   height: 100vh;
   background-image: url('../../images/therapist_login_bg.webp');
@@ -15,26 +15,25 @@
   top: 20px;
   left: 20px;
   display: flex;
-  gap: 10px;
+  gap: 20px;
 }
 
 .topButton {
-  width: 50px;
-  height: 50px;
+  width: 70px;
+  height: 70px;
   background-image: url('../../images/button_cuadrado_pequeño.jpg');
   background-size: cover;
   background-position: center;
   border: none;
   cursor: pointer;
-  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 15px;
+  border-radius: 20px;
 }
 
 .topButton i {
-  font-size: 24px;
+  font-size: 32px;
   color: white;
 }
 
@@ -49,20 +48,25 @@
 }
 
 .contentContainer {
-  width: 60%;
-  background-color: rgba(255, 255, 255, 0.7);
-  padding: 40px;
+  width: 50%;
+  height: auto;
+  background-color: rgba(255, 255, 255, 0.8);
   border-radius: 15px;
-  box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
+  padding: 20px 40px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1;
 }
 
 .guestTitle {
   font-family: 'Poppins', sans-serif;
   font-weight: 700;
-  font-size: 3rem;
+  font-size: 2.5rem;
   color: #A05A25;
-  margin-bottom: 10px;
+  margin-top: 15px;
 }
 
 .guestSubtitle {
@@ -80,49 +84,150 @@
 }
 
 .guestCharacterImage {
-  width: 150px;
-  height: 150px;
+  width: 180px;
+  height: 180px;
   border-radius: 50%;
   cursor: pointer;
   transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
-  border: 1px solid #A05A25;
+  border: 2px solid #A05A25;
 }
 
 .guestCharacterImage:hover {
   transform: scale(1.1);
   box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.3);
-  background-color: rgba(255, 255, 255, 0.3); /* Cambia el fondo al pasar el mouse */
+  background-color: rgba(255, 255, 255, 0.3);
 }
 
 .guestCharacterImage:active {
   transform: scale(0.9);
   box-shadow: inset 3px 3px 8px rgba(0, 0, 0, 0.4);
-  background-color: rgba(255, 255, 255, 0.5); /* Cambia el fondo al hacer clic */
+  background-color: rgba(255, 255, 255, 0.5);
 }
 
-.mainCharacterImage {
+.characterSection {
   position: absolute;
   bottom: 20px;
   left: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.mainCharacterImage {
   width: 400px;
   height: auto;
+  margin-top: 60px; /* Ajusta la altura */
 }
 
-.backHomeButton {
-  font-family: 'Poppins', sans-serif;
-  font-size: 1.2rem;
-  padding: 10px 20px;
-  border-radius: 15px;
+.speechBubble {
+  background: rgba(255, 255, 255, 0.9);
+  border: 2px solid #A05A25;
+  border-radius: 30px;
+  padding: 20px;
   position: absolute;
-  top: 10px;
-  left: 10px;
-  background-color: #A05A25;
-  color: white;
-  text-decoration: none;
-  transition: background-color 0.2s, transform 0.2s;
+  bottom: 530px; /* Ajusta la altura para que esté sobre el personaje */
+  left: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 350px;
+  font-size: 1.2rem;
+  color: #A05A25;
+  font-family: 'Poppins', sans-serif;
+  text-align: center;
 }
 
-.backHomeButton:hover {
-  background-color: #71401a;
+.speechBubble:after {
+  content: '';
+  position: absolute;
+  bottom: -20px;
+  left: 50px;
+  border-width: 20px;
+  border-style: solid;
+  border-color: rgba(255, 255, 255, 0.9) transparent transparent transparent;
+}
+
+.welcomeText {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.5rem;
+  color: #A05A25;
+  text-align: center;
+}
+
+.soundButton {
+  background-image: url('../../images/button_cuadrado_pequeño.jpg');
+  background-size: cover;
+  background-position: center;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+  width: 50px;
+  height: 50px;
+  margin-top: 10px;
+}
+
+.soundButton i {
+  font-size: 24px;
+  color: white;
+}
+
+.soundButton:hover, .hideButton:hover, .showButton:hover {
   transform: scale(1.1);
+  box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.soundButton:active, .hideButton:active, .showButton:active {
+  transform: scale(0.9);
+  box-shadow: inset 3px 3px 8px rgba(0, 0, 0, 0.4);
+}
+
+.hideButton {
+  background-image: url('../../images/button_cuadrado_pequeño.jpg');
+  background-size: cover;
+  background-position: center;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+  width: 50px;
+  height: 50px;
+  margin-top: 10px;
+}
+
+.hideButton i {
+  font-size: 24px;
+  color: white;
+}
+
+.showButton {
+  background-image: url('../../images/button_cuadrado_pequeño.jpg');
+  background-size: cover;
+  background-position: center;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  top: 30%;
+  left: 20px;
+}
+
+.showButton i {
+  font-size: 24px;
+  color: white;
+}
+
+.bubbleButtons {
+  display: flex;
+  gap: 10px;
 }

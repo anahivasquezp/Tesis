@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { getStorage, ref, getDownloadURL } from 'firebase/storage'; // Importa las funciones necesarias de Firebase
+import { getStorage, ref, getDownloadURL } from 'firebase/storage';
 import styles from '../../css/Access/Guest.module.css';
-import characterImage from '../../images/pig_granjera.png';
+import characterImage from '../../images/Nica_Neutral.png';
 
 function Guest() {
     const [characters, setCharacters] = useState([]);
+    const [isBubbleVisible, setIsBubbleVisible] = useState(true);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -27,18 +28,51 @@ function Guest() {
         fetchCharacters();
     }, []);
 
+    useEffect(() => {
+        const message = "Por favor, selecciona tu personaje.";
+        const utterance = new SpeechSynthesisUtterance(message);
+        const soundButton = document.getElementById('soundButton');
+
+        soundButton.addEventListener('click', () => {
+            speechSynthesis.speak(utterance);
+        });
+
+        return () => {
+            soundButton.removeEventListener('click', () => {
+                speechSynthesis.cancel();
+            });
+        };
+    }, []);
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setIsBubbleVisible(false);
+        }, 5000);
+
+        return () => clearTimeout(timer);
+    }, []);
+
     const handleCharacterSelect = (character) => {
         sessionStorage.setItem('guestCharacter', JSON.stringify(character));
         navigate('/Menu');
     };
 
+    const handleShowBubble = () => {
+        setIsBubbleVisible(true);
+        const timer = setTimeout(() => {
+            setIsBubbleVisible(false);
+        }, 5000);
+
+        return () => clearTimeout(timer);
+    };
+
     return (
-        <div className={styles.guestContainer}>
+        <div className={styles.mainContainer}>
             <div className={styles.topButtonsContainer}>
-                <Link to="/" className={`${styles.topButton} ${styles.homeButton}`}>
+                <Link to="/" className={styles.topButton}>
                     <i className="fas fa-home"></i>
                 </Link>
-                <button className={`${styles.topButton} ${styles.infoButton}`}>
+                <button className={styles.topButton} onClick={handleShowBubble}>
                     <i className="fas fa-info"></i>
                 </button>
             </div>
@@ -57,7 +91,19 @@ function Guest() {
                     ))}
                 </div>
             </div>
-            <img src={characterImage} alt="Character" className={styles.mainCharacterImage} />
+            <div className={styles.characterSection}>
+                {isBubbleVisible && (
+                    <div className={styles.speechBubble}>
+                        <p className={styles.welcomeText}>Por favor, selecciona tu personaje.</p>
+                        <div className={styles.bubbleButtons}>
+                            <button id="soundButton" className={styles.soundButton}>
+                                <i className="fas fa-volume-up"></i>
+                            </button>
+                        </div>
+                    </div>
+                )}
+                <img src={characterImage} alt="Character" className={styles.mainCharacterImage} />
+            </div>
         </div>
     );
 }

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styles from '../../css/Access/Instructions.module.css';
 import farmBackground from '../../images/therapist_login_bg.webp';
-import characterImage from '../../images/Nica_presenta.png';
+import characterImage from '../../images/Nica_Neutral.png';
 import logoEpn from '../../images/logo_epn.png';
 import logoFis from '../../images/logo_fis.png';
 import logoLudolab from '../../images/logo_ludolab.png';
