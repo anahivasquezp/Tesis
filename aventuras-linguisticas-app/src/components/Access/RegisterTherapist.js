@@ -1,42 +1,106 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from 'react-router-dom';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { getFirestore, doc, setDoc } from "firebase/firestore";
 import styles from '../../css/Access/RegisterTherapist.module.css';
-import characterImage from '../../images/pig_granjera.png';
+import nicaNeutral from '../../images/Nica_Neutral.png';
+import nicaPresenting from '../../images/Nica_presenta.png';
+import Modal from 'react-modal';
+
+Modal.setAppElement('#root');
 
 function RegisterTherapist() {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [therapistName, setTherapistName] = useState("");
   const [error, setError] = useState(null);
-
-  const auth = getAuth();
-  const db = getFirestore();
-
+  const [isBubbleVisible, setIsBubbleVisible] = useState(true);
+  const [nicaImage, setNicaImage] = useState(nicaPresenting);
   const navigate = useNavigate();
+  const auth = getAuth();
 
-  const registerTherapist = async (event) => {
+  useEffect(() => {
+    const message = "¡Bienvenido! Por favor, ingrese su nombre, correo electrónico y contraseña para registrarse como terapeuta.";
+    const utterance = new SpeechSynthesisUtterance(message);
+    let timer;
+
+    const showBubble = () => {
+      setIsBubbleVisible(true);
+      setNicaImage(nicaPresenting);
+      timer = setTimeout(() => {
+        setIsBubbleVisible(false);
+        setNicaImage(nicaNeutral);
+      }, 5000);
+    };
+
+    showBubble();
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, []);
+
+  useEffect(() => {
+    const soundButton = document.getElementById('soundButton');
+    if (soundButton) {
+      const message = "¡Bienvenido! Por favor, ingrese su nombre, correo electrónico y contraseña para registrarse como terapeuta.";
+      const utterance = new SpeechSynthesisUtterance(message);
+
+      const handleSoundClick = () => {
+        speechSynthesis.speak(utterance);
+      };
+
+      soundButton.addEventListener('click', handleSoundClick);
+
+      return () => {
+        soundButton.removeEventListener('click', handleSoundClick);
+      };
+    }
+  }, [isBubbleVisible]);
+
+  const handleShowBubble = () => {
+    setIsBubbleVisible(true);
+    setNicaImage(nicaPresenting);
+    const timer = setTimeout(() => {
+      setIsBubbleVisible(false);
+      setNicaImage(nicaNeutral);
+    }, 5000);
+
+    return () => clearTimeout(timer);
+  };
+
+  const getNicaImageStyle = () => {
+    if (nicaImage === nicaPresenting) {
+      return { width: '400px', height: 'auto' };
+    } else {
+      return { width: '330px', height: 'auto' };
+    }
+  };
+
+  const registerWithEmailAndPasswordHandler = (event, email, password) => {
     event.preventDefault();
-
-    try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      const user = userCredential.user;
-
-      await setDoc(doc(db, "therapists", user.uid), {
-        email: email,
-        therapistName: therapistName,
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        user.updateProfile({
+          displayName: name,
+        }).then(() => {
+          navigate("/chooseChild");
+        });
+      })
+      .catch(error => {
+        setError("Error al registrarse con correo electrónico y contraseña");
+        console.error("Error signing up with email and password", error);
       });
+  };
 
-      navigate("/therapistLogin");
-    } catch (error) {
-      if (error.code === 'auth/email-already-in-use') {
-        setError('Este correo electrónico ya está registrado.');
-        console.error("Error al registrarse", error);
-      } else {
-        setError("Error al registrarse. Por favor intenta de nuevo.");
-        console.error("Error al registrarse", error);
-      }
+  const onChangeHandler = (event) => {
+    const { name, value } = event.currentTarget;
+    if (name === 'userName') {
+      setName(value);
+    } else if (name === 'userEmail') {
+      setEmail(value);
+    } else if (name === 'userPassword') {
+      setPassword(value);
     }
   };
 
@@ -46,27 +110,37 @@ function RegisterTherapist() {
         <Link to="/" className={`${styles.topButton} ${styles.homeButton}`}>
           <i className="fas fa-home"></i>
         </Link>
-        <button className={`${styles.topButton} ${styles.infoButton}`}>
+        <button className={`${styles.topButton} ${styles.infoButton}`} onClick={handleShowBubble}>
           <i className="fas fa-info"></i>
         </button>
-        <Link to="/therapistLogin" className={`${styles.topButton} ${styles.backButton}`}>
-          <i className="fas fa-arrow-left"></i>
-        </Link>
       </div>
       <div className={styles.registerFormContainer}>
-        <h1 className={styles.registerTitle}>Registrarse como Terapista</h1>
-        {error && <div className={styles.errorMessage}>{error}</div>}
+        <h1 className={styles.registerTitle}>Registrarse como Terapeuta</h1>
+        {error !== null && <div className={styles.errorMessage}>{error}</div>}
         <form className={styles.registerForm}>
+          <label htmlFor="userName" className={styles.formLabel}>
+            Nombre:
+          </label>
+          <input
+            type="text"
+            className={styles.formInput}
+            name="userName"
+            value={name}
+            placeholder="E.g: Juan Pérez"
+            id="userName"
+            onChange={(event) => onChangeHandler(event)}
+          />
           <label htmlFor="userEmail" className={styles.formLabel}>
             Correo Electrónico:
           </label>
           <input
             type="email"
             className={styles.formInput}
-            name="email"
+            name="userEmail"
             value={email}
-            placeholder="E.g: faruq123@gmail.com"
-            onChange={(e) => setEmail(e.target.value)}
+            placeholder="E.g: juanperez@gmail.com"
+            id="userEmail"
+            onChange={(event) => onChangeHandler(event)}
           />
           <label htmlFor="userPassword" className={styles.formLabel}>
             Contraseña:
@@ -74,28 +148,35 @@ function RegisterTherapist() {
           <input
             type="password"
             className={styles.formInput}
-            name="password"
+            name="userPassword"
             value={password}
             placeholder="Tu Contraseña"
-            onChange={(e) => setPassword(e.target.value)}
+            id="userPassword"
+            onChange={(event) => onChangeHandler(event)}
           />
-          <label htmlFor="therapistName" className={styles.formLabel}>
-            Nombre del Terapista:
-          </label>
-          <input
-            type="text"
-            className={styles.formInput}
-            name="therapistName"
-            value={therapistName}
-            placeholder="Tu Nombre"
-            onChange={(event) => setTherapistName(event.target.value)}
-          />
-          <button className={styles.registerButton} onClick={registerTherapist}>
+          <button
+            className={styles.registerButton}
+            onClick={(event) => { registerWithEmailAndPasswordHandler(event, email, password) }}
+          >
             Registrarse
           </button>
         </form>
+        <p className={styles.registerText}>
+          ¿Ya tienes una cuenta? {" "}
+          <Link to="/therapistLogin" className={styles.loginLink}>
+            Inicia sesión aquí
+          </Link>{" "}
+        </p>
       </div>
-      <img src={characterImage} alt="Character" className={styles.characterImage} />
+      <img src={nicaImage} alt="Character" className={styles.characterImage} style={getNicaImageStyle()} />
+      {isBubbleVisible && (
+        <div className={styles.speechBubble}>
+          <p className={styles.welcomeText}>¡Bienvenido! Por favor, ingrese su nombre, correo electrónico y contraseña para registrarse como terapeuta.</p>
+          <button id="soundButton" className={styles.soundButton}>
+            <i className="fas fa-volume-up"></i>
+          </button>
+        </div>
+      )}
     </div>
   );
 }

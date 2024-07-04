@@ -15,26 +15,25 @@
   top: 20px;
   left: 20px;
   display: flex;
-  gap: 10px;
+  gap: 20px;
 }
 
 .topButton {
-  width: 50px;
-  height: 50px;
+  width: 70px;
+  height: 70px;
   background-image: url('../../images/button_cuadrado_pequeño.jpg');
   background-size: cover;
   background-position: center;
   border: none;
   cursor: pointer;
-  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 15px;
+  border-radius: 20px;
 }
 
 .topButton i {
-  font-size: 24px;
+  font-size: 32px;
   color: white;
 }
 
@@ -49,12 +48,16 @@
 }
 
 .contentContainer {
-  width: 60%;
-  background-color: rgba(255, 255, 255, 0.7);
+  width: 70%;
+  height: 70%;
+  background-color: rgba(255, 255, 255, 0.8);
   padding: 40px;
   border-radius: 15px;
   box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2);
   text-align: center;
+  overflow-y: auto;
+  margin-left: 80px; /* Ajusta el margen para que no se choque con la imagen del personaje */
+  position: relative; /* Permite posicionar elementos dentro del contenedor */
 }
 
 .chooseChildTitle {
@@ -113,7 +116,9 @@
 }
 
 .editButton {
-  background-color: #2D817A;
+  background-image: url('../../images/button_cuadrado_pequeño.jpg');
+  background-size: cover;
+  background-position: center;
   color: white;
   border: none;
   border-radius: 15px;
@@ -124,17 +129,20 @@
 }
 
 .editButton:hover {
-  background-color: #67B97D;
   transform: scale(1.1);
+  box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.3);
 }
 
 .editButton:active {
   transform: scale(0.9);
+  box-shadow: inset 3px 3px 8px rgba(0, 0, 0, 0.4);
 }
 
 .addButton {
   font-size: 2rem;
-  background-color: #2D817A;
+  background-image: url('../../images/button_rectangular.jpg');
+  background-size: cover;
+  background-position: center;
   color: white;
   border: none;
   border-radius: 15px;
@@ -145,25 +153,28 @@
   align-items: center;
   text-decoration: none;
   transition: transform 0.2s, background-color 0.2s;
-  margin-top: 20px;
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
   width: 60px;
+  height: 60px;
 }
 
 .addButton:hover {
-  background-color: #67B97D;
   transform: scale(1.1);
+  box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.3);
 }
 
 .addButton:active {
   transform: scale(0.9);
+  box-shadow: inset 3px 3px 8px rgba(0, 0, 0, 0.4);
 }
 
 .mainCharacterImage {
   position: absolute;
   bottom: 20px;
   left: 20px;
-  width: 400px;
-  height: auto;
+  z-index: 0;
 }
 
 .modal {
@@ -238,4 +249,71 @@
 
 .cancelButton:active {
   transform: scale(0.9);
+}
+
+.speechBubble {
+  background: rgba(255, 255, 255, 0.9);
+  border: 2px solid #A05A25;
+  border-radius: 30px;
+  padding: 20px;
+  position: absolute;
+  bottom: 530px;
+  left: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 350px;
+  font-size: 1.2rem;
+  color: #A05A25;
+  font-family: 'Poppins', sans-serif;
+  text-align: center;
+  z-index: 1;
+}
+
+.speechBubble:after {
+  content: '';
+  position: absolute;
+  bottom: -20px;
+  left: 50px;
+  border-width: 20px;
+  border-style: solid;
+  border-color: rgba(255, 255, 255, 0.9) transparent transparent transparent;
+}
+
+.welcomeText {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.5rem;
+  color: #A05A25;
+  text-align: center;
+}
+
+.soundButton {
+  background-image: url('../../images/button_cuadrado_pequeño.jpg');
+  background-size: cover;
+  background-position: center;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+  width: 50px;
+  height: 50px;
+  margin-top: 10px;
+}
+
+.soundButton i {
+  font-size: 24px;
+  color: white;
+}
+
+.soundButton:hover {
+  transform: scale(1.1);
+  box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.soundButton:active {
+  transform: scale(0.9);
+  box-shadow: inset 3px 3px 8px rgba(0, 0, 0, 0.4);
 }

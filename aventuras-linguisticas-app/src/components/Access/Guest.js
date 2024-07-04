@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { getStorage, ref, getDownloadURL } from 'firebase/storage';
 import styles from '../../css/Access/Guest.module.css';
-import characterImage from '../../images/Nica_Neutral.png';
+import nicaNeutral from '../../images/Nica_Neutral.png';
+import nicaPresenting from '../../images/Nica_presenta.png';
 
 function Guest() {
     const [characters, setCharacters] = useState([]);
     const [isBubbleVisible, setIsBubbleVisible] = useState(true);
+    const [nicaImage, setNicaImage] = useState(nicaPresenting);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -47,6 +49,7 @@ function Guest() {
     useEffect(() => {
         const timer = setTimeout(() => {
             setIsBubbleVisible(false);
+            setNicaImage(nicaNeutral);
         }, 5000);
 
         return () => clearTimeout(timer);
@@ -59,11 +62,22 @@ function Guest() {
 
     const handleShowBubble = () => {
         setIsBubbleVisible(true);
+        setNicaImage(nicaPresenting);
+
         const timer = setTimeout(() => {
             setIsBubbleVisible(false);
+            setNicaImage(nicaNeutral);
         }, 5000);
 
         return () => clearTimeout(timer);
+    };
+
+    const getNicaImageStyle = () => {
+        if (nicaImage === nicaPresenting) {
+            return { width: '400px', height: 'auto' };
+        } else {
+            return { width: '330px', height: 'auto' };
+        }
     };
 
     return (
@@ -102,7 +116,7 @@ function Guest() {
                         </div>
                     </div>
                 )}
-                <img src={characterImage} alt="Character" className={styles.mainCharacterImage} />
+                <img src={nicaImage} alt="Character" className={styles.mainCharacterImage} style={getNicaImageStyle()} />
             </div>
         </div>
     );
