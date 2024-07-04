@@ -1,29 +1,29 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useDocumentData } from 'react-firebase-hooks/firestore';
-import { getFirestore, doc, collection, updateDoc } from 'firebase/firestore';
+import { doc, collection, updateDoc } from 'firebase/firestore';
 import { getStorage, ref, getDownloadURL } from 'firebase/storage';
 import { getAuth, signOut } from 'firebase/auth';
 import Modal from 'react-modal';
 import { ChildContext } from '../Access/ChildContext';
 import styles from '../../css/Exercises/FonemaExercise.module.css';
 import characterImage from '../../images/pig_granjera.png';
+import { db, auth } from '../../firebase'; // Asegúrate de ajustar la ruta según tu estructura de proyecto
 
 Modal.setAppElement('#root');
-
-const db = getFirestore();
 
 function FonemaExercise() {
   const { fonema } = useParams();
   const navigate = useNavigate();
   const { selectedChild, setSelectedChild } = useContext(ChildContext);
-  const auth = getAuth();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [guestCharacter, setGuestCharacter] = useState(null);
 
   const [value, loading, error] = useDocumentData(
     doc(collection(db, 'exercises'), fonema)
   );
+
+
 
   const [imageURL, setImageURL] = useState(null);
   const [audioURL, setAudioURL] = useState(null);

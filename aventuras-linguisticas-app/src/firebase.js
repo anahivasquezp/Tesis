@@ -1,8 +1,7 @@
-import { initializeApp } from "firebase/app";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
+import { initializeApp } from 'firebase/app';
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { getFirestore } from 'firebase/firestore';
 
-// Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyBotPAcQCpaSslwhGrgY2MnwnO8aRkEH6Y",
   authDomain: "aventuras-linguisticas.firebaseapp.com",
@@ -16,7 +15,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 // Initialize Firebase Auth service
-const auth = getAuth();
+const auth = getAuth(app);
 
 // Initialize Firestore
 const db = getFirestore(app);
