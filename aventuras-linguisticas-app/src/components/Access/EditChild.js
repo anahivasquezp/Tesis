@@ -6,6 +6,8 @@ import { useNavigate, Link } from 'react-router-dom';
 import Modal from 'react-modal';
 import { ChildContext } from './ChildContext';
 import styles from '../../css/Access/EditChild.module.css';
+import nicaNeutral from '../../images/Nica_Neutral.png';
+import nicaPresenting from '../../images/Nica_presenta.png';
 
 Modal.setAppElement('#root'); // Set the app element for accessibility
 
@@ -17,6 +19,8 @@ function EditChild() {
   const [selectedImage, setSelectedImage] = useState(null);
   const [error, setError] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isBubbleVisible, setIsBubbleVisible] = useState(true);
+  const [nicaImage, setNicaImage] = useState(nicaPresenting);
 
   const auth = getAuth();
   const db = getFirestore();
@@ -46,6 +50,64 @@ function EditChild() {
 
     fetchCharacterImages();
   }, [selectedChild]);
+
+  useEffect(() => {
+    const message = "Editar la información del niño.";
+    const utterance = new SpeechSynthesisUtterance(message);
+    let timer;
+
+    const showBubble = () => {
+      setIsBubbleVisible(true);
+      setNicaImage(nicaPresenting);
+      timer = setTimeout(() => {
+        setIsBubbleVisible(false);
+        setNicaImage(nicaNeutral);
+      }, 5000);
+    };
+
+    showBubble();
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, []);
+
+  useEffect(() => {
+    const soundButton = document.getElementById('soundButton');
+    if (soundButton) {
+      const message = "Editar la información del niño.";
+      const utterance = new SpeechSynthesisUtterance(message);
+
+      const handleSoundClick = () => {
+        speechSynthesis.speak(utterance);
+      };
+
+      soundButton.addEventListener('click', handleSoundClick);
+
+      return () => {
+        soundButton.removeEventListener('click', handleSoundClick);
+      };
+    }
+  }, [isBubbleVisible]);
+
+  const handleShowBubble = () => {
+    setIsBubbleVisible(true);
+    setNicaImage(nicaPresenting);
+    const timer = setTimeout(() => {
+      setIsBubbleVisible(false);
+      setNicaImage(nicaNeutral);
+    }, 5000);
+
+    return () => clearTimeout(timer);
+  };
+
+  const getNicaImageStyle = () => {
+    if (nicaImage === nicaPresenting) {
+      return { width: '400px', height: 'auto' };
+    } else {
+      return { width: '330px', height: 'auto' };
+    }
+  };
 
   const handleUpdateChild = async (event) => {
     event.preventDefault();
@@ -114,8 +176,8 @@ function EditChild() {
         <button onClick={openModal} className={`${styles.topButton} ${styles.homeButton}`}>
           <i className="fas fa-home"></i>
         </button>
-        <button className={`${styles.topButton} ${styles.infoButton}`}>
-                    <i className="fas fa-info"></i>
+        <button className={`${styles.topButton} ${styles.infoButton}`} onClick={handleShowBubble}>
+          <i className="fas fa-info"></i>
         </button>
         <Link to="/chooseChild" className={`${styles.topButton} ${styles.backButton}`}>
           <i className="fas fa-arrow-left"></i>
@@ -157,8 +219,20 @@ function EditChild() {
             alt={image.id}
             onClick={() => setSelectedImage(image.url)}
             className={`${styles.characterImage} ${selectedImage === image.url ? styles.selected : ''}`}
+            style={selectedImage === image.url ? { width: '150px', height: '150px' } : {}}
           />
         ))}
+      </div>
+      <div className={styles.characterContainer}>
+        {isBubbleVisible && (
+          <div className={styles.speechBubble}>
+            <p className={styles.welcomeText}>Editar la información del niño.</p>
+            <button id="soundButton" className={styles.soundButton}>
+              <i className="fas fa-volume-up"></i>
+            </button>
+          </div>
+        )}
+        <img src={nicaImage} alt="Character" className={styles.mainCharacterImage} style={getNicaImageStyle()} />
       </div>
       <Modal
         isOpen={isModalOpen}
@@ -166,6 +240,7 @@ function EditChild() {
         contentLabel="Confirm Logout"
         className={styles.modal}
         overlayClassName={styles.overlay}
+        shouldCloseOnOverlayClick={true}
       >
         <h2 className={styles.modalTitle}>¿Deseas salir?</h2>
         <div className={styles.modalButtons}>

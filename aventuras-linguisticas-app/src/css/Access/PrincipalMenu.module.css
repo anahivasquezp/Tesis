@@ -15,12 +15,12 @@
   top: 20px;
   left: 20px;
   display: flex;
-  gap: 10px;
+  gap: 20px;
 }
 
 .topButton {
-  width: 50px;
-  height: 50px;
+  width: 70px;
+  height: 70px;
   background-image: url('../../images/button_cuadrado_pequeño.jpg');
   background-size: cover;
   background-position: center;
@@ -29,11 +29,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 15px;
+  border-radius: 20px;
 }
 
 .topButton i {
-  font-size: 24px;
+  font-size: 32px;
   color: white;
 }
 
@@ -49,12 +49,13 @@
 
 .contentContainer {
   width: 60%;
-  background-color: rgba(255, 255, 255, 0.7);
+  background-color: rgba(255, 255, 255, 0.8);
   padding: 40px;
   border-radius: 15px;
   box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2);
   text-align: center;
   margin-bottom: 20px;
+  z-index: 1;
 }
 
 .userInfo {
@@ -78,7 +79,7 @@
 
 .buttonContainer {
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   gap: 20px;
 }
 
@@ -89,14 +90,15 @@
   border: none;
   border-radius: 15px;
   cursor: pointer;
-  background-color: #2D817A;
+  background-image: url('../../images/button_rectangular.jpg');
+  background-size: cover;
+  background-position: center;
   color: white;
-  transition: transform 0.2s, background-color 0.2s, box-shadow 0.2s;
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .menuButton:hover {
   transform: scale(1.1);
-  background-color: #67B97D;
   box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.3);
 }
 
@@ -104,16 +106,88 @@
   transform: scale(0.9);
 }
 
-.mainCharacterImage {
+.characterContainer {
   position: absolute;
   bottom: 20px;
   left: 20px;
-  width: 400px;
-  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.mainCharacterImage {
+  z-index: 0;
+}
+
+.speechBubble {
+  background: rgba(255, 255, 255, 0.9);
+  border: 2px solid #A05A25;
+  border-radius: 30px;
+  padding: 20px;
+  position: absolute;
+  bottom: 530px;
+  left: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 350px;
+  font-size: 1.2rem;
+  color: #A05A25;
+  font-family: 'Poppins', sans-serif;
+  text-align: center;
+  z-index: 1;
+}
+
+.speechBubble:after {
+  content: '';
+  position: absolute;
+  bottom: -20px;
+  left: 50px;
+  border-width: 20px;
+  border-style: solid;
+  border-color: rgba(255, 255, 255, 0.9) transparent transparent transparent;
+}
+
+.welcomeText {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.5rem;
+  color: #A05A25;
+  text-align: center;
+}
+
+.soundButton {
+  background-image: url('../../images/button_cuadrado_pequeño.jpg');
+  background-size: cover;
+  background-position: center;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+  width: 50px;
+  height: 50px;
+  margin-top: 10px;
+}
+
+.soundButton i {
+  font-size: 24px;
+  color: white;
+}
+
+.soundButton:hover {
+  transform: scale(1.1);
+  box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.soundButton:active {
+  transform: scale(0.9);
+  box-shadow: inset 3px 3px 8px rgba(0, 0, 0, 0.4);
 }
 
 .modal {
-  position: absolute;
+  position: fixed;
   top: 50%;
   left: 50%;
   width: 80%;
@@ -124,6 +198,7 @@
   box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2);
   transform: translate(-50%, -50%);
   text-align: center;
+  z-index: 2;
 }
 
 .overlay {
@@ -133,6 +208,7 @@
   right: 0;
   bottom: 0;
   background: rgba(0, 0, 0, 0.5);
+  z-index: 1;
 }
 
 .modalTitle {

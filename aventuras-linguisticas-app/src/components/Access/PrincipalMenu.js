@@ -5,7 +5,8 @@ import { getFirestore, doc, getDoc } from 'firebase/firestore';
 import { useNavigate, Link } from 'react-router-dom';
 import Modal from 'react-modal';
 import styles from '../../css/Access/PrincipalMenu.module.css';
-import characterImage from '../../images/pig_granjera.png';
+import nicaNeutral from '../../images/Nica_Neutral.png';
+import nicaPresenting from '../../images/Nica_presenta.png';
 
 Modal.setAppElement('#root'); // Set the app element for accessibility
 
@@ -16,6 +17,8 @@ function PrincipalMenu() {
     const [guestCharacter, setGuestCharacter] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [therapistName, setTherapistName] = useState('');
+    const [isBubbleVisible, setIsBubbleVisible] = useState(true);
+    const [nicaImage, setNicaImage] = useState(nicaPresenting);
 
     useEffect(() => {
         const storedCharacter = sessionStorage.getItem('guestCharacter');
@@ -37,6 +40,64 @@ function PrincipalMenu() {
 
         fetchTherapistName();
     }, [auth.currentUser]);
+
+    useEffect(() => {
+        const message = "Bienvenido al menú principal.";
+        const utterance = new SpeechSynthesisUtterance(message);
+        let timer;
+
+        const showBubble = () => {
+            setIsBubbleVisible(true);
+            setNicaImage(nicaPresenting);
+            timer = setTimeout(() => {
+                setIsBubbleVisible(false);
+                setNicaImage(nicaNeutral);
+            }, 5000);
+        };
+
+        showBubble();
+
+        return () => {
+            clearTimeout(timer);
+        };
+    }, []);
+
+    useEffect(() => {
+        const soundButton = document.getElementById('soundButton');
+        if (soundButton) {
+            const message = "Bienvenido al menú principal.";
+            const utterance = new SpeechSynthesisUtterance(message);
+
+            const handleSoundClick = () => {
+                speechSynthesis.speak(utterance);
+            };
+
+            soundButton.addEventListener('click', handleSoundClick);
+
+            return () => {
+                soundButton.removeEventListener('click', handleSoundClick);
+            };
+        }
+    }, [isBubbleVisible]);
+
+    const handleShowBubble = () => {
+        setIsBubbleVisible(true);
+        setNicaImage(nicaPresenting);
+        const timer = setTimeout(() => {
+            setIsBubbleVisible(false);
+            setNicaImage(nicaNeutral);
+        }, 5000);
+
+        return () => clearTimeout(timer);
+    };
+
+    const getNicaImageStyle = () => {
+        if (nicaImage === nicaPresenting) {
+            return { width: '400px', height: 'auto' };
+        } else {
+            return { width: '330px', height: 'auto' };
+        }
+    };
 
     const handleSignOut = () => {
         signOut(auth).then(() => {
@@ -91,7 +152,7 @@ function PrincipalMenu() {
                 <button onClick={openModal} className={`${styles.topButton} ${styles.homeButton}`}>
                     <i className="fas fa-home"></i>
                 </button>
-                <button className={`${styles.topButton} ${styles.infoButton}`}>
+                <button className={`${styles.topButton} ${styles.infoButton}`} onClick={handleShowBubble}>
                     <i className="fas fa-info"></i>
                 </button>
             </div>
@@ -122,13 +183,24 @@ function PrincipalMenu() {
                     <button className={styles.menuButton} onClick={handleNavigatePhonologicalExercises}>Ejercicios fonológicos</button>
                 </div>
             </div>
-            <img src={characterImage} alt="Character" className={styles.mainCharacterImage} />
+            <div className={styles.characterContainer}>
+                {isBubbleVisible && (
+                    <div className={styles.speechBubble}>
+                        <p className={styles.welcomeText}>Bienvenido al menú principal.</p>
+                        <button id="soundButton" className={styles.soundButton}>
+                            <i className="fas fa-volume-up"></i>
+                        </button>
+                    </div>
+                )}
+                <img src={nicaImage} alt="Character" className={styles.mainCharacterImage} style={getNicaImageStyle()} />
+            </div>
             <Modal
                 isOpen={isModalOpen}
                 onRequestClose={closeModal}
                 contentLabel="Confirm Logout"
                 className={styles.modal}
                 overlayClassName={styles.overlay}
+                shouldCloseOnOverlayClick={true}
             >
                 <h2 className={styles.modalTitle}>¿Deseas salir?</h2>
                 <div className={styles.modalButtons}>
