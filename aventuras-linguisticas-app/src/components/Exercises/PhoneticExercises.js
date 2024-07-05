@@ -6,7 +6,10 @@ import { getFirestore, doc, updateDoc } from 'firebase/firestore';
 import Modal from 'react-modal';
 import { ChildContext } from '../Access/ChildContext'; // Ajusta la ruta según sea necesario
 import styles from '../../css/Exercises/PhoneticExercises.module.css';
-import characterImage from '../../images/pig_granjera.png';
+import nicaNeutral from '../../images/Nica_Neutral.png';
+import nicaPresenting from '../../images/Nica_presenta.png';
+import nicaCorrecto from '../../images/Nica_Correcto.png';
+import nicaIncorrecto from '../../images/Nica_Incorrecto.png';
 
 Modal.setAppElement('#root'); // Set the app element for accessibility
 
@@ -15,6 +18,9 @@ function PhoneticExercises() {
   const [audioUrl, setAudioUrl] = useState('');
   const [loading, setLoading] = useState(true);
   const [fileName, setFileName] = useState('');
+  const [nicaImage, setNicaImage] = useState(nicaPresenting);
+  const [isBubbleVisible, setIsBubbleVisible] = useState(true);
+  const [bubbleMessage, setBubbleMessage] = useState('¡Bienvenido! Escucha el sonido y elige la respuesta correcta.');
   const navigate = useNavigate();
   const auth = getAuth();
   const storage = getStorage();
@@ -51,12 +57,89 @@ function PhoneticExercises() {
     fetchGuestCharacter();
   }, [storage]);
 
+  useEffect(() => {
+    const message = "¡Bienvenido! Escucha el sonido y elige la respuesta correcta.";
+    const utterance = new SpeechSynthesisUtterance(message);
+    let timer;
+
+    const showBubble = () => {
+      setIsBubbleVisible(true);
+      setNicaImage(nicaPresenting);
+      timer = setTimeout(() => {
+        setIsBubbleVisible(false);
+        setNicaImage(nicaNeutral);
+      }, 10000);
+    };
+
+    showBubble();
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, []);
+
+  useEffect(() => {
+    const soundButton = document.getElementById('soundButton');
+    if (soundButton) {
+      const message = "¡Bienvenido! Escucha el sonido y elige la respuesta correcta.";
+      const utterance = new SpeechSynthesisUtterance(message);
+
+      const handleSoundClick = () => {
+        speechSynthesis.speak(utterance);
+      };
+
+      soundButton.addEventListener('click', handleSoundClick);
+
+      return () => {
+        soundButton.removeEventListener('click', handleSoundClick);
+      };
+    }
+  }, [isBubbleVisible]);
+
+  const handleShowBubble = () => {
+    setIsBubbleVisible(true);
+    setBubbleMessage('¡Bienvenido! Escucha el sonido y elige la respuesta correcta.');
+    setNicaImage(nicaPresenting);
+    const timer = setTimeout(() => {
+      setIsBubbleVisible(false);
+      setNicaImage(nicaNeutral);
+    }, 10000);
+
+    return () => clearTimeout(timer);
+  };
+
+  const getNicaImageStyle = () => {
+    if (nicaImage === nicaCorrecto) {
+      return { width: '500px', height: 'auto' };
+    } else if (nicaImage === nicaIncorrecto) {
+      return { width: '330px', height: 'auto' };
+    } else if (nicaImage === nicaPresenting) {
+      return { width: '400px', height: 'auto' };
+    } else {
+      return { width: '330px', height: 'auto' };
+    }
+  };
+
   const playAudio = () => {
     const audio = new Audio(audioUrl);
     audio.play();
   };
 
   const handleResult = async (isCorrect) => {
+    setIsBubbleVisible(true);
+    if (isCorrect) {
+      setNicaImage(nicaCorrecto);
+      setBubbleMessage('¡Correcto! ¡Muy bien hecho!');
+    } else {
+      setNicaImage(nicaIncorrecto);
+      setBubbleMessage('Incorrecto. ¡Inténtalo de nuevo!');
+    }
+
+    setTimeout(() => {
+      setNicaImage(nicaNeutral);
+      setIsBubbleVisible(false);
+    }, 5000);
+
     if (auth.currentUser && selectedChild) {
       const score = isCorrect ? 1 : 0;
       const childDoc = doc(db, 'children', selectedChild.id);
@@ -97,7 +180,7 @@ function PhoneticExercises() {
         <button onClick={openModal} className={`${styles.topButton} ${styles.homeButton}`}>
           <i className="fas fa-home"></i>
         </button>
-        <button className={`${styles.topButton} ${styles.infoButton}`}>
+        <button className={`${styles.topButton} ${styles.infoButton}`} onClick={handleShowBubble}>
           <i className="fas fa-info"></i>
         </button>
         <Link to="/Menu" className={`${styles.topButton} ${styles.menuButton}`}>
@@ -127,7 +210,7 @@ function PhoneticExercises() {
           <img src={imageUrl} alt="Ejercicio" className={styles.exerciseImage} />
         )}
         <div className={styles.buttonContainer}>
-          <button className={styles.exerciseButton} onClick={playAudio} disabled={loading}>
+          <button className={`${styles.exerciseButton} ${styles.soundButton}`} onClick={playAudio} disabled={loading}>
             <i className="fas fa-volume-up"></i> Escuchar Sonido
           </button>
           {isAuthenticated && (
@@ -145,13 +228,22 @@ function PhoneticExercises() {
           </button>
         </div>
       </div>
-      <img src={characterImage} alt="Character" className={styles.mainCharacterImage} />
+      {isBubbleVisible && (
+        <div className={styles.speechBubble}>
+          <p className={styles.welcomeText}>{bubbleMessage}</p>
+          <button id="soundButton" className={styles.soundButtonSmall}>
+            <i className="fas fa-volume-up"></i>
+          </button>
+        </div>
+      )}
+      <img src={nicaImage} alt="Character" className={`${styles.mainCharacterImage} ${styles.nicaImage}`} style={getNicaImageStyle()} />
       <Modal
         isOpen={isModalOpen}
         onRequestClose={closeModal}
         contentLabel="Confirm Logout"
         className={styles.modal}
         overlayClassName={styles.overlay}
+        shouldCloseOnOverlayClick={true}
       >
         <h2 className={styles.modalTitle}>¿Deseas salir?</h2>
         <div className={styles.modalButtons}>
