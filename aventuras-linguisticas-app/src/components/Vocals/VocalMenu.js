@@ -2,10 +2,13 @@ import React, { useEffect, useState, useContext } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { getAuth, signOut } from 'firebase/auth';
 import { getStorage, ref, getDownloadURL } from 'firebase/storage';
+import { getFirestore, doc, getDoc } from 'firebase/firestore';
 import Modal from 'react-modal';
 import { ChildContext } from '../Access/ChildContext'; // Ajusta la ruta según sea necesario
 import styles from '../../css/Vocals/VocalMenu.module.css';
-import characterImage from '../../images/pig_granjera.png';
+import neutralCharacterImage from '../../images/Nica_Neutral.png';
+import presentingCharacterImage from '../../images/Nica_presenta.png';
+import starImage from '../../images/star.png';
 
 Modal.setAppElement('#root'); // Set the app element for accessibility
 
@@ -13,9 +16,13 @@ function VocalMenu() {
   const [imagenes, setImagenes] = useState({ a: '', e: '', i: '', o: '', u: '' });
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isBubbleVisible, setIsBubbleVisible] = useState(true);
+  const [scores, setScores] = useState({});
+  const [characterImage, setCharacterImage] = useState(presentingCharacterImage);
   const navigate = useNavigate();
   const auth = getAuth();
   const storage = getStorage();
+  const db = getFirestore();
   const { selectedChild } = useContext(ChildContext);
   const [guestCharacter, setGuestCharacter] = useState(null);
 
@@ -50,6 +57,64 @@ function VocalMenu() {
     fetchImagenes();
   }, [storage]);
 
+  useEffect(() => {
+    const fetchScores = async () => {
+      if (selectedChild) {
+        const childDoc = await getDoc(doc(db, 'children', selectedChild.id));
+        if (childDoc.exists()) {
+          const childData = childDoc.data();
+          console.log('Fetched child data:', childData);
+          setScores(childData);
+        }
+      }
+    };
+
+    fetchScores();
+  }, [selectedChild, db]);
+
+  useEffect(() => {
+    const message = "¡Bienvenido! Por favor, selecciona una vocal para comenzar.";
+    const utterance = new SpeechSynthesisUtterance(message);
+    const soundButton = document.getElementById('soundButton');
+
+    if (soundButton) {
+      soundButton.addEventListener('click', () => {
+        speechSynthesis.speak(utterance);
+      });
+
+      const timer = setTimeout(() => {
+        setIsBubbleVisible(false);
+        setCharacterImage(neutralCharacterImage);
+      }, 10000);
+
+      return () => {
+        soundButton.removeEventListener('click', () => {
+          speechSynthesis.cancel();
+        });
+        clearTimeout(timer);
+      };
+    }
+  }, []);
+
+  const handleShowBubble = () => {
+    setIsBubbleVisible(true);
+    setCharacterImage(presentingCharacterImage);
+    const timer = setTimeout(() => {
+      setIsBubbleVisible(false);
+      setCharacterImage(neutralCharacterImage);
+    }, 10000);
+
+    return () => clearTimeout(timer);
+  };
+
+  const getNicaImageStyle = () => {
+    if (characterImage === presentingCharacterImage) {
+      return { width: '400px', height: 'auto' };
+    } else {
+      return { width: '330px', height: 'auto' };
+    }
+  };
+
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -73,16 +138,37 @@ function VocalMenu() {
 
   const isAuthenticated = auth.currentUser && selectedChild;
 
+  const getPhoneticAwarenessScore = (vocal) => {
+    if (isAuthenticated) {
+      const score = scores[`phoneticAwarenessScore_${vocal}`] || 0;
+      console.log(`Score for ${vocal}:`, score);
+      return score;
+    }
+    return 0;
+  };
+
+  const renderStar = (vocal) => {
+    const score = getPhoneticAwarenessScore(vocal);
+    const starClass = score === 1 ? styles.filledStar : styles.emptyStar;
+    return (
+      <img
+        src={starImage}
+        alt="star"
+        className={`${styles.starImage} ${starClass}`}
+      />
+    );
+  };
+
   return (
     <div className={styles.mainContainer}>
       <div className={styles.topButtonsContainer}>
         <button onClick={openModal} className={`${styles.topButton} ${styles.homeButton}`}>
           <i className="fas fa-home"></i>
         </button>
-        <button className={`${styles.topButton} ${styles.infoButton}`}>
+        <button className={`${styles.topButton} ${styles.infoButton}`} onClick={handleShowBubble}>
           <i className="fas fa-info"></i>
         </button>
-        <Link to="/phonological-exercises" className={`${styles.topButton} ${styles.menuButton}`}>
+        <Link to="/phonological-exercises" className={`${styles.topButton} ${styles.menuButton}`} style={{ textDecoration: 'none' }}>
           <i className="fas fa-bars"></i>
         </Link>
       </div>
@@ -111,12 +197,23 @@ function VocalMenu() {
               <button key={vocal} className={styles.vocalButton} onClick={() => navigate(`/vocal/${vocal}/conciencia-fonemica`)}>
                 <img src={imagenes[vocal]} alt={`Vocal ${vocal.toUpperCase()}`} className={styles.vocalImage} />
                 <span className={styles.vocalText}>{vocal.toUpperCase()}</span>
+                {isAuthenticated && renderStar(vocal)}
               </button>
             ))}
           </div>
         )}
       </div>
-      <img src={characterImage} alt="Character" className={styles.mainCharacterImage} />
+      <div className={styles.characterContainer}>
+        {isBubbleVisible && (
+          <div className={styles.speechBubble}>
+            <p className={styles.welcomeText}>¡Bienvenido! Por favor, selecciona una vocal para comenzar.</p>
+            <button id="soundButton" className={styles.soundButton}>
+              <i className="fas fa-volume-up"></i>
+            </button>
+          </div>
+        )}
+        <img src={characterImage} alt="Character" className={styles.mainCharacterImage} style={getNicaImageStyle()} />
+      </div>
       <Modal
         isOpen={isModalOpen}
         onRequestClose={closeModal}

@@ -93,6 +93,14 @@
   margin-bottom: 20px;
 }
 
+.fileName {
+  font-size: 4.5rem;
+  color: #48a858;
+  padding: 10px 20px;
+  border-radius: 10px;
+  margin-left: 10px;
+}
+
 .exerciseImage {
   width: 300px;
   height: 300px;
@@ -279,6 +287,7 @@
   font-family: 'Poppins', sans-serif;
   text-align: center;
   z-index: 1;
+  width: 400px; /* Added width to control the bubble size */
 }
 
 .speechBubble:after {

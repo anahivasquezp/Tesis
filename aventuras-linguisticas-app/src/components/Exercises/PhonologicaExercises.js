@@ -4,7 +4,8 @@ import { getAuth, signOut } from 'firebase/auth';
 import Modal from 'react-modal';
 import { ChildContext } from '../Access/ChildContext'; // Ajusta la ruta según sea necesario
 import styles from '../../css/Exercises/PhonologicalExercises.module.css';
-import characterImage from '../../images/pig_granjera.png';
+import nicaNeutral from '../../images/Nica_Neutral.png';
+import nicaPresenting from '../../images/Nica_presenta.png';
 
 Modal.setAppElement('#root'); // Set the app element for accessibility
 
@@ -14,6 +15,9 @@ function PhonologicalExercises() {
   const auth = getAuth();
   const { selectedChild } = useContext(ChildContext);
   const [guestCharacter, setGuestCharacter] = useState(null);
+  const [isBubbleVisible, setIsBubbleVisible] = useState(true);
+  const [nicaImage, setNicaImage] = useState(nicaPresenting);
+  const [bubbleMessage, setBubbleMessage] = useState('¡Bienvenido! Elige un ejercicio para comenzar.');
 
   useEffect(() => {
     const fetchGuestCharacter = () => {
@@ -25,6 +29,65 @@ function PhonologicalExercises() {
 
     fetchGuestCharacter();
   }, []);
+
+  useEffect(() => {
+    const message = "¡Bienvenido! Elige un ejercicio para comenzar.";
+    const utterance = new SpeechSynthesisUtterance(message);
+    let timer;
+
+    const showBubble = () => {
+      setIsBubbleVisible(true);
+      setNicaImage(nicaPresenting);
+      timer = setTimeout(() => {
+        setIsBubbleVisible(false);
+        setNicaImage(nicaNeutral);
+      }, 10000);
+    };
+
+    showBubble();
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, []);
+
+  useEffect(() => {
+    const soundButton = document.getElementById('soundButton');
+    if (soundButton) {
+      const message = "¡Bienvenido! Elige un ejercicio para comenzar.";
+      const utterance = new SpeechSynthesisUtterance(message);
+
+      const handleSoundClick = () => {
+        speechSynthesis.speak(utterance);
+      };
+
+      soundButton.addEventListener('click', handleSoundClick);
+
+      return () => {
+        soundButton.removeEventListener('click', handleSoundClick);
+      };
+    }
+  }, [isBubbleVisible]);
+
+  const handleShowBubble = () => {
+    setIsBubbleVisible(true);
+    setBubbleMessage('¡Bienvenido! Elige un ejercicio para comenzar.');
+    setNicaImage(nicaPresenting);
+    const timer = setTimeout(() => {
+      setIsBubbleVisible(false);
+      setNicaImage(nicaNeutral);
+    }, 10000);
+
+    return () => clearTimeout(timer);
+  };
+
+  const getNicaImageStyle = () => {
+    if (nicaImage === nicaPresenting) {
+      return { width: '400px', height: 'auto' };
+    } else {
+      return { width: '330px', height: 'auto' };
+    }
+  };
 
   const handleNavigate = (path) => {
     navigate(path);
@@ -59,7 +122,7 @@ function PhonologicalExercises() {
         <button onClick={openModal} className={`${styles.topButton} ${styles.homeButton}`}>
           <i className="fas fa-home"></i>
         </button>
-        <button className={`${styles.topButton} ${styles.infoButton}`}>
+        <button className={`${styles.topButton} ${styles.infoButton}`} onClick={handleShowBubble}>
           <i className="fas fa-info"></i>
         </button>
         <Link to="/Menu" className={`${styles.topButton} ${styles.menuButton}`}>
@@ -84,24 +147,38 @@ function PhonologicalExercises() {
       <div className={styles.contentContainer}>
         <h1 className={styles.exerciseTitle}>Ejercicios Fonológicos</h1>
         <div className={styles.buttonGroup}>
-          <button className={styles.exerciseButton} onClick={() => handleNavigate('/vocalMenu')}>
-            <i className="fas fa-font"></i> Vocales
+          <button className={`${styles.exerciseButton} ${styles.exerciseButtonTop}`} onClick={() => handleNavigate('/vocalMenu')}>
+            <i className={`${styles.icon} fas fa-font`}></i> Vocales
           </button>
-          <button className={styles.exerciseButton} onClick={() => handleNavigate('/age-fonemas/3')}>
-            <i className="fas fa-child"></i> 3 años
-          </button>
-          <button className={styles.exerciseButton} onClick={() => handleNavigate('/age-fonemas/4')}>
-            <i className="fas fa-child"></i> 4 años
-          </button>
-          <button className={styles.exerciseButton} onClick={() => handleNavigate('/age-fonemas/5')}>
-            <i className="fas fa-child"></i> 5 años
-          </button>
-          <button className={styles.exerciseButton} onClick={() => handleNavigate('/age-fonemas/6')}>
-            <i className="fas fa-child"></i> 6 años
-          </button>
+          <div className={styles.exerciseButtonColumn}>
+            <button className={styles.exerciseButton} onClick={() => handleNavigate('/age-fonemas/3')}>
+              <i className={`${styles.icon} fas fa-child`}></i> 3 años
+            </button>
+            <button className={styles.exerciseButton} onClick={() => handleNavigate('/age-fonemas/4')}>
+              <i className={`${styles.icon} fas fa-child`}></i> 4 años
+            </button>
+          </div>
+          <div className={styles.exerciseButtonColumn}>
+            <button className={styles.exerciseButton} onClick={() => handleNavigate('/age-fonemas/5')}>
+              <i className={`${styles.icon} fas fa-child`}></i> 5 años
+            </button>
+            <button className={styles.exerciseButton} onClick={() => handleNavigate('/age-fonemas/6')}>
+              <i className={`${styles.icon} fas fa-child`}></i> 6 años
+            </button>
+          </div>
         </div>
       </div>
-      <img src={characterImage} alt="Character" className={styles.mainCharacterImage} />
+      <div className={styles.characterContainer}>
+        {isBubbleVisible && (
+          <div className={styles.speechBubble}>
+            <p className={styles.welcomeText}>{bubbleMessage}</p>
+            <button id="soundButton" className={styles.soundButton}>
+              <i className="fas fa-volume-up"></i>
+            </button>
+          </div>
+        )}
+        <img src={nicaImage} alt="Character" className={styles.mainCharacterImage} style={getNicaImageStyle()} />
+      </div>
       <Modal
         isOpen={isModalOpen}
         onRequestClose={closeModal}

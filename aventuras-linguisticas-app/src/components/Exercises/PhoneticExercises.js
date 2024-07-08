@@ -203,7 +203,7 @@ function PhoneticExercises() {
         )}
       </div>
       <div className={styles.contentContainer}>
-        <h1 className={styles.exerciseTitle}>Conciencia Fonética: {fileName}</h1>
+        <h1 className={styles.exerciseTitle}>Conciencia Fonética: <span className={styles.fileName}>{fileName}</span></h1>
         {loading ? (
           <p className={styles.loadingText}>Cargando...</p>
         ) : (

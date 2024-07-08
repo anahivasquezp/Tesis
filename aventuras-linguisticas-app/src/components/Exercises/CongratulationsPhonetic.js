@@ -6,7 +6,7 @@ import Modal from 'react-modal';
 import { ChildContext } from '../Access/ChildContext'; // Ajusta la ruta según sea necesario
 import styles from '../../css/Exercises/CongratulationsPhonetic.module.css';
 import starImage from '../../images/star.png';
-import characterImage from '../../images/pig_granjera.png';
+import nicaCorrecto from '../../images/Nica_Correcto.png';
 
 Modal.setAppElement('#root'); // Set the app element for accessibility
 
@@ -73,7 +73,7 @@ const CongratulationsPhonetic = () => {
       <img
         src={starImage}
         alt="star"
-        className={score === 1 || !isAuthenticated ? styles.filledStar : styles.emptyStar}
+        className={styles.largeStar}
       />
     );
   };
@@ -83,9 +83,6 @@ const CongratulationsPhonetic = () => {
       <div className={styles.topButtonsContainer}>
         <button onClick={openModal} className={`${styles.topButton} ${styles.homeButton}`}>
           <i className="fas fa-home"></i>
-        </button>
-        <button className={`${styles.topButton} ${styles.infoButton}`}>
-          <i className="fas fa-info"></i>
         </button>
         <Link to="/vocalMenu" className={`${styles.topButton} ${styles.menuButton}`}>
           <i className="fas fa-bars"></i>
@@ -97,7 +94,7 @@ const CongratulationsPhonetic = () => {
           <>
             <h1 className={styles.congratulationsTitle}>¡Felicidades {selectedChild.name}!</h1>
             <p className={styles.congratulationsText}>
-              Has completado los ejercicios de conciencia fonética con un puntaje de {score}/1.
+              Has completado los ejercicios de conciencia fonética con un puntaje de <span className={styles.score}>{score}/1</span>.
             </p>
             <img
               src={selectedChild.characterImage}
@@ -122,7 +119,7 @@ const CongratulationsPhonetic = () => {
           Continuar
         </button>
       </div>
-      <img src={characterImage} alt="Character" className={styles.mainCharacterImage} />
+      <img src={nicaCorrecto} alt="Character" className={styles.mainCharacterImage} />
       <Modal
         isOpen={isModalOpen}
         onRequestClose={closeModal}

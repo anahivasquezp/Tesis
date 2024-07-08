@@ -1,220 +1,227 @@
 .congratulationsContainer {
-    width: 100vw;
-    height: 100vh;
-    background-image: url('../../images/therapist_login_bg.webp');
-    background-size: cover;
-    background-position: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    position: relative;
+  width: 100vw;
+  height: 100vh;
+  background-image: url('../../images/therapist_login_bg.webp');
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.topButtonsContainer {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  display: flex;
+  gap: 20px;
+}
+
+.topButton {
+  width: 70px;
+  height: 70px;
+  background-image: url('../../images/button_cuadrado_pequeño.jpg');
+  background-size: cover;
+  background-position: center;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+  text-decoration: none;
+}
+
+.topButton i {
+  font-size: 32px;
+  color: white;
+}
+
+.topButton:hover {
+  transform: scale(1.1);
+  box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.topButton:active {
+  transform: scale(0.9);
+  box-shadow: inset 3px 3px 8px rgba(0, 0, 0, 0.4);
+}
+
+.contentContainer {
+  width: 60%;
+  background-color: rgba(255, 255, 255, 0.7);
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  position: relative;
+}
+
+.congratulationsTitle {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  font-size: 3rem;
+  color: #A05A25;
+  margin-bottom: 20px;
+}
+
+.congratulationsText {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.5rem;
+  color: #71401a;
+  margin-bottom: 20px;
+}
+
+.score {
+  font-size: 2.5rem;
+  color: #48a858;
+  font-weight: bold;
+  padding: 5px 10px;
+  border-radius: 10px;
+}
+
+.largeImage {
+  width: 300px;
+  height: auto;
+  border-radius: 15px;
+  margin-bottom: 20px;
+}
+
+.starsContainer {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.largeStar {
+  width: 100px;
+  height: 100px;
+  animation: sparkle 2s infinite;
+}
+
+.filledStar {
+  filter: none;
+}
+
+.emptyStar {
+  filter: grayscale(100%);
+}
+
+@keyframes sparkle {
+  0%, 100% {
+    transform: scale(1);
   }
-  
-  .topButtonsContainer {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    display: flex;
-    gap: 10px;
+  50% {
+    transform: scale(1.2);
   }
-  
-  .topButton {
-    width: 50px;
-    height: 50px;
-    background-image: url('../../images/button_cuadrado_pequeño.jpg');
-    background-size: cover;
-    background-position: center;
-    border: none;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 15px;
-    text-decoration: none;
-  }
-  
-  .topButton i {
-    font-size: 24px;
-    color: white;
-  }
-  
-  .topButton:hover {
-    transform: scale(1.1);
-    box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.3);
-  }
-  
-  .topButton:active {
-    transform: scale(0.9);
-    box-shadow: inset 3px 3px 8px rgba(0, 0, 0, 0.4);
-  }
-  
-  .contentContainer {
-    width: 60%;
-    background-color: rgba(255, 255, 255, 0.7);
-    padding: 40px;
-    border-radius: 15px;
-    box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2);
-    text-align: center;
-    position: relative;
-  }
-  
-  .congratulationsTitle {
-    font-family: 'Poppins', sans-serif;
-    font-weight: 700;
-    font-size: 3rem;
-    color: #A05A25;
-    margin-bottom: 20px;
-  }
-  
-  .congratulationsText {
-    font-family: 'Poppins', sans-serif;
-    font-size: 1.5rem;
-    color: #71401a;
-    margin-bottom: 20px;
-  }
-  
-  .largeImage {
-    width: 300px;
-    height: auto;
-    border-radius: 15px;
-    margin-bottom: 20px;
-  }
-  
-  .starsContainer {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-bottom: 20px;
-  }
-  
-  .starsContainer img {
-    width: 50px;
-    height: 50px;
-    animation: sparkle 2s infinite;
-  }
-  
-  .filledStar {
-    filter: none;
-  }
-  
-  .emptyStar {
-    filter: grayscale(100%);
-  }
-  
-  @keyframes sparkle {
-    0%, 100% {
-      transform: scale(1);
-    }
-    50% {
-      transform: scale(1.2);
-    }
-  }
-  
-  .continueButton {
-    font-family: 'Poppins', sans-serif;
-    font-size: 1.5rem;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 15px;
-    cursor: pointer;
-    background-color: #2D817A;
-    color: white;
-    transition: transform 0.2s, background-color 0.2s, box-shadow 0.2s;
-    align-items: center;
-    justify-content: center;
-    margin-top: 20px;
-  }
-  
-  .continueButton:hover {
-    transform: scale(1.1);
-    background-color: #67B97D;
-    box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.3);
-  }
-  
-  .continueButton:active {
-    transform: scale(0.9);
-  }
-  
-  .mainCharacterImage {
-    position: absolute;
-    bottom: 20px;
-    left: 20px;
-    width: 400px;
-    height: auto;
-  }
-  
-  .modal {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 80%;
-    max-width: 500px;
-    padding: 20px;
-    background: rgba(255, 255, 255, 0.9);
-    border-radius: 15px;
-    box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2);
-    transform: translate(-50%, -50%);
-    text-align: center;
-  }
-  
-  .overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
-  }
-  
-  .modalTitle {
-    font-family: 'Poppins', sans-serif;
-    font-size: 1.8rem;
-    color: #A05A25;
-    margin-bottom: 20px;
-  }
-  
-  .modalButtons {
-    display: flex;
-    justify-content: space-around;
-  }
-  
-  .confirmButton,
-  .cancelButton {
-    font-family: 'Poppins', sans-serif;
-    font-size: 1.2rem;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 15px;
-    cursor: pointer;
-    transition: transform 0.2s, background-color 0.2s;
-  }
-  
-  .confirmButton {
-    background-color: #2D817A;
-    color: white;
-  }
-  
-  .confirmButton:hover {
-    background-color: #67B97D;
-    transform: scale(1.1);
-  }
-  
-  .confirmButton:active {
-    transform: scale(0.9);
-  }
-  
-  .cancelButton {
-    background-color: #A05A25;
-    color: white;
-  }
-  
-  .cancelButton:hover {
-    background-color: #71401a;
-    transform: scale(1.1);
-  }
-  
-  .cancelButton:active {
-    transform: scale(0.9);
-  }
-  
+}
+
+.continueButton {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.5rem;
+  padding: 15px 30px;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+  background-image: url('../../images/button_rectangular.jpg');
+  background-size: cover;
+  color: white;
+  transition: transform 0.2s, background-color 0.2s, box-shadow 0.2s;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.continueButton:hover {
+  transform: scale(1.1);
+  box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.continueButton:active {
+  transform: scale(0.9);
+}
+
+.mainCharacterImage {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  width: 500px;
+  height: auto;
+}
+
+.modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 80%;
+  max-width: 500px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 15px;
+  box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2);
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.modalTitle {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.8rem;
+  color: #A05A25;
+  margin-bottom: 20px;
+}
+
+.modalButtons {
+  display: flex;
+  justify-content: space-around;
+}
+
+.confirmButton,
+.cancelButton {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.2rem;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: transform 0.2s, background-color 0.2s;
+}
+
+.confirmButton {
+  background-color: #2D817A;
+  color: white;
+}
+
+.confirmButton:hover {
+  background-color: #67B97D;
+  transform: scale(1.1);
+}
+
+.confirmButton:active {
+  transform: scale(0.9);
+}
+
+.cancelButton {
+  background-color: #A05A25;
+  color: white;
+}
+
+.cancelButton:hover {
+  background-color: #71401a;
+  transform: scale(1.1);
+}
+
+.cancelButton:active {
+  transform: scale(0.9);
+}
