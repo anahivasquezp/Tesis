@@ -6,7 +6,8 @@ import Modal from 'react-modal';
 import { ChildContext } from '../Access/ChildContext'; // Ajusta la ruta según sea necesario
 import styles from '../../css/Exercises/AgeFonemas.module.css';
 import starImage from '../../images/star.png';
-import characterImage from '../../images/pig_granjera.png';
+import nicaNeutral from '../../images/Nica_Neutral.png';
+import nicaPresenting from '../../images/Nica_presenta.png';
 
 Modal.setAppElement('#root'); // Set the app element for accessibility
 
@@ -18,6 +19,9 @@ function AgeFonemas() {
   const { selectedChild } = useContext(ChildContext);
   const [guestCharacter, setGuestCharacter] = useState(null);
   const [scores, setScores] = useState({});
+  const [isBubbleVisible, setIsBubbleVisible] = useState(true);
+  const [nicaImage, setNicaImage] = useState(nicaPresenting);
+  const [bubbleMessage, setBubbleMessage] = useState(`¡Bienvenido! Estos son los fonemas para ${age} años.`);
 
   useEffect(() => {
     const fetchGuestCharacter = () => {
@@ -44,6 +48,65 @@ function AgeFonemas() {
     fetchScores();
   }, [selectedChild]);
 
+  useEffect(() => {
+    const message = `¡Bienvenido! Estos son los fonemas para ${age} años.`;
+    const utterance = new SpeechSynthesisUtterance(message);
+    let timer;
+
+    const showBubble = () => {
+      setIsBubbleVisible(true);
+      setNicaImage(nicaPresenting);
+      timer = setTimeout(() => {
+        setIsBubbleVisible(false);
+        setNicaImage(nicaNeutral);
+      }, 10000);
+    };
+
+    showBubble();
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [age]);
+
+  useEffect(() => {
+    const soundButton = document.getElementById('soundButton');
+    if (soundButton) {
+      const message = `¡Bienvenido! Estos son los fonemas para ${age} años.`;
+      const utterance = new SpeechSynthesisUtterance(message);
+
+      const handleSoundClick = () => {
+        speechSynthesis.speak(utterance);
+      };
+
+      soundButton.addEventListener('click', handleSoundClick);
+
+      return () => {
+        soundButton.removeEventListener('click', handleSoundClick);
+      };
+    }
+  }, [age, isBubbleVisible]);
+
+  const handleShowBubble = () => {
+    setIsBubbleVisible(true);
+    setBubbleMessage(`¡Bienvenido! Estos son los fonemas para ${age} años.`);
+    setNicaImage(nicaPresenting);
+    const timer = setTimeout(() => {
+      setIsBubbleVisible(false);
+      setNicaImage(nicaNeutral);
+    }, 10000);
+
+    return () => clearTimeout(timer);
+  };
+
+  const getNicaImageStyle = () => {
+    if (nicaImage === nicaPresenting) {
+      return { width: '400px', height: 'auto' };
+    } else {
+      return { width: '330px', height: 'auto' };
+    }
+  };
+
   const loadFonemasByAge = (age) => {
     const fonemas = {
       '3': ['m', 'ch', 'k', 'n', 'enie', 'p', 't', 'f', 'y', 'l', 'j'],
@@ -55,6 +118,10 @@ function AgeFonemas() {
   };
 
   const calculateStars = (fonema) => {
+    if (!isAuthenticated) {
+      return { totalExercises: 0, score: 0 };
+    }
+
     const keys = [
       `fonema_${fonema}`,
       ...["A", "E", "I", "O", "U"].map(syl => `conciencia_fonemica_${fonema}_${syl}`),
@@ -79,6 +146,7 @@ function AgeFonemas() {
           src={starImage}
           alt="star"
           className={i < score ? styles.filledStar : styles.emptyStar}
+          style={{ width: '30px', height: '30px' }}
         />
       );
     }
@@ -126,7 +194,7 @@ function AgeFonemas() {
         <button onClick={openModal} className={`${styles.topButton} ${styles.homeButton}`}>
           <i className="fas fa-home"></i>
         </button>
-        <button className={`${styles.topButton} ${styles.infoButton}`}>
+        <button className={`${styles.topButton} ${styles.infoButton}`} onClick={handleShowBubble}>
           <i className="fas fa-info"></i>
         </button>
         <Link to="/phonological-exercises" className={`${styles.topButton} ${styles.menuButton}`}>
@@ -153,12 +221,13 @@ function AgeFonemas() {
         <div className={styles.fonemasContainer}>
           {fonemas.map(fonema => {
             const { totalExercises, score } = calculateStars(fonema);
+            const displayFonema = fonema === 'enie' ? 'Ñ' : fonema.toUpperCase();
             return (
               <Link key={fonema} to={`/exercise/${fonema}`} className={styles.fonemaLinkWrapper}>
                 <div className={styles.fonemaItem}>
                   <button className={styles.fonemaButton}>
-                    <span>{fonema.toUpperCase()}</span>
-                    {totalExercises > 0 && (
+                    <span className={styles.fonemaText}>{displayFonema}</span>
+                    {isAuthenticated && totalExercises > 0 && (
                       <div className={styles.starsContainer}>
                         {renderStars(score, totalExercises)}
                       </div>
@@ -170,7 +239,17 @@ function AgeFonemas() {
           })}
         </div>
       </div>
-      <img src={characterImage} alt="Character" className={styles.mainCharacterImage} />
+      <div className={styles.characterContainer}>
+        {isBubbleVisible && (
+          <div className={styles.speechBubble}>
+            <p className={styles.welcomeText}>{bubbleMessage}</p>
+            <button id="soundButton" className={styles.soundButton}>
+              <i className="fas fa-volume-up"></i>
+            </button>
+          </div>
+        )}
+        <img src={nicaImage} alt="Character" className={styles.mainCharacterImage} style={getNicaImageStyle()} />
+      </div>
       <Modal
         isOpen={isModalOpen}
         onRequestClose={closeModal}

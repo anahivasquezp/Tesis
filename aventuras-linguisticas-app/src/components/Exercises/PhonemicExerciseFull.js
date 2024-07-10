@@ -7,7 +7,10 @@ import { getAuth, signOut } from 'firebase/auth';
 import Modal from 'react-modal';
 import { ChildContext } from '../Access/ChildContext';
 import styles from '../../css/Exercises/PhonemicExerciseFull.module.css';
-import characterImage from '../../images/pig_granjera.png';
+import nicaNeutral from '../../images/Nica_Neutral.png';
+import nicaPresenting from '../../images/Nica_presenta.png';
+import nicaCorrecto from '../../images/Nica_Correcto.png';
+import nicaIncorrecto from '../../images/Nica_Incorrecto.png';
 
 Modal.setAppElement('#root');
 
@@ -21,6 +24,8 @@ function ConcienciaFonemicaExerciseFull() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [guestCharacter, setGuestCharacter] = useState(null);
 
+  const syllables = ["A", "E", "I", "O", "U"];
+
   const [value, loading, error] = useDocumentData(
     doc(collection(db, 'exercises'), fonema)
   );
@@ -29,8 +34,9 @@ function ConcienciaFonemicaExerciseFull() {
   const [videoURL, setVideoURL] = useState(null);
   const [videoLoading, setVideoLoading] = useState(true);
   const [exerciseScore, setExerciseScore] = useState(0);
-
-  const syllables = ["A", "E", "I", "O", "U"];
+  const [nicaImage, setNicaImage] = useState(nicaPresenting);
+  const [isBubbleVisible, setIsBubbleVisible] = useState(true);
+  const [bubbleMessage, setBubbleMessage] = useState(`Conciencia Fonémica: ${fonema.toUpperCase()}${syllables[videoIndex]}`);
 
   useEffect(() => {
     const fetchGuestCharacter = () => {
@@ -46,7 +52,7 @@ function ConcienciaFonemicaExerciseFull() {
   useEffect(() => {
     if (selectedChild) {
       const currentScore = selectedChild.scores?.[`conciencia_fonemica_${fonema}_${syllables[videoIndex]}`];
-      setExerciseScore(currentScore !== undefined ? currentScore : -1); // Set to -1 if score doesn't exist
+      setExerciseScore(currentScore !== undefined ? currentScore : -1);
     }
   }, [selectedChild, fonema, videoIndex]);
 
@@ -56,20 +62,68 @@ function ConcienciaFonemicaExerciseFull() {
       const videoPath = `videos/${fonema.toUpperCase()}/Audio_ConcienciaFonemica_${fonema.toUpperCase()}${syllables[videoIndex]}.mp4`;
       const videoRef = ref(storage, videoPath);
 
-      console.log(`Fetching video from path: ${videoPath}`);
-
       getDownloadURL(videoRef)
         .then((url) => {
-          console.log("Video URL fetched:", url);
           setVideoURL(url);
           setVideoLoading(false);
         })
         .catch((error) => {
-          console.error("Error al obtener la URL de descarga del video", error);
           setVideoLoading(false);
         });
     }
   }, [videoIndex, fonema]);
+
+  useEffect(() => {
+    const message = `Conciencia Fonémica: ${fonema.toUpperCase()}${syllables[videoIndex]}`;
+    const utterance = new SpeechSynthesisUtterance(message);
+    let timer;
+
+    const showBubble = () => {
+      setIsBubbleVisible(true);
+      setBubbleMessage(message);
+      setNicaImage(nicaPresenting);
+      timer = setTimeout(() => {
+        setIsBubbleVisible(false);
+        setNicaImage(nicaNeutral);
+      }, 10000);
+    };
+
+    showBubble();
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [fonema, videoIndex]);
+
+  useEffect(() => {
+    const soundButton = document.getElementById('soundButton');
+    if (soundButton) {
+      const message = `Conciencia Fonémica: ${fonema.toUpperCase()}${syllables[videoIndex]}`;
+      const utterance = new SpeechSynthesisUtterance(message);
+
+      const handleSoundClick = () => {
+        speechSynthesis.speak(utterance);
+      };
+
+      soundButton.addEventListener('click', handleSoundClick);
+
+      return () => {
+        soundButton.removeEventListener('click', handleSoundClick);
+      };
+    }
+  }, [fonema, isBubbleVisible, videoIndex]);
+
+  const handleShowBubble = () => {
+    setIsBubbleVisible(true);
+    setBubbleMessage(`Conciencia Fonémica: ${fonema.toUpperCase()}${syllables[videoIndex]}`);
+    setNicaImage(nicaPresenting);
+    const timer = setTimeout(() => {
+      setIsBubbleVisible(false);
+      setNicaImage(nicaNeutral);
+    }, 10000);
+
+    return () => clearTimeout(timer);
+  };
 
   const handleNextVideo = () => {
     if (videoIndex < syllables.length - 1) {
@@ -108,6 +162,12 @@ function ConcienciaFonemicaExerciseFull() {
 
     setSelectedChild(updatedChild);
     setExerciseScore(newScore);
+    setNicaImage(nicaCorrecto);
+    setBubbleMessage('¡Correcto! ¡Muy bien hecho!');
+    setTimeout(() => {
+      setIsBubbleVisible(false);
+      setNicaImage(nicaNeutral);
+    }, 5000);
   };
 
   const handleIncorrecto = async () => {
@@ -127,6 +187,12 @@ function ConcienciaFonemicaExerciseFull() {
 
     setSelectedChild(updatedChild);
     setExerciseScore(newScore);
+    setNicaImage(nicaIncorrecto);
+    setBubbleMessage('Incorrecto. ¡Inténtalo de nuevo!');
+    setTimeout(() => {
+      setIsBubbleVisible(false);
+      setNicaImage(nicaNeutral);
+    }, 5000);
   };
 
   const openModal = () => {
@@ -152,6 +218,18 @@ function ConcienciaFonemicaExerciseFull() {
 
   const isAuthenticated = auth.currentUser && selectedChild;
 
+  const getNicaImageStyle = () => {
+    if (nicaImage === nicaCorrecto) {
+      return { width: '500px', height: 'auto' };
+    } else if (nicaImage === nicaIncorrecto) {
+      return { width: '330px', height: 'auto' };
+    } else if (nicaImage === nicaPresenting) {
+      return { width: '400px', height: 'auto' };
+    } else {
+      return { width: '330px', height: 'auto' };
+    }
+  };
+
   const getAgeGroup = (fonema) => {
     const ageGroups = {
       '3': ['m', 'ch', 'k', 'n', 'ñ', 'p', 't', 'f', 'y', 'l', 'j'],
@@ -176,7 +254,7 @@ function ConcienciaFonemicaExerciseFull() {
         <button onClick={openModal} className={`${styles.topButton} ${styles.homeButton}`}>
           <i className="fas fa-home"></i>
         </button>
-        <button className={`${styles.topButton} ${styles.infoButton}`}>
+        <button className={`${styles.topButton} ${styles.infoButton}`} onClick={handleShowBubble}>
           <i className="fas fa-info"></i>
         </button>
         {ageGroup && (
@@ -236,7 +314,15 @@ function ConcienciaFonemicaExerciseFull() {
           </>
         )}
       </div>
-      <img src={characterImage} alt="Character" className={styles.mainCharacterImage} />
+      {isBubbleVisible && (
+        <div className={styles.speechBubble}>
+          <p className={styles.welcomeText}>{bubbleMessage}</p>
+          <button id="soundButton" className={styles.soundButtonSmall}>
+            <i className="fas fa-volume-up"></i>
+          </button>
+        </div>
+      )}
+      <img src={nicaImage} alt="Character" className={`${styles.mainCharacterImage} ${styles.nicaImage}`} style={getNicaImageStyle()} />
       <Modal
         isOpen={isModalOpen}
         onRequestClose={closeModal}

@@ -65,13 +65,13 @@ function Instructions() {
                     </div>
                     <div className={styles.creditColumn}>
                         <h3>Autor</h3>
-                        <p>Srt. Anahí Nicole Vásquez Pacheco</p>
+                        <p>Srta. Anahí Nicole Vásquez Pacheco</p>
                     </div>
                     <div className={styles.creditColumn}>
                         <h3>Colaboradores</h3>
                         <p>Ph.D Boris Astudillo</p>
                         <p>Ph.D Marco Santorum G.</p>
-                        <p>Srt. Angela Vásquez</p>
+                        <p>Srta. Angela Vásquez</p>
                     </div>
                 </div>
                 <div className={styles.directorContainer}>

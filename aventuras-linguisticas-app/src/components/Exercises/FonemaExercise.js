@@ -7,8 +7,11 @@ import { getAuth, signOut } from 'firebase/auth';
 import Modal from 'react-modal';
 import { ChildContext } from '../Access/ChildContext';
 import styles from '../../css/Exercises/FonemaExercise.module.css';
-import characterImage from '../../images/pig_granjera.png';
-import { db, auth } from '../../firebase'; // Asegúrate de ajustar la ruta según tu estructura de proyecto
+import nicaNeutral from '../../images/Nica_Neutral.png';
+import nicaPresenting from '../../images/Nica_presenta.png';
+import nicaCorrecto from '../../images/Nica_Correcto.png';
+import nicaIncorrecto from '../../images/Nica_Incorrecto.png';
+import { db, auth } from '../../firebase';
 
 Modal.setAppElement('#root');
 
@@ -23,13 +26,14 @@ function FonemaExercise() {
     doc(collection(db, 'exercises'), fonema)
   );
 
-
-
   const [imageURL, setImageURL] = useState(null);
   const [audioURL, setAudioURL] = useState(null);
   const [imageLoading, setImageLoading] = useState(true);
   const [audioLoading, setAudioLoading] = useState(true);
   const [exerciseScore, setExerciseScore] = useState(0);
+  const [nicaImage, setNicaImage] = useState(nicaPresenting);
+  const [isBubbleVisible, setIsBubbleVisible] = useState(true);
+  const [bubbleMessage, setBubbleMessage] = useState(`¡Bienvenido! Estos son los fonemas para ${fonema.toUpperCase()}.`);
 
   useEffect(() => {
     const fetchGuestCharacter = () => {
@@ -45,7 +49,7 @@ function FonemaExercise() {
   useEffect(() => {
     if (selectedChild) {
       const currentScore = selectedChild.scores?.[`fonema_${fonema}`];
-      setExerciseScore(currentScore !== undefined ? currentScore : -1); // Set to -1 if score doesn't exist
+      setExerciseScore(currentScore !== undefined ? currentScore : -1);
     }
   }, [selectedChild, fonema]);
 
@@ -75,8 +79,55 @@ function FonemaExercise() {
       });
   }, [fonema]);
 
-  const handleNextPage = () => {
-    navigate(`/PhonemicExerciseFull/${fonema}`);
+  useEffect(() => {
+    const message = `¡Bienvenido! Estos son los fonemas para ${fonema.toUpperCase()}.`;
+    const utterance = new SpeechSynthesisUtterance(message);
+    let timer;
+
+    const showBubble = () => {
+      setIsBubbleVisible(true);
+      setNicaImage(nicaPresenting);
+      timer = setTimeout(() => {
+        setIsBubbleVisible(false);
+        setNicaImage(nicaNeutral);
+      }, 10000);
+    };
+
+    showBubble();
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [fonema]);
+
+  useEffect(() => {
+    const soundButton = document.getElementById('soundButton');
+    if (soundButton) {
+      const message = `¡Bienvenido! Estos son los fonemas para ${fonema.toUpperCase()}.`;
+      const utterance = new SpeechSynthesisUtterance(message);
+
+      const handleSoundClick = () => {
+        speechSynthesis.speak(utterance);
+      };
+
+      soundButton.addEventListener('click', handleSoundClick);
+
+      return () => {
+        soundButton.removeEventListener('click', handleSoundClick);
+      };
+    }
+  }, [fonema, isBubbleVisible]);
+
+  const handleShowBubble = () => {
+    setIsBubbleVisible(true);
+    setBubbleMessage(`¡Bienvenido! Estos son los fonemas para ${fonema.toUpperCase()}.`);
+    setNicaImage(nicaPresenting);
+    const timer = setTimeout(() => {
+      setIsBubbleVisible(false);
+      setNicaImage(nicaNeutral);
+    }, 10000);
+
+    return () => clearTimeout(timer);
   };
 
   const playAudio = () => {
@@ -100,7 +151,14 @@ function FonemaExercise() {
     });
 
     setSelectedChild(updatedChild);
-    setExerciseScore(newScore); // Marca que se ha clicado "Correcto"
+    setExerciseScore(newScore); 
+    setNicaImage(nicaCorrecto);
+    setBubbleMessage('¡Correcto! ¡Muy bien hecho!');
+    setIsBubbleVisible(true);
+    setTimeout(() => {
+      setIsBubbleVisible(false);
+      setNicaImage(nicaNeutral);
+    }, 5000);
   };
 
   const handleIncorrecto = async () => {
@@ -119,7 +177,18 @@ function FonemaExercise() {
     });
 
     setSelectedChild(updatedChild);
-    setExerciseScore(newScore); // Marca que se ha clicado "Incorrecto"
+    setExerciseScore(newScore); 
+    setNicaImage(nicaIncorrecto);
+    setBubbleMessage('Incorrecto. ¡Inténtalo de nuevo!');
+    setIsBubbleVisible(true);
+    setTimeout(() => {
+      setIsBubbleVisible(false);
+      setNicaImage(nicaNeutral);
+    }, 5000);
+  };
+
+  const handleNextPage = () => {
+    navigate(`/PhonemicExerciseFull/${fonema}`);
   };
 
   const openModal = () => {
@@ -145,9 +214,21 @@ function FonemaExercise() {
 
   const isAuthenticated = auth.currentUser && selectedChild;
 
+  const getNicaImageStyle = () => {
+    if (nicaImage === nicaCorrecto) {
+      return { width: '500px', height: 'auto' };
+    } else if (nicaImage === nicaIncorrecto) {
+      return { width: '330px', height: 'auto' };
+    } else if (nicaImage === nicaPresenting) {
+      return { width: '400px', height: 'auto' };
+    } else {
+      return { width: '330px', height: 'auto' };
+    }
+  };
+
   const getAgeGroup = (fonema) => {
     const ageGroups = {
-      '3': ['m', 'ch', 'k', 'n', 'ñ', 'p', 't', 'f', 'y', 'l', 'j'],
+      '3': ['m', 'ch', 'k', 'n', 'enie', 'p', 't', 'f', 'y', 'l', 'j'],
       '4': ['b', 'd', 'g', 'bl', 'pl'],
       '5': ['r', 'fl', 'kl', 'br', 'kr', 'gr'],
       '6': ['rr', 's', 'gl', 'fr', 'pr', 'tr', 'dr']
@@ -169,7 +250,7 @@ function FonemaExercise() {
         <button onClick={openModal} className={`${styles.topButton} ${styles.homeButton}`}>
           <i className="fas fa-home"></i>
         </button>
-        <button className={`${styles.topButton} ${styles.infoButton}`}>
+        <button className={`${styles.topButton} ${styles.infoButton}`} onClick={handleShowBubble}>
           <i className="fas fa-info"></i>
         </button>
         {ageGroup && (
@@ -194,7 +275,7 @@ function FonemaExercise() {
         )}
       </div>
       <div className={styles.contentContainer}>
-        <h1 className={styles.exerciseTitle}>Fonema: {fonema.toUpperCase()}</h1>
+        <h1 className={styles.exerciseTitle}>Fonema: <span className={styles.fileName}>{fonema.toUpperCase()}</span></h1>
         {loading ? (
           <p className={styles.loadingText}>Cargando...</p>
         ) : error ? (
@@ -212,7 +293,7 @@ function FonemaExercise() {
               {audioLoading ? (
                 <p className={styles.loadingText}>Cargando audio...</p>
               ) : audioURL ? (
-                <button onClick={playAudio} className={styles.exerciseButton}>
+                <button onClick={playAudio} className={`${styles.exerciseButton} ${styles.soundButton}`}>
                   <i className="fas fa-volume-up"></i> Escuchar Sonido
                 </button>
               ) : (
@@ -235,7 +316,15 @@ function FonemaExercise() {
           </>
         )}
       </div>
-      <img src={characterImage} alt="Character" className={styles.mainCharacterImage} />
+      {isBubbleVisible && (
+        <div className={styles.speechBubble}>
+          <p className={styles.welcomeText}>{bubbleMessage}</p>
+          <button id="soundButton" className={styles.soundButtonSmall}>
+            <i className="fas fa-volume-up"></i>
+          </button>
+        </div>
+      )}
+      <img src={nicaImage} alt="Character" className={`${styles.mainCharacterImage} ${styles.nicaImage}`} style={getNicaImageStyle()} />
       <Modal
         isOpen={isModalOpen}
         onRequestClose={closeModal}
