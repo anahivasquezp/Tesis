@@ -164,6 +164,7 @@ function ConcienciaFonemicaExerciseFull() {
     setExerciseScore(newScore);
     setNicaImage(nicaCorrecto);
     setBubbleMessage('¡Correcto! ¡Muy bien hecho!');
+    setIsBubbleVisible(true);
     setTimeout(() => {
       setIsBubbleVisible(false);
       setNicaImage(nicaNeutral);
@@ -189,6 +190,7 @@ function ConcienciaFonemicaExerciseFull() {
     setExerciseScore(newScore);
     setNicaImage(nicaIncorrecto);
     setBubbleMessage('Incorrecto. ¡Inténtalo de nuevo!');
+    setIsBubbleVisible(true);
     setTimeout(() => {
       setIsBubbleVisible(false);
       setNicaImage(nicaNeutral);
@@ -279,7 +281,7 @@ function ConcienciaFonemicaExerciseFull() {
         )}
       </div>
       <div className={styles.contentContainer}>
-        <h1 className={styles.exerciseTitle}>Conciencia Fonémica: {fonema.toUpperCase()}{syllables[videoIndex]}</h1>
+        <h1 className={styles.exerciseTitle}>Conciencia Fonémica: <span className={styles.fileName}>{fonema.toUpperCase()}{syllables[videoIndex]}</span> </h1>
         {loading ? (
           <p className={styles.loadingText}>Cargando...</p>
         ) : error ? (
