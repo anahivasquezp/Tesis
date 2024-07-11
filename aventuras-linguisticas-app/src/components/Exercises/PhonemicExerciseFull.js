@@ -36,7 +36,8 @@ function ConcienciaFonemicaExerciseFull() {
   const [exerciseScore, setExerciseScore] = useState(0);
   const [nicaImage, setNicaImage] = useState(nicaPresenting);
   const [isBubbleVisible, setIsBubbleVisible] = useState(true);
-  const [bubbleMessage, setBubbleMessage] = useState(`Conciencia Fonémica: ${fonema.toUpperCase()}${syllables[videoIndex]}`);
+  const [bubbleMessage, setBubbleMessage] = useState(`Conciencia Fonémica: ${fonema.toUpperCase() === 'ENIE' ? 'Ñ' : fonema.toUpperCase()}${syllables[videoIndex]}`);
+
 
   useEffect(() => {
     const fetchGuestCharacter = () => {
@@ -234,7 +235,7 @@ function ConcienciaFonemicaExerciseFull() {
 
   const getAgeGroup = (fonema) => {
     const ageGroups = {
-      '3': ['m', 'ch', 'k', 'n', 'ñ', 'p', 't', 'f', 'y', 'l', 'j'],
+      '3': ['m', 'ch', 'k', 'n', 'enie', 'p', 't', 'f', 'y', 'l', 'j'],
       '4': ['b', 'd', 'g', 'bl', 'pl'],
       '5': ['r', 'fl', 'kl', 'br', 'kr', 'gr'],
       '6': ['rr', 's', 'gl', 'fr', 'pr', 'tr', 'dr']
@@ -281,7 +282,7 @@ function ConcienciaFonemicaExerciseFull() {
         )}
       </div>
       <div className={styles.contentContainer}>
-        <h1 className={styles.exerciseTitle}>Conciencia Fonémica: <span className={styles.fileName}>{fonema.toUpperCase()}{syllables[videoIndex]}</span> </h1>
+        <h1 className={styles.exerciseTitle}>Conciencia Fonémica: <span className={styles.fileName}>{fonema.toUpperCase() === 'ENIE' ? 'Ñ' : fonema.toUpperCase()}{syllables[videoIndex]}</span> </h1>
         {loading ? (
           <p className={styles.loadingText}>Cargando...</p>
         ) : error ? (

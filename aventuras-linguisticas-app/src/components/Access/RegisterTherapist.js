@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from 'react-router-dom';
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { getFirestore, doc, setDoc } from "firebase/firestore"; // Importación añadida
 import styles from '../../css/Access/RegisterTherapist.module.css';
 import nicaNeutral from '../../images/Nica_Neutral.png';
 import nicaPresenting from '../../images/Nica_presenta.png';
@@ -17,6 +18,7 @@ function RegisterTherapist() {
   const [nicaImage, setNicaImage] = useState(nicaPresenting);
   const navigate = useNavigate();
   const auth = getAuth();
+  const db = getFirestore(); // Inicialización añadida
 
   useEffect(() => {
     const message = "¡Bienvenido! Por favor, ingrese su nombre, correo electrónico y contraseña para registrarse como terapeuta.";
@@ -76,21 +78,48 @@ function RegisterTherapist() {
     }
   };
 
-  const registerWithEmailAndPasswordHandler = (event, email, password) => {
+  const validatePassword = (password) => {
+    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    return regex.test(password);
+  };
+
+  const registerWithEmailAndPasswordHandler = async (event, email, password) => {
     event.preventDefault();
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        user.updateProfile({
-          displayName: name,
-        }).then(() => {
-          navigate("/chooseChild");
-        });
-      })
-      .catch(error => {
-        setError("Error al registrarse con correo electrónico y contraseña");
-        console.error("Error signing up with email and password", error);
+    setError(null);
+
+    if (!validatePassword(password)) {
+      setError("La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula, un número y un símbolo.");
+      return;
+    }
+
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      await updateProfile(user, {
+        displayName: name,
       });
+
+      // Añadir el terapeuta a Firestore
+      await setDoc(doc(db, "therapists", user.uid), {
+        name: name,
+        email: email,
+        therapistId: user.uid
+      });
+
+      navigate("/therapistLogin");
+    } catch (error) {
+      if (error.code === 'auth/email-already-in-use') {
+        setError('El correo electrónico ya está en uso.');
+      } else if (error.code === 'auth/invalid-email') {
+        setError('El correo electrónico no es válido.');
+      } else if (error.code === 'auth/weak-password') {
+        setError('La contraseña es demasiado débil.');
+      } else {
+        setError('Error al registrarse con correo electrónico y contraseña');
+      }
+      console.error("Error signing up with email and password", error);
+    }
   };
 
   const onChangeHandler = (event) => {

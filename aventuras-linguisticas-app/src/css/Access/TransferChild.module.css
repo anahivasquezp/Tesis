@@ -1,0 +1,304 @@
+.transferChildContainer {
+    width: 100vw;
+    height: 100vh;
+    background-image: url('../../images/therapist_login_bg.webp');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+  
+  .topButtonsContainer {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    display: flex;
+    gap: 20px;
+  }
+  
+  .topButton {
+    width: 70px;
+    height: 70px;
+    background-image: url('../../images/button_cuadrado_pequeño.jpg');
+    background-size: cover;
+    background-position: center;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+  }
+  
+  .topButton i {
+    font-size: 32px;
+    color: white;
+  }
+  
+  .topButton:hover {
+    transform: scale(1.1);
+    box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.3);
+  }
+  
+  .topButton:active {
+    transform: scale(0.9);
+    box-shadow: inset 3px 3px 8px rgba(0, 0, 0, 0.4);
+  }
+  
+  .contentContainer {
+    width: 70%;
+    height: 70%;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    overflow-y: auto;
+    margin-left: 80px; /* Ajusta el margen para que no se choque con la imagen del personaje */
+    position: relative; /* Permite posicionar elementos dentro del contenedor */
+  }
+  
+  .transferChildTitle {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 3rem;
+    color: #A05A25;
+    margin-bottom: 20px;
+  }
+  
+  .childrenList,
+  .therapistsList {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .childContainer,
+  .therapistContainer {
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+  }
+  
+  .childContainer.selected,
+  .therapistContainer.selected {
+    transform: scale(1.05);
+    box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.3);
+  }
+  
+  .childImage {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  
+  .childImage:hover {
+    transform: scale(1.1);
+    box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.3);
+  }
+  
+  .childName,
+  .therapistName {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.5rem;
+    color: #71401a;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: color 0.2s;
+  }
+  
+  .childName:hover,
+  .therapistName:hover {
+    color: #A05A25;
+  }
+  
+  .transferButton {
+    font-size: 1.5rem;
+    background-image: url('../../images/button_rectangular.jpg');
+    background-size: cover;
+    background-position: center;
+    color: white;
+    border: none;
+    border-radius: 15px;
+    padding: 10px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    transition: transform 0.2s, background-color 0.2s;
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    width: 150px;
+    height: 60px;
+  }
+  
+  .transferButton:hover {
+    transform: scale(1.1);
+    box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.3);
+  }
+  
+  .transferButton:active {
+    transform: scale(0.9);
+    box-shadow: inset 3px 3px 8px rgba(0, 0, 0, 0.4);
+  }
+  
+  .mainCharacterImage {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    z-index: 0;
+  }
+  
+  .modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 80%;
+    max-width: 500px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 15px;
+    box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2);
+    transform: translate(-50%, -50%);
+    text-align: center;
+  }
+  
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+  }
+  
+  .modalTitle {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.8rem;
+    color: #A05A25;
+    margin-bottom: 20px;
+  }
+  
+  .modalButtons {
+    display: flex;
+    justify-content: space-around;
+  }
+  
+  .confirmButton,
+  .cancelButton {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.2rem;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: transform 0.2s, background-color 0.2s;
+  }
+  
+  .confirmButton {
+    background-color: #2D817A;
+    color: white;
+  }
+  
+  .confirmButton:hover {
+    background-color: #67B97D;
+    transform: scale(1.1);
+  }
+  
+  .confirmButton:active {
+    transform: scale(0.9);
+  }
+  
+  .cancelButton {
+    background-color: #A05A25;
+    color: white;
+  }
+  
+  .cancelButton:hover {
+    background-color: #71401a;
+    transform: scale(1.1);
+  }
+  
+  .cancelButton:active {
+    transform: scale(0.9);
+  }
+  
+  .speechBubble {
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid #A05A25;
+    border-radius: 30px;
+    padding: 20px;
+    position: absolute;
+    bottom: 530px;
+    left: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-width: 350px;
+    font-size: 1.2rem;
+    color: #A05A25;
+    font-family: 'Poppins', sans-serif;
+    text-align: center;
+    z-index: 1;
+  }
+  
+  .speechBubble:after {
+    content: '';
+    position: absolute;
+    bottom: -20px;
+    left: 50px;
+    border-width: 20px;
+    border-style: solid;
+    border-color: rgba(255, 255, 255, 0.9) transparent transparent transparent;
+  }
+  
+  .welcomeText {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.5rem;
+    color: #A05A25;
+    text-align: center;
+  }
+  
+  .soundButton {
+    background-image: url('../../images/button_cuadrado_pequeño.jpg');
+    background-size: cover;
+    background-position: center;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    width: 50px;
+    height: 50px;
+    margin-top: 10px;
+  }
+  
+  .soundButton i {
+    font-size: 24px;
+    color: white;
+  }
+  
+  .soundButton:hover {
+    transform: scale(1.1);
+    box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.3);
+  }
+  
+  .soundButton:active {
+    transform: scale(0.9);
+    box-shadow: inset 3px 3px 8px rgba(0, 0, 0, 0.4);
+  }
+  

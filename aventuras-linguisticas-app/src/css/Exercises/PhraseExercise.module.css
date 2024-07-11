@@ -16,12 +16,12 @@
   top: 20px;
   left: 20px;
   display: flex;
-  gap: 10px;
+  gap: 20px;
 }
 
 .topButton {
-  width: 50px;
-  height: 50px;
+  width: 70px;
+  height: 70px;
   background-image: url('../../images/button_cuadrado_pequeño.jpg');
   background-size: cover;
   background-position: center;
@@ -30,12 +30,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 15px;
+  border-radius: 20px;
   text-decoration: none;
 }
 
 .topButton i {
-  font-size: 24px;
+  font-size: 32px;
   color: white;
 }
 
@@ -57,7 +57,7 @@
   flex-direction: column;
   align-items: center;
   background-color: rgba(255, 255, 255, 0.7);
-  padding: 10px;
+  padding: 20px;
   border-radius: 15px;
   box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2);
 }
@@ -65,14 +65,14 @@
 .userName {
   font-family: 'Poppins', sans-serif;
   font-weight: 700;
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   color: #A05A25;
   margin-bottom: 10px;
 }
 
 .userImage {
-  width: 80px;
-  height: 80px;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
 }
 
@@ -91,6 +91,14 @@
   font-size: 3rem;
   color: #A05A25;
   margin-bottom: 20px;
+}
+
+.fonema {
+  font-size: 4.5rem;
+  color: #48a858;
+  padding: 10px 20px;
+  border-radius: 10px;
+  margin-left: 10px;
 }
 
 .phrase {
@@ -127,7 +135,9 @@
   border: none;
   border-radius: 15px;
   cursor: pointer;
-  background-color: #2D817A;
+  background-image: url('../../images/button_rectangular_azul.jpg');
+  background-size: cover;
+  background-position: center;
   color: white;
   transition: transform 0.2s, background-color 0.2s, box-shadow 0.2s;
   display: flex;
@@ -141,13 +151,13 @@
 
 .audioButton:hover {
   transform: scale(1.1);
-  background-color: #67B97D;
   box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.3);
 }
 
 .audioButton:active {
   transform: scale(0.9);
 }
+
 
 .actionButtonsContainer {
   display: flex;
@@ -158,11 +168,11 @@
 .actionButton {
   font-family: 'Poppins', sans-serif;
   font-size: 1.5rem;
-  padding: 10px 20px;
+  padding: 15px 30px;
   border: none;
   border-radius: 15px;
   cursor: pointer;
-  background-color: #2D817A;
+  background-size: cover;
   color: white;
   transition: transform 0.2s, background-color 0.2s, box-shadow 0.2s;
   display: flex;
@@ -175,7 +185,6 @@
 
 .actionButton:hover {
   transform: scale(1.1);
-  background-color: #67B97D;
   box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.3);
 }
 
@@ -184,7 +193,7 @@
 }
 
 .correctButton {
-  background-color: #4CAF50;
+  background-image: url('../../images/button_rectangular_verde.jpg');
 }
 
 .correctButton:hover {
@@ -192,15 +201,17 @@
 }
 
 .incorrectButton {
-  background-color: #F44336;
+  background-image: url('../../images/button_rectangular_rojo.jpg');
 }
+
+
 
 .incorrectButton:hover {
   background-color: #EF5350;
 }
 
 .navButton {
-  background-color: #FFA000;
+  background-image: url('../../images/button_rectangular.jpg');
 }
 
 .navButton:hover {
@@ -287,4 +298,73 @@
 
 .cancelButton:active {
   transform: scale(0.9);
+}
+
+.speechBubble {
+  background: rgba(255, 255, 255, 0.9);
+  border: 2px solid #A05A25;
+  border-radius: 30px;
+  padding: 20px;
+  position: absolute;
+  bottom: 530px;
+  left: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 450px;
+  font-size: 1.2rem;
+  color: #A05A25;
+  font-family: 'Poppins', sans-serif;
+  text-align: center;
+  z-index: 1;
+  width: 400px;
+}
+
+.speechBubble:after {
+  content: '';
+  position: absolute;
+  bottom: -20px;
+  left: 50px;
+  border-width: 20px;
+  border-style: solid;
+  border-color: rgba(255, 255, 255, 0.9) transparent transparent transparent;
+}
+
+.welcomeText {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.5rem;
+  color: #A05A25;
+  text-align: center;
+}
+
+.soundButtonSmall {
+  background-image: url('../../images/button_cuadrado_pequeño.jpg');
+  width: 50px;
+  height: 50px;
+  background-size: cover;
+  background-position: center;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 15px;
+  text-decoration: none;
+  margin-top: 10px;
+}
+
+.soundButtonSmall i {
+  font-size: 24px;
+  color: white;
+}
+
+.soundButtonSmall:hover {
+  transform: scale(1.1);
+  box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.soundButtonSmall:active {
+  transform: scale(0.9);
+  box-shadow: inset 3px 3px 8px rgba(0, 0, 0, 0.4);
 }

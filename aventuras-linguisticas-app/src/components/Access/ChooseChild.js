@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { getAuth, signOut } from 'firebase/auth';
-import { getFirestore, collection, getDocs, query, where } from 'firebase/firestore';
+import { getAuth, signOut, deleteUser } from 'firebase/auth';
+import { getFirestore, collection, getDocs, query, where, deleteDoc, doc } from 'firebase/firestore';
 import Modal from 'react-modal';
 import { ChildContext } from './ChildContext';
 import styles from '../../css/Access/ChooseChild.module.css';
@@ -13,6 +13,7 @@ Modal.setAppElement('#root'); // Set the app element for accessibility
 function ChooseChild() {
   const [children, setChildren] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isBubbleVisible, setIsBubbleVisible] = useState(true);
   const { setSelectedChild } = useContext(ChildContext);
   const [selectedId, setSelectedId] = useState(null);
@@ -119,6 +120,37 @@ function ChooseChild() {
     });
   };
 
+  const handleDeleteAccount = async () => {
+    const user = auth.currentUser;
+
+    if (!user) {
+      console.error('No user is authenticated.');
+      return;
+    }
+
+    try {
+      // Delete children
+      const childrenQuery = query(
+        collection(db, 'children'),
+        where('therapistId', '==', user.uid)
+      );
+      const querySnapshot = await getDocs(childrenQuery);
+      const deletePromises = querySnapshot.docs.map(childDoc => deleteDoc(childDoc.ref));
+      await Promise.all(deletePromises);
+
+      // Delete user document in 'therapists' collection
+      const therapistDocRef = doc(db, 'therapists', user.uid);
+      await deleteDoc(therapistDocRef);
+
+      // Delete authenticated user
+      await deleteUser(user);
+
+      navigate('/');
+    } catch (error) {
+      console.error('Error deleting account', error);
+    }
+  };
+
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -132,6 +164,19 @@ function ChooseChild() {
     handleLogout();
   };
 
+  const openDeleteModal = () => {
+    setIsDeleteModalOpen(true);
+  };
+
+  const closeDeleteModal = () => {
+    setIsDeleteModalOpen(false);
+  };
+
+  const confirmDeleteAccount = () => {
+    closeDeleteModal();
+    handleDeleteAccount();
+  };
+
   return (
     <div className={styles.chooseChildContainer}>
       <div className={styles.topButtonsContainer}>
@@ -140,6 +185,9 @@ function ChooseChild() {
         </button>
         <button className={`${styles.topButton} ${styles.infoButton}`} onClick={handleShowBubble}>
           <i className="fas fa-info"></i>
+        </button>
+        <button onClick={openDeleteModal} className={`${styles.topButton} ${styles.deleteButton}`}>
+          <i className="fas fa-trash-alt"></i>
         </button>
       </div>
       <div className={styles.contentContainer}>
@@ -166,7 +214,7 @@ function ChooseChild() {
       <div className={styles.characterContainer}>
         {isBubbleVisible && (
           <div className={styles.speechBubble}>
-            <p className={styles.welcomeText}>Elige un niño para jugar.</p>
+            <p className={styles.welcomeText}>Elige un niño para aprender</p>
             <button id="soundButton" className={styles.soundButton}>
               <i className="fas fa-volume-up"></i>
             </button>
@@ -186,6 +234,20 @@ function ChooseChild() {
         <div className={styles.modalButtons}>
           <button onClick={confirmLogout} className={styles.confirmButton}>Sí</button>
           <button onClick={closeModal} className={styles.cancelButton}>No</button>
+        </div>
+      </Modal>
+
+      <Modal
+        isOpen={isDeleteModalOpen}
+        onRequestClose={closeDeleteModal}
+        contentLabel="Confirm Delete Account"
+        className={styles.modal}
+        overlayClassName={styles.overlay}
+      >
+        <h2 className={styles.modalTitle}>¿Estás seguro de que deseas eliminar tu cuenta? Esto también eliminará todos los niños asociados.</h2>
+        <div className={styles.modalButtons}>
+          <button onClick={confirmDeleteAccount} className={styles.confirmButton}>Sí</button>
+          <button onClick={closeDeleteModal} className={styles.cancelButton}>No</button>
         </div>
       </Modal>
     </div>

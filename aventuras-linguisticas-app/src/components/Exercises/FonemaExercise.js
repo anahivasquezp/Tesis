@@ -33,7 +33,7 @@ function FonemaExercise() {
   const [exerciseScore, setExerciseScore] = useState(0);
   const [nicaImage, setNicaImage] = useState(nicaPresenting);
   const [isBubbleVisible, setIsBubbleVisible] = useState(true);
-  const [bubbleMessage, setBubbleMessage] = useState(`¡Bienvenido! Estos son los fonemas para ${fonema.toUpperCase()}.`);
+  const [bubbleMessage, setBubbleMessage] = useState(`¡Bienvenido! Estos son los fonemas para ${fonema.toUpperCase() === 'ENIE' ? 'Ñ' : fonema.toUpperCase()}.`);
 
   useEffect(() => {
     const fetchGuestCharacter = () => {
@@ -80,7 +80,7 @@ function FonemaExercise() {
   }, [fonema]);
 
   useEffect(() => {
-    const message = `¡Bienvenido! Estos son los fonemas para ${fonema.toUpperCase()}.`;
+    const message = `¡Bienvenido! Estos son los fonemas para ${fonema.toUpperCase() === 'ENIE' ? 'Ñ' : fonema.toUpperCase()}.`;
     const utterance = new SpeechSynthesisUtterance(message);
     let timer;
 
@@ -103,7 +103,7 @@ function FonemaExercise() {
   useEffect(() => {
     const soundButton = document.getElementById('soundButton');
     if (soundButton) {
-      const message = `¡Bienvenido! Estos son los fonemas para ${fonema.toUpperCase()}.`;
+      const message = `¡Bienvenido! Estos son los fonemas para ${fonema.toUpperCase() === 'ENIE' ? 'Ñ' : fonema.toUpperCase()}.`;
       const utterance = new SpeechSynthesisUtterance(message);
 
       const handleSoundClick = () => {
@@ -120,7 +120,7 @@ function FonemaExercise() {
 
   const handleShowBubble = () => {
     setIsBubbleVisible(true);
-    setBubbleMessage(`¡Bienvenido! Estos son los fonemas para ${fonema.toUpperCase()}.`);
+    setBubbleMessage(`¡Bienvenido! Estos son los fonemas para ${fonema.toUpperCase() === 'ENIE' ? 'Ñ' : fonema.toUpperCase()}.`);
     setNicaImage(nicaPresenting);
     const timer = setTimeout(() => {
       setIsBubbleVisible(false);
@@ -275,7 +275,7 @@ function FonemaExercise() {
         )}
       </div>
       <div className={styles.contentContainer}>
-        <h1 className={styles.exerciseTitle}>Fonema: <span className={styles.fileName}>{fonema.toUpperCase()}</span></h1>
+        <h1 className={styles.exerciseTitle}>Fonema: <span className={styles.fileName}>{fonema.toUpperCase() === 'ENIE' ? 'Ñ' : fonema.toUpperCase()}</span></h1>
         {loading ? (
           <p className={styles.loadingText}>Cargando...</p>
         ) : error ? (

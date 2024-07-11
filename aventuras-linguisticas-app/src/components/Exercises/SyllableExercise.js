@@ -7,7 +7,10 @@ import { getAuth, signOut } from 'firebase/auth';
 import Modal from 'react-modal';
 import { ChildContext } from '../Access/ChildContext';
 import styles from '../../css/Exercises/SyllableExercise.module.css';
-import characterImage from '../../images/pig_granjera.png';
+import nicaNeutral from '../../images/Nica_Neutral.png';
+import nicaPresenting from '../../images/Nica_presenta.png';
+import nicaCorrecto from '../../images/Nica_Correcto.png';
+import nicaIncorrecto from '../../images/Nica_Incorrecto.png';
 
 Modal.setAppElement('#root');
 
@@ -31,8 +34,11 @@ function SyllableExercise() {
   const [images, setImages] = useState({});
   const [imageLoading, setImageLoading] = useState(true);
   const [exerciseScore, setExerciseScore] = useState(0);
-
+  const [nicaImage, setNicaImage] = useState(nicaPresenting);
+  const [isBubbleVisible, setIsBubbleVisible] = useState(true);
   const currentSyllableType = syllableTypes[syllableIndex];
+
+  const [bubbleMessage, setBubbleMessage] = useState(`Sílabas de la ${fonema.toUpperCase() === 'ENIE' ? 'Ñ' : fonema.toUpperCase()} - ${syllableTypes[syllableIndex].replace('silaba_', 'Sílabas ').toUpperCase()}`);
 
   useEffect(() => {
     const fetchGuestCharacter = () => {
@@ -80,6 +86,58 @@ function SyllableExercise() {
     loadImages();
   }, [value, currentSyllableType, fonema]);
 
+  useEffect(() => {
+    const message = `Sílabas de la ${fonema.toUpperCase() === 'ENIE' ? 'Ñ' : fonema.toUpperCase()} - ${currentSyllableType.replace('silaba_', 'Sílabas ').toUpperCase()}`;
+    const utterance = new SpeechSynthesisUtterance(message);
+    let timer;
+
+    const showBubble = () => {
+      setIsBubbleVisible(true);
+      setBubbleMessage(message);
+      setNicaImage(nicaPresenting);
+      timer = setTimeout(() => {
+        setIsBubbleVisible(false);
+        setNicaImage(nicaNeutral);
+      }, 10000);
+    };
+
+    showBubble();
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [fonema, currentSyllableType]);
+
+  useEffect(() => {
+    const soundButton = document.getElementById('soundButton');
+    if (soundButton) {
+      const message = `Sílabas de la ${fonema.toUpperCase() === 'ENIE' ? 'Ñ' : fonema.toUpperCase()} - ${currentSyllableType.replace('silaba_', 'Sílabas ').toUpperCase()}`;
+      const utterance = new SpeechSynthesisUtterance(message);
+
+      const handleSoundClick = () => {
+        speechSynthesis.speak(utterance);
+      };
+
+      soundButton.addEventListener('click', handleSoundClick);
+
+      return () => {
+        soundButton.removeEventListener('click', handleSoundClick);
+      };
+    }
+  }, [fonema, currentSyllableType, isBubbleVisible]);
+
+  const handleShowBubble = () => {
+    setIsBubbleVisible(true);
+    setBubbleMessage(`Sílabas de la ${fonema.toUpperCase() === 'ENIE' ? 'Ñ' : fonema.toUpperCase()} - ${currentSyllableType.replace('silaba_', 'Sílabas ').toUpperCase()}`);
+    setNicaImage(nicaPresenting);
+    const timer = setTimeout(() => {
+      setIsBubbleVisible(false);
+      setNicaImage(nicaNeutral);
+    }, 10000);
+
+    return () => clearTimeout(timer);
+  };
+
   const handleNextPage = () => {
     if (syllableIndex < syllableTypes.length - 1) {
       setSyllableIndex(syllableIndex + 1);
@@ -117,6 +175,13 @@ function SyllableExercise() {
 
     setSelectedChild(updatedChild);
     setExerciseScore(newScore);
+    setNicaImage(nicaCorrecto);
+    setBubbleMessage('¡Correcto! ¡Muy bien hecho!');
+    setIsBubbleVisible(true);
+    setTimeout(() => {
+      setIsBubbleVisible(false);
+      setNicaImage(nicaNeutral);
+    }, 5000);
   };
 
   const handleIncorrecto = async () => {
@@ -136,6 +201,13 @@ function SyllableExercise() {
 
     setSelectedChild(updatedChild);
     setExerciseScore(newScore);
+    setNicaImage(nicaIncorrecto);
+    setBubbleMessage('Incorrecto. ¡Inténtalo de nuevo!');
+    setIsBubbleVisible(true);
+    setTimeout(() => {
+      setIsBubbleVisible(false);
+      setNicaImage(nicaNeutral);
+    }, 5000);
   };
 
   const openModal = () => {
@@ -161,6 +233,18 @@ function SyllableExercise() {
 
   const isAuthenticated = auth.currentUser && selectedChild;
 
+  const getNicaImageStyle = () => {
+    if (nicaImage === nicaCorrecto) {
+      return { width: '500px', height: 'auto' };
+    } else if (nicaImage === nicaIncorrecto) {
+      return { width: '330px', height: 'auto' };
+    } else if (nicaImage === nicaPresenting) {
+      return { width: '400px', height: 'auto' };
+    } else {
+      return { width: '330px', height: 'auto' };
+    }
+  };
+
   const renderWordAudioButton = (word) => {
     const speakWord = () => {
       const utterance = new SpeechSynthesisUtterance(word);
@@ -176,7 +260,7 @@ function SyllableExercise() {
 
   const getAgeGroup = (fonema) => {
     const ageGroups = {
-      '3': ['m', 'ch', 'k', 'n', 'ñ', 'p', 't', 'f', 'y', 'l', 'j'],
+      '3': ['m', 'ch', 'k', 'n', 'enie', 'p', 't', 'f', 'y', 'l', 'j'],
       '4': ['b', 'd', 'g', 'bl', 'pl'],
       '5': ['r', 'fl', 'kl', 'br', 'kr', 'gr'],
       '6': ['rr', 's', 'gl', 'fr', 'pr', 'tr', 'dr']
@@ -196,7 +280,7 @@ function SyllableExercise() {
         <button onClick={openModal} className={`${styles.topButton} ${styles.homeButton}`}>
           <i className="fas fa-home"></i>
         </button>
-        <button className={`${styles.topButton} ${styles.infoButton}`}>
+        <button className={`${styles.topButton} ${styles.infoButton}`} onClick={handleShowBubble}>
           <i className="fas fa-info"></i>
         </button>
         <button className={`${styles.topButton} ${styles.menuButton}`} onClick={() => navigate(`/age-fonemas/${getAgeGroup(fonema)}`)}>
@@ -219,8 +303,7 @@ function SyllableExercise() {
         )}
       </div>
       <div className={styles.contentContainer}>
-        <h1 className={styles.title}>Sílabas de la {fonema.toUpperCase()}</h1>
-        <h2 className={styles.subtitle}>{currentSyllableType.replace('silaba_', 'Sílabas ').toUpperCase()}</h2>
+        <h1 className={styles.title}>{currentSyllableType.replace('silaba_', 'Sílabas ').toUpperCase()} DE LA <span className={styles.fonema}>{fonema.toUpperCase() === 'ENIE' ? 'Ñ' : fonema.toUpperCase()}</span></h1>
         <div className={styles.wordsContainer}>
           {value && value[currentSyllableType] && value[currentSyllableType].map((word, index) => (
             <div key={index} className={styles.wordItem}>
@@ -232,14 +315,7 @@ function SyllableExercise() {
               ) : (
                 <p>No se pudo cargar la imagen.</p>
               )}
-              {word ? (
-                <>
-                  {renderWordAudioButton(word)}
-                  <audio src={value.audios ? value.audios[word] : null} controls className={styles.audioControl} />
-                </>
-              ) : (
-                <p>No se pudo cargar la palabra.</p>
-              )}
+              {word && renderWordAudioButton(word)}
             </div>
           ))}
         </div>
@@ -262,9 +338,18 @@ function SyllableExercise() {
           </button>
         </div>
       </div>
-      <img src={characterImage} alt="Character" className={styles.mainCharacterImage} />
+      {isBubbleVisible && (
+        <div className={styles.speechBubble}>
+          <p className={styles.welcomeText}>{bubbleMessage}</p>
+          <button id="soundButton" className={styles.soundButtonSmall}>
+            <i className="fas fa-volume-up"></i>
+          </button>
+        </div>
+      )}
+      <img src={nicaImage} alt="Character" className={`${styles.mainCharacterImage} ${styles.nicaImage}`} style={getNicaImageStyle()} />
       <Modal
-        isOpen={isModalOpen}       
+        isOpen={isModalOpen}
+        onRequestClose={closeModal}
         contentLabel="Confirm Logout"
         className={styles.modal}
         overlayClassName={styles.overlay}

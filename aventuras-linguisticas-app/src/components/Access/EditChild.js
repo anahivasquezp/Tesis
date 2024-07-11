@@ -12,7 +12,7 @@ import nicaPresenting from '../../images/Nica_presenta.png';
 Modal.setAppElement('#root'); // Set the app element for accessibility
 
 function EditChild() {
-  const { selectedChild } = useContext(ChildContext);
+  const { selectedChild, setSelectedChild } = useContext(ChildContext);
   const [name, setName] = useState('');
   const [birthDate, setBirthDate] = useState('');
   const [characterImages, setCharacterImages] = useState([]);
@@ -149,6 +149,11 @@ function EditChild() {
     }
   };
 
+  const handleTransferChild = () => {
+    setSelectedChild(selectedChild);
+    navigate('/transferChild');
+  };
+
   const handleLogout = () => {
     signOut(auth).then(() => {
       navigate('/');
@@ -210,6 +215,7 @@ function EditChild() {
           <button type="submit" className={styles.editButton}>Guardar</button>
         </form>
         <button onClick={handleDeleteChild} className={styles.deleteButton}>Eliminar</button>
+        <button onClick={handleTransferChild} className={styles.transferButton}>Transferir</button>
       </div>
       <div className={styles.imageContainer}>
         {characterImages.map((image) => (

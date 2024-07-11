@@ -16,12 +16,12 @@
   top: 20px;
   left: 20px;
   display: flex;
-  gap: 10px;
+  gap: 20px;
 }
 
 .topButton {
-  width: 50px;
-  height: 50px;
+  width: 70px;
+  height: 70px;
   background-image: url('../../images/button_cuadrado_pequeño.jpg');
   background-size: cover;
   background-position: center;
@@ -30,12 +30,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 15px;
+  border-radius: 20px;
   text-decoration: none;
 }
 
 .topButton i {
-  font-size: 24px;
+  font-size: 32px;
   color: white;
 }
 
@@ -72,6 +72,14 @@
   font-size: 1.5rem;
   color: #71401a;
   margin-bottom: 20px;
+}
+
+.score {
+  font-size: 2.5rem;
+  color: #48a858;
+  font-weight: bold;
+  padding: 5px 10px;
+  border-radius: 10px;
 }
 
 .largeImage {
@@ -114,11 +122,12 @@
 .continueButton {
   font-family: 'Poppins', sans-serif;
   font-size: 1.5rem;
-  padding: 10px 20px;
+  padding: 15px 30px;
   border: none;
   border-radius: 15px;
   cursor: pointer;
-  background-color: #2D817A;
+  background-image: url('../../images/button_rectangular.jpg');
+  background-size: cover;
   color: white;
   transition: transform 0.2s, background-color 0.2s, box-shadow 0.2s;
   align-items: center;
@@ -128,7 +137,6 @@
 
 .continueButton:hover {
   transform: scale(1.1);
-  background-color: #67B97D;
   box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.3);
 }
 
@@ -140,7 +148,7 @@
   position: absolute;
   bottom: 20px;
   left: 20px;
-  width: 400px;
+  width: 500px;
   height: auto;
 }
 

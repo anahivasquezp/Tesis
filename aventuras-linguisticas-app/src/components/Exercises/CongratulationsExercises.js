@@ -6,7 +6,7 @@ import Modal from 'react-modal';
 import { ChildContext } from '../Access/ChildContext';
 import styles from '../../css/Exercises/CongratulationsExercises.module.css';
 import starImage from '../../images/star.png';
-import characterImage from '../../images/pig_granjera.png';
+import nicaCorrecto from '../../images/Nica_Correcto.png';
 
 Modal.setAppElement('#root');
 
@@ -85,7 +85,7 @@ const CongratulationsExercises = () => {
 
   const getAgeGroup = (fonema) => {
     const ageGroups = {
-      '3': ['m', 'ch', 'k', 'n', 'ñ', 'p', 't', 'f', 'y', 'l', 'j'],
+      '3': ['m', 'ch', 'k', 'n', 'enie', 'p', 't', 'f', 'y', 'l', 'j'],
       '4': ['b', 'd', 'g', 'bl', 'pl'],
       '5': ['r', 'fl', 'kl', 'br', 'kr', 'gr'],
       '6': ['rr', 's', 'gl', 'fr', 'pr', 'tr', 'dr']
@@ -122,9 +122,6 @@ const CongratulationsExercises = () => {
         <button onClick={openModal} className={`${styles.topButton} ${styles.homeButton}`}>
           <i className="fas fa-home"></i>
         </button>
-        <button className={`${styles.topButton} ${styles.infoButton}`}>
-          <i className="fas fa-info"></i>
-        </button>
         <button onClick={() => navigate(`/age-fonemas/${ageGroup}`)} className={`${styles.topButton} ${styles.menuButton}`}>
           <i className="fas fa-bars"></i>
         </button>
@@ -135,7 +132,7 @@ const CongratulationsExercises = () => {
           <>
             <h1 className={styles.congratulationsTitle}>¡Felicidades {selectedChild.name}!</h1>
             <p className={styles.congratulationsText}>
-              Has completado los ejercicios del fonema {fonema.toUpperCase()} con un puntaje de {score}/{totalExercises}.
+              Has completado los ejercicios del fonema {fonema.toUpperCase() === 'ENIE' ? 'Ñ' : fonema.toUpperCase()} con un puntaje de <span className={styles.score}>{score}/{totalExercises}</span>.
             </p>
             <img
               src={selectedChild.characterImage}
@@ -148,7 +145,7 @@ const CongratulationsExercises = () => {
           <>
             <h1 className={styles.congratulationsTitle}>¡Felicidades!</h1>
             <p className={styles.congratulationsText}>
-              ¡Felicidades por completar los ejercicios del fonema {fonema.toUpperCase()}!
+              ¡Felicidades por completar los ejercicios del fonema {fonema.toUpperCase() === 'ENIE' ? 'Ñ' : fonema.toUpperCase()}!
             </p>
             {guestCharacter && (
               <img src={guestCharacter.url} alt="Invitado" className={styles.largeImage} />
@@ -160,7 +157,7 @@ const CongratulationsExercises = () => {
           Continuar
         </button>
       </div>
-      <img src={characterImage} alt="Character" className={styles.mainCharacterImage} />
+      <img src={nicaCorrecto} alt="Character" className={styles.mainCharacterImage} />
       <Modal
         isOpen={isModalOpen}
         onRequestClose={closeModal}
