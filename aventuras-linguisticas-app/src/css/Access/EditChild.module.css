@@ -135,6 +135,32 @@
   box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.3);
 }
 
+.transferButton {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.5rem;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+  background-image: url('../../images/button_rectangular_azul.jpg');
+  background-size: cover;
+  background-position: center;
+  color: white;
+  transition: transform 0.2s, background-color 0.2s, box-shadow 0.2s;
+  margin-top: 20px;
+}
+
+.transferButton:hover {
+  transform: scale(1.1);
+  box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.buttonContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .imageContainer {
   display: flex;
   flex-wrap: wrap;

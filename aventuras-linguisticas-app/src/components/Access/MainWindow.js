@@ -11,7 +11,7 @@ function App() {
     const [isBubbleVisible, setIsBubbleVisible] = useState(true);
 
     useEffect(() => {
-        const message = "¡Bienvenidos a Aventuras Lingüísticas en la Granja! Por favor, elijan si son terapistas o invitados.";
+        const message = "¡Hola! Soy Nica. ¿Eres terapeuta o invitado? Elige uno.";
         const utterance = new SpeechSynthesisUtterance(message);
         const soundButton = document.getElementById('soundButton');
 
@@ -57,7 +57,7 @@ function App() {
             <div className={styles.characterContainer}>
                 {isBubbleVisible && (
                     <div className={styles.speechBubble}>
-                        <p className={styles.welcomeText}>¡Bienvenidos a Aventuras Lingüísticas en la Granja! Por favor, elijan si son terapistas o invitados.</p>
+                        <p className={styles.welcomeText}>¡Hola! Soy Nica. ¿Eres terapeuta o invitado? Elige uno.</p>
                         <div className={styles.bubbleButtons}>
                             <button id="soundButton" className={styles.soundButton}>
                                 <i className="fas fa-volume-up"></i>

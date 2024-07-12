@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getAuth } from 'firebase/auth';
-import { getFirestore, collection, getDocs, query, where, updateDoc, doc } from 'firebase/firestore';
+import { getFirestore, collection, getDocs, query, updateDoc, doc } from 'firebase/firestore';
 import Modal from 'react-modal';
 import { ChildContext } from './ChildContext';
 import styles from '../../css/Access/TransferChild.module.css';
@@ -23,13 +23,25 @@ const TransferChild = () => {
 
   useEffect(() => {
     const fetchTherapists = async () => {
+      const user = auth.currentUser;
+      if (!user) {
+        console.error('No user is authenticated.');
+        return;
+      }
+
       const therapistsQuery = query(collection(db, 'therapists'));
       const querySnapshot = await getDocs(therapistsQuery);
-      setTherapists(querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+
+      // Filter out the current therapist
+      const filteredTherapists = querySnapshot.docs
+        .map(doc => ({ id: doc.id, ...doc.data() }))
+        .filter(therapist => therapist.id !== user.uid);
+
+      setTherapists(filteredTherapists);
     };
 
     fetchTherapists();
-  }, [db]);
+  }, [db, auth]);
 
   useEffect(() => {
     const message = "Elige al terapista para transferir al niño.";
@@ -104,6 +116,14 @@ const TransferChild = () => {
     handleTransfer();
   };
 
+  const getNicaImageStyle = () => {
+    if (nicaImage === nicaPresenting) {
+      return { width: '400px', height: 'auto' };
+    } else {
+      return { width: '330px', height: 'auto' };
+    }
+  };
+
   return (
     <div className={styles.transferChildContainer}>
       <div className={styles.topButtonsContainer}>
@@ -115,7 +135,13 @@ const TransferChild = () => {
         </button>
       </div>
       <div className={styles.contentContainer}>
-        <h1 className={styles.transferChildTitle}>Elige al terapista para transferir al niño</h1>
+        <h1 className={styles.transferChildTitle}>Elige al terapista al que deseas transferir el siguiente niño</h1>
+        {selectedChild && (
+          <div className={styles.childInfo}>
+            <h2 className={styles.childName}>Niño a transferir: {selectedChild.name}</h2>
+            <img src={selectedChild.characterImage} alt={selectedChild.name} className={styles.childImage} />
+          </div>
+        )}
         <div className={styles.therapistsList}>
           {therapists.map((therapist) => (
             <div
@@ -123,24 +149,25 @@ const TransferChild = () => {
               className={`${styles.therapistContainer} ${therapist.id === selectedTherapist?.id ? styles.selected : ''}`}
               onClick={() => setSelectedTherapist(therapist)}
             >
-              <h2 className={styles.therapistName}>{therapist.therapistName}</h2>
+              <h2 className={styles.therapistName}>{therapist.name}</h2>
+              <p className={styles.therapistEmail}>{therapist.email}</p>
             </div>
           ))}
         </div>
         <button onClick={openModal} className={styles.transferButton} disabled={!selectedTherapist}>
-          Transferir Niño
+          Transferir
         </button>
       </div>
       <div className={styles.characterContainer}>
         {isBubbleVisible && (
           <div className={styles.speechBubble}>
-            <p className={styles.welcomeText}>Elige al terapista para transferir al niño</p>
+            <p className={styles.welcomeText}>Elige al terapista al que deseas transferir el siguiente niño</p>
             <button id="soundButton" className={styles.soundButton}>
               <i className="fas fa-volume-up"></i>
             </button>
           </div>
         )}
-        <img src={nicaImage} alt="Character" className={styles.mainCharacterImage} />
+        <img src={nicaImage} alt="Character" className={styles.mainCharacterImage} style={getNicaImageStyle()} />
       </div>
 
       <Modal
@@ -150,7 +177,7 @@ const TransferChild = () => {
         className={styles.modal}
         overlayClassName={styles.overlay}
       >
-        <h2 className={styles.modalTitle}>¿Estás seguro de que deseas transferir al niño seleccionado?</h2>
+        <h2 className={styles.modalTitle}>¿Estás seguro que deseas transferir al terapista seleccionado?</h2>
         <div className={styles.modalButtons}>
           <button onClick={confirmTransfer} className={styles.confirmButton}>Sí</button>
           <button onClick={closeModal} className={styles.cancelButton}>No</button>

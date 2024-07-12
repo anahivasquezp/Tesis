@@ -211,11 +211,12 @@ function EditChild() {
             placeholder="Fecha de nacimiento"
             onChange={(e) => setBirthDate(e.target.value)}
           />
-
           <button type="submit" className={styles.editButton}>Guardar</button>
         </form>
-        <button onClick={handleDeleteChild} className={styles.deleteButton}>Eliminar</button>
-        <button onClick={handleTransferChild} className={styles.transferButton}>Transferir</button>
+        <div className={styles.buttonContainer}>
+          <button onClick={handleDeleteChild} className={styles.deleteButton}>Eliminar</button>
+          <button onClick={handleTransferChild} className={styles.transferButton}>Transferir</button>
+        </div>
       </div>
       <div className={styles.imageContainer}>
         {characterImages.map((image) => (
