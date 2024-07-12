@@ -73,7 +73,7 @@ function VocalMenu() {
   }, [selectedChild, db]);
 
   useEffect(() => {
-    const message = "¡Bienvenido! Por favor, selecciona una vocal para comenzar.";
+    const message = "¡Hola! ¡Elige una vocal para empezar a jugar!";
     const utterance = new SpeechSynthesisUtterance(message);
     const soundButton = document.getElementById('soundButton');
 
@@ -206,7 +206,7 @@ function VocalMenu() {
       <div className={styles.characterContainer}>
         {isBubbleVisible && (
           <div className={styles.speechBubble}>
-            <p className={styles.welcomeText}>¡Bienvenido! Por favor, selecciona una vocal para comenzar.</p>
+            <p className={styles.welcomeText}>¡Hola! ¡Elige una vocal para empezar a jugar!</p>
             <button id="soundButton" className={styles.soundButton}>
               <i className="fas fa-volume-up"></i>
             </button>
@@ -221,7 +221,7 @@ function VocalMenu() {
         className={styles.modal}
         overlayClassName={styles.overlay}
       >
-        <h2 className={styles.modalTitle}>¿Deseas salir?</h2>
+        <h2 className={styles.modalTitle}>¿Quieres salir?</h2>
         <div className={styles.modalButtons}>
           <button onClick={confirmLogout} className={styles.confirmButton}>Sí</button>
           <button onClick={closeModal} className={styles.cancelButton}>No</button>

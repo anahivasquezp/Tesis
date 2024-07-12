@@ -31,7 +31,8 @@ function FraseExercise() {
   const [exerciseScore, setExerciseScore] = useState(0);
   const [nicaImage, setNicaImage] = useState(nicaPresenting);
   const [isBubbleVisible, setIsBubbleVisible] = useState(true);
-  const [bubbleMessage, setBubbleMessage] = useState(`Frase de la ${fonema.toUpperCase() === 'ENIE' ? 'Ñ' : fonema.toUpperCase()}`);
+  const [bubbleMessage, setBubbleMessage] = useState(`¡Escucha y repite! Frase de la ${fonema.toUpperCase() === 'ENIE' ? 'Ñ' : fonema.toUpperCase()}`);
+  const [bubbleTimeout, setBubbleTimeout] = useState(null);
   const [dataError, setDataError] = useState(null);
 
   useEffect(() => {
@@ -74,34 +75,15 @@ function FraseExercise() {
   }, [value, fonema]);
 
   useEffect(() => {
-    const message = `Frase de la ${fonema.toUpperCase() === 'ENIE' ? 'Ñ' : fonema.toUpperCase()}`;
-    const utterance = new SpeechSynthesisUtterance(message);
-    let timer;
-
-    const showBubble = () => {
-      setIsBubbleVisible(true);
-      setBubbleMessage(message);
-      setNicaImage(nicaPresenting);
-      timer = setTimeout(() => {
-        setIsBubbleVisible(false);
-        setNicaImage(nicaNeutral);
-      }, 10000);
-    };
-
-    showBubble();
-
-    return () => {
-      clearTimeout(timer);
-    };
+    const message = `¡Escucha y repite! Frase de la ${fonema.toUpperCase() === 'ENIE' ? 'Ñ' : fonema.toUpperCase()}`;
+    showBubble(message, nicaPresenting, 10000);
   }, [fonema]);
 
   useEffect(() => {
     const soundButton = document.getElementById('soundButton');
     if (soundButton) {
-      const message = `Frase de la ${fonema.toUpperCase() === 'ENIE' ? 'Ñ' : fonema.toUpperCase()}`;
-      const utterance = new SpeechSynthesisUtterance(message);
-
       const handleSoundClick = () => {
+        const utterance = new SpeechSynthesisUtterance(bubbleMessage);
         speechSynthesis.speak(utterance);
       };
 
@@ -111,18 +93,24 @@ function FraseExercise() {
         soundButton.removeEventListener('click', handleSoundClick);
       };
     }
-  }, [fonema, isBubbleVisible]);
+  }, [bubbleMessage]);
 
-  const handleShowBubble = () => {
+  const showBubble = (message, image, duration) => {
+    if (bubbleTimeout) {
+      clearTimeout(bubbleTimeout);
+    }
+    setBubbleMessage(message);
+    setNicaImage(image);
     setIsBubbleVisible(true);
-    setBubbleMessage(`Frase de la ${fonema.toUpperCase() === 'ENIE' ? 'Ñ' : fonema.toUpperCase()}`);
-    setNicaImage(nicaPresenting);
-    const timer = setTimeout(() => {
+    const timeout = setTimeout(() => {
       setIsBubbleVisible(false);
       setNicaImage(nicaNeutral);
-    }, 10000);
+    }, duration);
+    setBubbleTimeout(timeout);
+  };
 
-    return () => clearTimeout(timer);
+  const handleShowBubble = () => {
+    showBubble(`¡Escucha y repite! Frase de la ${fonema.toUpperCase() === 'ENIE' ? 'Ñ' : fonema.toUpperCase()}`, nicaPresenting, 10000);
   };
 
   const handleNextPage = () => {
@@ -150,13 +138,7 @@ function FraseExercise() {
 
     setSelectedChild(updatedChild);
     setExerciseScore(newScore);
-    setNicaImage(nicaCorrecto);
-    setBubbleMessage('¡Correcto! ¡Muy bien hecho!');
-    setIsBubbleVisible(true);
-    setTimeout(() => {
-      setIsBubbleVisible(false);
-      setNicaImage(nicaNeutral);
-    }, 5000);
+    showBubble('¡Correcto! ¡Muy bien hecho!', nicaCorrecto, 5000);
   };
 
   const handleIncorrecto = async () => {
@@ -176,13 +158,7 @@ function FraseExercise() {
 
     setSelectedChild(updatedChild);
     setExerciseScore(newScore);
-    setNicaImage(nicaIncorrecto);
-    setBubbleMessage('Incorrecto. ¡Inténtalo de nuevo!');
-    setIsBubbleVisible(true);
-    setTimeout(() => {
-      setIsBubbleVisible(false);
-      setNicaImage(nicaNeutral);
-    }, 5000);
+    showBubble('¡Oh no! ¡Inténtalo otra vez!', nicaIncorrecto, 5000);
   };
 
   const playPhraseAudio = () => {
@@ -294,7 +270,6 @@ function FraseExercise() {
           <button onClick={playPhraseAudio} className={styles.audioButton}>
             <i className="fas fa-volume-up"></i> Escuchar Frase
           </button>
-
           <div className={styles.actionButtonsContainer}>
             <button onClick={handlePreviousPage} className={`${styles.actionButton} ${styles.navButton}`}>
               <i className="fas fa-arrow-left"></i> Atrás

@@ -21,11 +21,9 @@ function FonemaExercise() {
   const { selectedChild, setSelectedChild } = useContext(ChildContext);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [guestCharacter, setGuestCharacter] = useState(null);
-
   const [value, loading, error] = useDocumentData(
     doc(collection(db, 'exercises'), fonema)
   );
-
   const [imageURL, setImageURL] = useState(null);
   const [audioURL, setAudioURL] = useState(null);
   const [imageLoading, setImageLoading] = useState(true);
@@ -33,7 +31,8 @@ function FonemaExercise() {
   const [exerciseScore, setExerciseScore] = useState(0);
   const [nicaImage, setNicaImage] = useState(nicaPresenting);
   const [isBubbleVisible, setIsBubbleVisible] = useState(true);
-  const [bubbleMessage, setBubbleMessage] = useState(`¡Bienvenido! Estos son los fonemas para ${fonema.toUpperCase() === 'ENIE' ? 'Ñ' : fonema.toUpperCase()}.`);
+  const [bubbleMessage, setBubbleMessage] = useState(`¡Vamos a aprender la letra ${fonema.toUpperCase() === 'ENIE' ? 'Ñ' : fonema.toUpperCase()}!`);
+  const [bubbleTimeout, setBubbleTimeout] = useState(null);
 
   useEffect(() => {
     const fetchGuestCharacter = () => {
@@ -80,33 +79,16 @@ function FonemaExercise() {
   }, [fonema]);
 
   useEffect(() => {
-    const message = `¡Bienvenido! Estos son los fonemas para ${fonema.toUpperCase() === 'ENIE' ? 'Ñ' : fonema.toUpperCase()}.`;
+    const message = `¡Vamos a aprender la letra ${fonema.toUpperCase() === 'ENIE' ? 'Ñ' : fonema.toUpperCase()}!`;
     const utterance = new SpeechSynthesisUtterance(message);
-    let timer;
-
-    const showBubble = () => {
-      setIsBubbleVisible(true);
-      setNicaImage(nicaPresenting);
-      timer = setTimeout(() => {
-        setIsBubbleVisible(false);
-        setNicaImage(nicaNeutral);
-      }, 10000);
-    };
-
-    showBubble();
-
-    return () => {
-      clearTimeout(timer);
-    };
+    showBubble(message, nicaPresenting, 10000);
   }, [fonema]);
 
   useEffect(() => {
     const soundButton = document.getElementById('soundButton');
     if (soundButton) {
-      const message = `¡Bienvenido! Estos son los fonemas para ${fonema.toUpperCase() === 'ENIE' ? 'Ñ' : fonema.toUpperCase()}.`;
-      const utterance = new SpeechSynthesisUtterance(message);
-
       const handleSoundClick = () => {
+        const utterance = new SpeechSynthesisUtterance(bubbleMessage);
         speechSynthesis.speak(utterance);
       };
 
@@ -116,18 +98,24 @@ function FonemaExercise() {
         soundButton.removeEventListener('click', handleSoundClick);
       };
     }
-  }, [fonema, isBubbleVisible]);
+  }, [bubbleMessage]);
 
-  const handleShowBubble = () => {
+  const showBubble = (message, image, duration) => {
+    if (bubbleTimeout) {
+      clearTimeout(bubbleTimeout);
+    }
+    setBubbleMessage(message);
+    setNicaImage(image);
     setIsBubbleVisible(true);
-    setBubbleMessage(`¡Bienvenido! Estos son los fonemas para ${fonema.toUpperCase() === 'ENIE' ? 'Ñ' : fonema.toUpperCase()}.`);
-    setNicaImage(nicaPresenting);
-    const timer = setTimeout(() => {
+    const timeout = setTimeout(() => {
       setIsBubbleVisible(false);
       setNicaImage(nicaNeutral);
-    }, 10000);
+    }, duration);
+    setBubbleTimeout(timeout);
+  };
 
-    return () => clearTimeout(timer);
+  const handleShowBubble = () => {
+    showBubble(`¡Vamos a aprender la letra ${fonema.toUpperCase() === 'ENIE' ? 'Ñ' : fonema.toUpperCase()}!`, nicaPresenting, 10000);
   };
 
   const playAudio = () => {
@@ -152,13 +140,7 @@ function FonemaExercise() {
 
     setSelectedChild(updatedChild);
     setExerciseScore(newScore); 
-    setNicaImage(nicaCorrecto);
-    setBubbleMessage('¡Correcto! ¡Muy bien hecho!');
-    setIsBubbleVisible(true);
-    setTimeout(() => {
-      setIsBubbleVisible(false);
-      setNicaImage(nicaNeutral);
-    }, 5000);
+    showBubble('¡Correcto! ¡Muy bien hecho! ¡Sigue así!', nicaCorrecto, 5000);
   };
 
   const handleIncorrecto = async () => {
@@ -178,13 +160,7 @@ function FonemaExercise() {
 
     setSelectedChild(updatedChild);
     setExerciseScore(newScore); 
-    setNicaImage(nicaIncorrecto);
-    setBubbleMessage('Incorrecto. ¡Inténtalo de nuevo!');
-    setIsBubbleVisible(true);
-    setTimeout(() => {
-      setIsBubbleVisible(false);
-      setNicaImage(nicaNeutral);
-    }, 5000);
+    showBubble('¡Oh no! ¡Inténtalo otra vez!', nicaIncorrecto, 5000);
   };
 
   const handleNextPage = () => {

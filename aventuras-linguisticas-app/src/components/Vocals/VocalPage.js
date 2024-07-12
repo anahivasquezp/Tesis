@@ -19,7 +19,7 @@ const VocalPage = () => {
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isBubbleVisible, setIsBubbleVisible] = useState(true);
-  const [bubbleMessage, setBubbleMessage] = useState(`Conciencia Fonémica: ${vocal.toUpperCase()}`);
+  const [bubbleMessage, setBubbleMessage] = useState(`¡Vamos con la vocal ${vocal.toUpperCase()}!`);
   const [characterImage, setCharacterImage] = useState(presentingCharacterImage);
   const navigate = useNavigate();
   const auth = getAuth();
@@ -54,7 +54,7 @@ const VocalPage = () => {
   }, [storage, vocal]);
 
   useEffect(() => {
-    const message = `Conciencia Fonémica: ${vocal.toUpperCase()}`;
+    const message = `¡Vamos con la vocal ${vocal.toUpperCase()}!`;
     const utterance = new SpeechSynthesisUtterance(message);
     let timer;
 
@@ -78,10 +78,9 @@ const VocalPage = () => {
   useEffect(() => {
     const soundButton = document.getElementById('soundButton');
     if (soundButton) {
-      const message = `Conciencia Fonémica: ${vocal.toUpperCase()}`;
-      const utterance = new SpeechSynthesisUtterance(message);
-
       const handleSoundClick = () => {
+        const message = bubbleMessage;
+        const utterance = new SpeechSynthesisUtterance(message);
         speechSynthesis.speak(utterance);
       };
 
@@ -91,11 +90,11 @@ const VocalPage = () => {
         soundButton.removeEventListener('click', handleSoundClick);
       };
     }
-  }, [vocal, isBubbleVisible]);
+  }, [bubbleMessage, isBubbleVisible]);
 
   const handleShowBubble = () => {
     setIsBubbleVisible(true);
-    setBubbleMessage(`Conciencia Fonémica: ${vocal.toUpperCase()}`);
+    setBubbleMessage(`¡Vamos con la vocal ${vocal.toUpperCase()}!`);
     setCharacterImage(presentingCharacterImage);
     const timer = setTimeout(() => {
       setIsBubbleVisible(false);
@@ -109,24 +108,18 @@ const VocalPage = () => {
     setIsBubbleVisible(true);
     if (isCorrect) {
       setCharacterImage(correctCharacterImage);
-      setBubbleMessage('¡Correcto! ¡Muy bien hecho!');
+      setBubbleMessage('¡Correcto! ¡Sigue así!');
     } else {
       setCharacterImage(incorrectCharacterImage);
-      setBubbleMessage('Incorrecto. ¡Inténtalo de nuevo!');
+      setBubbleMessage('¡Oh no! ¡Inténtalo otra vez!');
     }
 
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       setCharacterImage(neutralCharacterImage);
       setIsBubbleVisible(false);
     }, 5000);
 
-    if (auth.currentUser && selectedChild) {
-      const score = isCorrect ? 1 : 0;
-      const childDoc = doc(db, 'children', selectedChild.id);
-      await updateDoc(childDoc, {
-        [`phoneticAwarenessScore_${vocal}`]: score,
-      });
-    }
+    return () => clearTimeout(timer);
   };
 
   const nextVocal = (currentVocal) => {
@@ -266,7 +259,7 @@ const VocalPage = () => {
         className={styles.modal}
         overlayClassName={styles.overlay}
       >
-        <h2 className={styles.modalTitle}>¿Deseas salir?</h2>
+        <h2 className={styles.modalTitle}>¿Quieres salir?</h2>
         <div className={styles.modalButtons}>
           <button onClick={confirmLogout} className={styles.confirmButton}>Sí</button>
           <button onClick={closeModal} className={styles.cancelButton}>No</button>

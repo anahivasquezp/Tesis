@@ -21,7 +21,7 @@ function AgeFonemas() {
   const [scores, setScores] = useState({});
   const [isBubbleVisible, setIsBubbleVisible] = useState(true);
   const [nicaImage, setNicaImage] = useState(nicaPresenting);
-  const [bubbleMessage, setBubbleMessage] = useState(`¡Bienvenido! Estos son los fonemas para ${age} años.`);
+  const [bubbleMessage, setBubbleMessage] = useState(`¡Hola! Estos son los fonemas para ${age} años. ¡Vamos a jugar!`);
 
   useEffect(() => {
     const fetchGuestCharacter = () => {
@@ -49,7 +49,7 @@ function AgeFonemas() {
   }, [selectedChild]);
 
   useEffect(() => {
-    const message = `¡Bienvenido! Estos son los fonemas para ${age} años.`;
+    const message = `¡Hola! Estos son los fonemas para ${age} años. ¡Vamos a jugar!`;
     const utterance = new SpeechSynthesisUtterance(message);
     let timer;
 
@@ -72,10 +72,8 @@ function AgeFonemas() {
   useEffect(() => {
     const soundButton = document.getElementById('soundButton');
     if (soundButton) {
-      const message = `¡Bienvenido! Estos son los fonemas para ${age} años.`;
-      const utterance = new SpeechSynthesisUtterance(message);
-
       const handleSoundClick = () => {
+        const utterance = new SpeechSynthesisUtterance(bubbleMessage);
         speechSynthesis.speak(utterance);
       };
 
@@ -85,11 +83,11 @@ function AgeFonemas() {
         soundButton.removeEventListener('click', handleSoundClick);
       };
     }
-  }, [age, isBubbleVisible]);
+  }, [bubbleMessage]);
 
   const handleShowBubble = () => {
     setIsBubbleVisible(true);
-    setBubbleMessage(`¡Bienvenido! Estos son los fonemas para ${age} años.`);
+    setBubbleMessage(`¡Hola! Estos son los fonemas para ${age} años. ¡Vamos a jugar!`);
     setNicaImage(nicaPresenting);
     const timer = setTimeout(() => {
       setIsBubbleVisible(false);
@@ -257,7 +255,7 @@ function AgeFonemas() {
         className={styles.modal}
         overlayClassName={styles.overlay}
       >
-        <h2 className={styles.modalTitle}>¿Deseas salir?</h2>
+        <h2 className={styles.modalTitle}>¿Quieres salir?</h2>
         <div className={styles.modalButtons}>
           <button onClick={confirmLogout} className={styles.confirmButton}>Sí</button>
           <button onClick={closeModal} className={styles.cancelButton}>No</button>

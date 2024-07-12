@@ -36,8 +36,8 @@ function ConcienciaFonemicaExerciseFull() {
   const [exerciseScore, setExerciseScore] = useState(0);
   const [nicaImage, setNicaImage] = useState(nicaPresenting);
   const [isBubbleVisible, setIsBubbleVisible] = useState(true);
-  const [bubbleMessage, setBubbleMessage] = useState(`Conciencia Fonémica: ${fonema.toUpperCase() === 'ENIE' ? 'Ñ' : fonema.toUpperCase()}${syllables[videoIndex]}`);
-
+  const [bubbleMessage, setBubbleMessage] = useState(`¡Mira el video y repite después la conciencia fonémica de la ${fonema.toUpperCase() === 'ENIE' ? 'Ñ' : fonema.toUpperCase()}${syllables[videoIndex]}!`);
+  const [bubbleTimeout, setBubbleTimeout] = useState(null);
 
   useEffect(() => {
     const fetchGuestCharacter = () => {
@@ -75,34 +75,15 @@ function ConcienciaFonemicaExerciseFull() {
   }, [videoIndex, fonema]);
 
   useEffect(() => {
-    const message = `Conciencia Fonémica: ${fonema.toUpperCase()}${syllables[videoIndex]}`;
-    const utterance = new SpeechSynthesisUtterance(message);
-    let timer;
-
-    const showBubble = () => {
-      setIsBubbleVisible(true);
-      setBubbleMessage(message);
-      setNicaImage(nicaPresenting);
-      timer = setTimeout(() => {
-        setIsBubbleVisible(false);
-        setNicaImage(nicaNeutral);
-      }, 10000);
-    };
-
-    showBubble();
-
-    return () => {
-      clearTimeout(timer);
-    };
+    const message = `¡Mira el video y repite después la conciencia fonémica de la ${fonema.toUpperCase() === 'ENIE' ? 'Ñ' : fonema.toUpperCase()}${syllables[videoIndex]}!`;
+    showBubble(message, nicaPresenting, 10000);
   }, [fonema, videoIndex]);
 
   useEffect(() => {
     const soundButton = document.getElementById('soundButton');
     if (soundButton) {
-      const message = `Conciencia Fonémica: ${fonema.toUpperCase()}${syllables[videoIndex]}`;
-      const utterance = new SpeechSynthesisUtterance(message);
-
       const handleSoundClick = () => {
+        const utterance = new SpeechSynthesisUtterance(bubbleMessage);
         speechSynthesis.speak(utterance);
       };
 
@@ -112,18 +93,24 @@ function ConcienciaFonemicaExerciseFull() {
         soundButton.removeEventListener('click', handleSoundClick);
       };
     }
-  }, [fonema, isBubbleVisible, videoIndex]);
+  }, [bubbleMessage]);
 
-  const handleShowBubble = () => {
+  const showBubble = (message, image, duration) => {
+    if (bubbleTimeout) {
+      clearTimeout(bubbleTimeout);
+    }
+    setBubbleMessage(message);
+    setNicaImage(image);
     setIsBubbleVisible(true);
-    setBubbleMessage(`Conciencia Fonémica: ${fonema.toUpperCase()}${syllables[videoIndex]}`);
-    setNicaImage(nicaPresenting);
-    const timer = setTimeout(() => {
+    const timeout = setTimeout(() => {
       setIsBubbleVisible(false);
       setNicaImage(nicaNeutral);
-    }, 10000);
+    }, duration);
+    setBubbleTimeout(timeout);
+  };
 
-    return () => clearTimeout(timer);
+  const handleShowBubble = () => {
+    showBubble(`¡Mira el video y repite después la conciencia fonémica de la ${fonema.toUpperCase() === 'ENIE' ? 'Ñ' : fonema.toUpperCase()}${syllables[videoIndex]}!`, nicaPresenting, 10000);
   };
 
   const handleNextVideo = () => {
@@ -163,13 +150,7 @@ function ConcienciaFonemicaExerciseFull() {
 
     setSelectedChild(updatedChild);
     setExerciseScore(newScore);
-    setNicaImage(nicaCorrecto);
-    setBubbleMessage('¡Correcto! ¡Muy bien hecho!');
-    setIsBubbleVisible(true);
-    setTimeout(() => {
-      setIsBubbleVisible(false);
-      setNicaImage(nicaNeutral);
-    }, 5000);
+    showBubble('¡Correcto! ¡Muy bien hecho! ¡Sigue así!', nicaCorrecto, 5000);
   };
 
   const handleIncorrecto = async () => {
@@ -189,13 +170,7 @@ function ConcienciaFonemicaExerciseFull() {
 
     setSelectedChild(updatedChild);
     setExerciseScore(newScore);
-    setNicaImage(nicaIncorrecto);
-    setBubbleMessage('Incorrecto. ¡Inténtalo de nuevo!');
-    setIsBubbleVisible(true);
-    setTimeout(() => {
-      setIsBubbleVisible(false);
-      setNicaImage(nicaNeutral);
-    }, 5000);
+    showBubble('¡Oh no! ¡Inténtalo otra vez!', nicaIncorrecto, 5000);
   };
 
   const openModal = () => {

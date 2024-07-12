@@ -38,7 +38,8 @@ function SyllableExercise() {
   const [isBubbleVisible, setIsBubbleVisible] = useState(true);
   const currentSyllableType = syllableTypes[syllableIndex];
 
-  const [bubbleMessage, setBubbleMessage] = useState(`Sílabas de la ${fonema.toUpperCase() === 'ENIE' ? 'Ñ' : fonema.toUpperCase()} - ${syllableTypes[syllableIndex].replace('silaba_', 'Sílabas ').toUpperCase()}`);
+  const [bubbleMessage, setBubbleMessage] = useState(`¡Escucha y repite! Sílabas de la ${fonema.toUpperCase() === 'ENIE' ? 'Ñ' : fonema.toUpperCase()} - ${syllableTypes[syllableIndex].replace('silaba_', 'Sílabas ').toUpperCase()}!`);
+  const [bubbleTimeout, setBubbleTimeout] = useState(null);
 
   useEffect(() => {
     const fetchGuestCharacter = () => {
@@ -87,34 +88,15 @@ function SyllableExercise() {
   }, [value, currentSyllableType, fonema]);
 
   useEffect(() => {
-    const message = `Sílabas de la ${fonema.toUpperCase() === 'ENIE' ? 'Ñ' : fonema.toUpperCase()} - ${currentSyllableType.replace('silaba_', 'Sílabas ').toUpperCase()}`;
-    const utterance = new SpeechSynthesisUtterance(message);
-    let timer;
-
-    const showBubble = () => {
-      setIsBubbleVisible(true);
-      setBubbleMessage(message);
-      setNicaImage(nicaPresenting);
-      timer = setTimeout(() => {
-        setIsBubbleVisible(false);
-        setNicaImage(nicaNeutral);
-      }, 10000);
-    };
-
-    showBubble();
-
-    return () => {
-      clearTimeout(timer);
-    };
+    const message = `¡Escucha y repite! Sílabas de la ${fonema.toUpperCase() === 'ENIE' ? 'Ñ' : fonema.toUpperCase()} - ${currentSyllableType.replace('silaba_', 'Sílabas ').toUpperCase()}!`;
+    showBubble(message, nicaPresenting, 10000);
   }, [fonema, currentSyllableType]);
 
   useEffect(() => {
     const soundButton = document.getElementById('soundButton');
     if (soundButton) {
-      const message = `Sílabas de la ${fonema.toUpperCase() === 'ENIE' ? 'Ñ' : fonema.toUpperCase()} - ${currentSyllableType.replace('silaba_', 'Sílabas ').toUpperCase()}`;
-      const utterance = new SpeechSynthesisUtterance(message);
-
       const handleSoundClick = () => {
+        const utterance = new SpeechSynthesisUtterance(bubbleMessage);
         speechSynthesis.speak(utterance);
       };
 
@@ -124,18 +106,24 @@ function SyllableExercise() {
         soundButton.removeEventListener('click', handleSoundClick);
       };
     }
-  }, [fonema, currentSyllableType, isBubbleVisible]);
+  }, [bubbleMessage]);
 
-  const handleShowBubble = () => {
+  const showBubble = (message, image, duration) => {
+    if (bubbleTimeout) {
+      clearTimeout(bubbleTimeout);
+    }
+    setBubbleMessage(message);
+    setNicaImage(image);
     setIsBubbleVisible(true);
-    setBubbleMessage(`Sílabas de la ${fonema.toUpperCase() === 'ENIE' ? 'Ñ' : fonema.toUpperCase()} - ${currentSyllableType.replace('silaba_', 'Sílabas ').toUpperCase()}`);
-    setNicaImage(nicaPresenting);
-    const timer = setTimeout(() => {
+    const timeout = setTimeout(() => {
       setIsBubbleVisible(false);
       setNicaImage(nicaNeutral);
-    }, 10000);
+    }, duration);
+    setBubbleTimeout(timeout);
+  };
 
-    return () => clearTimeout(timer);
+  const handleShowBubble = () => {
+    showBubble(`¡Escucha y repite! Sílabas de la ${fonema.toUpperCase() === 'ENIE' ? 'Ñ' : fonema.toUpperCase()} - ${currentSyllableType.replace('silaba_', 'Sílabas ').toUpperCase()}!`, nicaPresenting, 10000);
   };
 
   const handleNextPage = () => {
@@ -175,13 +163,7 @@ function SyllableExercise() {
 
     setSelectedChild(updatedChild);
     setExerciseScore(newScore);
-    setNicaImage(nicaCorrecto);
-    setBubbleMessage('¡Correcto! ¡Muy bien hecho!');
-    setIsBubbleVisible(true);
-    setTimeout(() => {
-      setIsBubbleVisible(false);
-      setNicaImage(nicaNeutral);
-    }, 5000);
+    showBubble('¡Correcto! ¡Muy bien hecho! ¡Sigue así!', nicaCorrecto, 5000);
   };
 
   const handleIncorrecto = async () => {
@@ -201,13 +183,7 @@ function SyllableExercise() {
 
     setSelectedChild(updatedChild);
     setExerciseScore(newScore);
-    setNicaImage(nicaIncorrecto);
-    setBubbleMessage('Incorrecto. ¡Inténtalo de nuevo!');
-    setIsBubbleVisible(true);
-    setTimeout(() => {
-      setIsBubbleVisible(false);
-      setNicaImage(nicaNeutral);
-    }, 5000);
+    showBubble('¡Oh no! ¡Inténtalo otra vez!', nicaIncorrecto, 5000);
   };
 
   const openModal = () => {
