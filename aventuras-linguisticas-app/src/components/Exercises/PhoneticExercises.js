@@ -14,13 +14,11 @@ import nicaIncorrecto from '../../images/Nica_Incorrecto.png';
 Modal.setAppElement('#root'); // Set the app element for accessibility
 
 function PhoneticExercises() {
-  const [imageUrl, setImageUrl] = useState('');
-  const [audioUrl, setAudioUrl] = useState('');
+  const [fileData, setFileData] = useState({ name: '', imageUrl: '', audioUrl: '' });
   const [loading, setLoading] = useState(true);
-  const [fileName, setFileName] = useState('');
   const [nicaImage, setNicaImage] = useState(nicaPresenting);
   const [isBubbleVisible, setIsBubbleVisible] = useState(true);
-  const [bubbleMessage, setBubbleMessage] = useState('¡Bienvenido! Escucha el sonido y elige la respuesta correcta.');
+  const [bubbleMessage, setBubbleMessage] = useState('¡Hola! Escucha y elige la respuesta correcta.');
   const navigate = useNavigate();
   const auth = getAuth();
   const storage = getStorage();
@@ -33,7 +31,7 @@ function PhoneticExercises() {
     const fetchMedia = async () => {
       const files = ['perro', 'gato', 'piano', 'ambulancia']; // Reemplaza con la lista de archivos disponibles
       const randomFile = files[Math.floor(Math.random() * files.length)];
-      setFileName(randomFile.toUpperCase());
+      const fileName = randomFile.toUpperCase();
 
       const imageRef = ref(storage, `images/concienciaFonetica/${randomFile}.webp`);
       const audioRef = ref(storage, `audios/concienciaFonetica/${randomFile}.mp3`);
@@ -41,8 +39,7 @@ function PhoneticExercises() {
       const imageUrl = await getDownloadURL(imageRef);
       const audioUrl = await getDownloadURL(audioRef);
 
-      setImageUrl(imageUrl);
-      setAudioUrl(audioUrl);
+      setFileData({ name: fileName, imageUrl, audioUrl });
       setLoading(false);
     };
 
@@ -58,7 +55,7 @@ function PhoneticExercises() {
   }, [storage]);
 
   useEffect(() => {
-    const message = "¡Bienvenido! Escucha el sonido y elige la respuesta correcta.";
+    const message = "¡Hola! Escucha y elige la respuesta correcta.";
     const utterance = new SpeechSynthesisUtterance(message);
     let timer;
 
@@ -81,10 +78,8 @@ function PhoneticExercises() {
   useEffect(() => {
     const soundButton = document.getElementById('soundButton');
     if (soundButton) {
-      const message = "¡Bienvenido! Escucha el sonido y elige la respuesta correcta.";
-      const utterance = new SpeechSynthesisUtterance(message);
-
       const handleSoundClick = () => {
+        const utterance = new SpeechSynthesisUtterance(bubbleMessage);
         speechSynthesis.speak(utterance);
       };
 
@@ -94,11 +89,11 @@ function PhoneticExercises() {
         soundButton.removeEventListener('click', handleSoundClick);
       };
     }
-  }, [isBubbleVisible]);
+  }, [bubbleMessage]);
 
   const handleShowBubble = () => {
     setIsBubbleVisible(true);
-    setBubbleMessage('¡Bienvenido! Escucha el sonido y elige la respuesta correcta.');
+    setBubbleMessage('¡Hola! Escucha y elige la respuesta correcta.');
     setNicaImage(nicaPresenting);
     const timer = setTimeout(() => {
       setIsBubbleVisible(false);
@@ -121,7 +116,7 @@ function PhoneticExercises() {
   };
 
   const playAudio = () => {
-    const audio = new Audio(audioUrl);
+    const audio = new Audio(fileData.audioUrl);
     audio.play();
   };
 
@@ -129,10 +124,10 @@ function PhoneticExercises() {
     setIsBubbleVisible(true);
     if (isCorrect) {
       setNicaImage(nicaCorrecto);
-      setBubbleMessage('¡Correcto! ¡Muy bien hecho!');
+      setBubbleMessage('¡Correcto! ¡Muy bien! ¡Continúa con el siguiente!');
     } else {
       setNicaImage(nicaIncorrecto);
-      setBubbleMessage('Incorrecto. ¡Inténtalo de nuevo!');
+      setBubbleMessage('¡Uy! No fue correcto. ¡Intenta de nuevo!');
     }
 
     setTimeout(() => {
@@ -203,11 +198,11 @@ function PhoneticExercises() {
         )}
       </div>
       <div className={styles.contentContainer}>
-        <h1 className={styles.exerciseTitle}>Conciencia Fonética: <span className={styles.fileName}>{fileName}</span></h1>
+        <h1 className={styles.exerciseTitle}>Conciencia Fonética: <span className={styles.fileName}>{fileData.name}</span></h1>
         {loading ? (
           <p className={styles.loadingText}>Cargando...</p>
         ) : (
-          <img src={imageUrl} alt="Ejercicio" className={styles.exerciseImage} />
+          <img src={fileData.imageUrl} alt="Ejercicio" className={styles.exerciseImage} />
         )}
         <div className={styles.buttonContainer}>
           <button className={`${styles.exerciseButton} ${styles.soundButton}`} onClick={playAudio} disabled={loading}>
@@ -245,7 +240,7 @@ function PhoneticExercises() {
         overlayClassName={styles.overlay}
         shouldCloseOnOverlayClick={true}
       >
-        <h2 className={styles.modalTitle}>¿Deseas salir?</h2>
+        <h2 className={styles.modalTitle}>¿Quieres salir?</h2>
         <div className={styles.modalButtons}>
           <button onClick={confirmLogout} className={styles.confirmButton}>Sí</button>
           <button onClick={closeModal} className={styles.cancelButton}>No</button>

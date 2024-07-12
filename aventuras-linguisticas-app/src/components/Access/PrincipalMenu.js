@@ -42,7 +42,7 @@ function PrincipalMenu() {
     }, [auth.currentUser]);
 
     useEffect(() => {
-        const message = "¡Hola! Bienvenido al menú principal.";
+        const message = "¡Hola! Bienvenido al menú principal. Te recomiendo que empieces por Conciencia Fonética. ¡Diviértete!";
         const utterance = new SpeechSynthesisUtterance(message);
         let timer;
 
@@ -65,7 +65,7 @@ function PrincipalMenu() {
     useEffect(() => {
         const soundButton = document.getElementById('soundButton');
         if (soundButton) {
-            const message = "¡Hola! Bienvenido al menú principal.";
+            const message = "¡Hola! Bienvenido al menú principal. Te recomiendo que empieces por Conciencia Fonética. ¡Diviértete!";
             const utterance = new SpeechSynthesisUtterance(message);
 
             const handleSoundClick = () => {
@@ -186,7 +186,7 @@ function PrincipalMenu() {
             <div className={styles.characterContainer}>
                 {isBubbleVisible && (
                     <div className={styles.speechBubble}>
-                        <p className={styles.welcomeText}>¡Hola! Bienvenido al menú principal.</p>
+                        <p className={styles.welcomeText}>¡Hola! Bienvenido al menú principal. Te recomiendo que empieces por Conciencia Fonética. ¡Diviértete!</p>
                         <button id="soundButton" className={styles.soundButton}>
                             <i className="fas fa-volume-up"></i>
                         </button>
