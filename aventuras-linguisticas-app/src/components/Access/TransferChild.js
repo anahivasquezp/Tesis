@@ -44,7 +44,7 @@ const TransferChild = () => {
   }, [db, auth]);
 
   useEffect(() => {
-    const message = "Elige al terapista para transferir al niño.";
+    const message = "¡Vamos a elegir un nuevo terapeuta!";
     const utterance = new SpeechSynthesisUtterance(message);
     let timer;
 
@@ -67,7 +67,7 @@ const TransferChild = () => {
   useEffect(() => {
     const soundButton = document.getElementById('soundButton');
     if (soundButton) {
-      const message = "Elige al terapista para transferir al niño.";
+      const message = "¡Vamos a elegir un nuevo terapeuta!";
       const utterance = new SpeechSynthesisUtterance(message);
 
       const handleSoundClick = () => {
@@ -135,7 +135,7 @@ const TransferChild = () => {
         </button>
       </div>
       <div className={styles.contentContainer}>
-        <h1 className={styles.transferChildTitle}>Elige al terapista al que deseas transferir el siguiente niño</h1>
+        <h1 className={styles.transferChildTitle}>Elige al nuevo terapeuta para el niño</h1>
         {selectedChild && (
           <div className={styles.childInfo}>
             <h2 className={styles.childName}>Niño a transferir: {selectedChild.name}</h2>
@@ -161,7 +161,7 @@ const TransferChild = () => {
       <div className={styles.characterContainer}>
         {isBubbleVisible && (
           <div className={styles.speechBubble}>
-            <p className={styles.welcomeText}>Elige al terapista al que deseas transferir el siguiente niño</p>
+            <p className={styles.welcomeText}>¡Vamos a elegir un nuevo terapeuta!</p>
             <button id="soundButton" className={styles.soundButton}>
               <i className="fas fa-volume-up"></i>
             </button>
@@ -177,7 +177,7 @@ const TransferChild = () => {
         className={styles.modal}
         overlayClassName={styles.overlay}
       >
-        <h2 className={styles.modalTitle}>¿Estás seguro que deseas transferir al terapista seleccionado?</h2>
+        <h2 className={styles.modalTitle}>¿Estás seguro que deseas transferir al niño al terapeuta seleccionado?</h2>
         <div className={styles.modalButtons}>
           <button onClick={confirmTransfer} className={styles.confirmButton}>Sí</button>
           <button onClick={closeModal} className={styles.cancelButton}>No</button>

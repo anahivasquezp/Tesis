@@ -21,7 +21,7 @@ function RegisterTherapist() {
   const db = getFirestore(); // Inicialización añadida
 
   useEffect(() => {
-    const message = "¡Bienvenido! Por favor, ingrese su nombre, correo electrónico y contraseña para registrarse como terapeuta.";
+    const message = "Por favor, ingresa tu nombre, correo electrónico y contraseña para registrarte.";
     const utterance = new SpeechSynthesisUtterance(message);
     let timer;
 
@@ -44,7 +44,7 @@ function RegisterTherapist() {
   useEffect(() => {
     const soundButton = document.getElementById('soundButton');
     if (soundButton) {
-      const message = "¡Bienvenido! Por favor, ingrese su nombre, correo electrónico y contraseña para registrarse como terapeuta.";
+      const message = "Por favor, ingresa tu nombre, correo electrónico y contraseña para registrarte.";
       const utterance = new SpeechSynthesisUtterance(message);
 
       const handleSoundClick = () => {
@@ -200,7 +200,7 @@ function RegisterTherapist() {
       <img src={nicaImage} alt="Character" className={styles.characterImage} style={getNicaImageStyle()} />
       {isBubbleVisible && (
         <div className={styles.speechBubble}>
-          <p className={styles.welcomeText}>¡Bienvenido! Por favor, ingrese su nombre, correo electrónico y contraseña para registrarse como terapeuta.</p>
+          <p className={styles.welcomeText}>Por favor, ingresa tu nombre, correo electrónico y contraseña para registrarte.</p>
           <button id="soundButton" className={styles.soundButton}>
             <i className="fas fa-volume-up"></i>
           </button>

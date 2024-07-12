@@ -31,7 +31,7 @@ function Guest() {
     }, []);
 
     useEffect(() => {
-        const message = "Por favor, selecciona tu personaje.";
+        const message = "Elige tu personaje favorito.";
         const utterance = new SpeechSynthesisUtterance(message);
         const soundButton = document.getElementById('soundButton');
 
@@ -108,7 +108,7 @@ function Guest() {
             <div className={styles.characterSection}>
                 {isBubbleVisible && (
                     <div className={styles.speechBubble}>
-                        <p className={styles.welcomeText}>Por favor, selecciona tu personaje.</p>
+                        <p className={styles.welcomeText}>Elige tu personaje favorito.</p>
                         <div className={styles.bubbleButtons}>
                             <button id="soundButton" className={styles.soundButton}>
                                 <i className="fas fa-volume-up"></i>

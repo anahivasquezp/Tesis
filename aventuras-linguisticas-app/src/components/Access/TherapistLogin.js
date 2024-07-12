@@ -21,7 +21,7 @@ function TherapistLogin() {
   const auth = getAuth();
 
   useEffect(() => {
-    const message = "¡Bienvenido! Por favor, ingrese su correo electrónico y contraseña para iniciar sesión como terapista.";
+    const message = "Por favor, ingresa tu correo electrónico y contraseña para iniciar sesión.";
     const utterance = new SpeechSynthesisUtterance(message);
     let timer;
 
@@ -44,7 +44,7 @@ function TherapistLogin() {
   useEffect(() => {
     const soundButton = document.getElementById('soundButton');
     if (soundButton) {
-      const message = "¡Bienvenido! Por favor, ingrese su correo electrónico y contraseña para iniciar sesión como terapista.";
+      const message = "Por favor, ingresa tu correo electrónico y contraseña para iniciar sesión.";
       const utterance = new SpeechSynthesisUtterance(message);
 
       const handleSoundClick = () => {
@@ -173,7 +173,7 @@ function TherapistLogin() {
       <img src={nicaImage} alt="Character" className={styles.characterImage} style={getNicaImageStyle()} />
       {isBubbleVisible && (
         <div className={styles.speechBubble}>
-          <p className={styles.welcomeText}>¡Bienvenido! Por favor, ingrese su correo electrónico y contraseña para iniciar sesión como terapista.</p>
+          <p className={styles.welcomeText}>Por favor, ingresa tu correo electrónico y contraseña para iniciar sesión.</p>
           <button id="soundButton" className={styles.soundButton}>
             <i className="fas fa-volume-up"></i>
           </button>

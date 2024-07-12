@@ -44,7 +44,7 @@ function RegisterChild() {
   }, []);
 
   useEffect(() => {
-    const message = "¡Bienvenido! Por favor, ingrese la información del niño para registrarlo.";
+    const message = "¡Hola! Vamos a registrar un nuevo amigo.";
     const utterance = new SpeechSynthesisUtterance(message);
     let timer;
 
@@ -67,7 +67,7 @@ function RegisterChild() {
   useEffect(() => {
     const soundButton = document.getElementById('soundButton');
     if (soundButton) {
-      const message = "¡Bienvenido! Por favor, ingrese la información del niño para registrarlo.";
+      const message = "¡Hola! Vamos a registrar un nuevo amigo.";
       const utterance = new SpeechSynthesisUtterance(message);
 
       const handleSoundClick = () => {
@@ -221,7 +221,7 @@ function RegisterChild() {
       <div className={styles.characterContainer}>
         {isBubbleVisible && (
           <div className={styles.speechBubble}>
-            <p className={styles.welcomeText}>¡Bienvenido! Por favor, ingrese la información del niño para registrarlo.</p>
+            <p className={styles.welcomeText}>¡Hola! Vamos a registrar un nuevo amigo.</p>
             <button id="soundButton" className={styles.soundButton}>
               <i className="fas fa-volume-up"></i>
             </button>
@@ -237,7 +237,7 @@ function RegisterChild() {
         overlayClassName={styles.overlay}
         shouldCloseOnOverlayClick={true}
       >
-        <h2 className={styles.modalTitle}>¿Deseas salir?</h2>
+        <h2 className={styles.modalTitle}>¿Quieres salir?</h2>
         <div className={styles.modalButtons}>
           <button onClick={confirmLogout} className={styles.confirmButton}>Sí</button>
           <button onClick={closeModal} className={styles.cancelButton}>No</button>

@@ -52,7 +52,7 @@ function EditChild() {
   }, [selectedChild]);
 
   useEffect(() => {
-    const message = "Editar la información del niño.";
+    const message = "¿Necesitas cambiar la información del Niño?";
     const utterance = new SpeechSynthesisUtterance(message);
     let timer;
 
@@ -75,7 +75,7 @@ function EditChild() {
   useEffect(() => {
     const soundButton = document.getElementById('soundButton');
     if (soundButton) {
-      const message = "Editar la información del niño.";
+      const message = "¿Necesitas cambiar la información del Niño?";
       const utterance = new SpeechSynthesisUtterance(message);
 
       const handleSoundClick = () => {
@@ -189,7 +189,7 @@ function EditChild() {
         </Link>
       </div>
       <div className={styles.formContainer}>
-        <h1 className={styles.editTitle}>Editar un niño</h1>
+        <h1 className={styles.editTitle}>Editar la información del niño</h1>
         {error && <div className={styles.errorMessage}>{error}</div>}
         <form onSubmit={handleUpdateChild}>
           <label htmlFor="name" className={styles.formLabel}>Nombre:</label>
@@ -233,7 +233,7 @@ function EditChild() {
       <div className={styles.characterContainer}>
         {isBubbleVisible && (
           <div className={styles.speechBubble}>
-            <p className={styles.welcomeText}>Editar la información del niño.</p>
+            <p className={styles.welcomeText}>¿Necesitas cambiar la información del Niño?</p>
             <button id="soundButton" className={styles.soundButton}>
               <i className="fas fa-volume-up"></i>
             </button>

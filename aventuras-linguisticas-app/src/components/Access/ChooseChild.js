@@ -43,7 +43,7 @@ function ChooseChild() {
   }, [auth, db]);
 
   useEffect(() => {
-    const message = "Elige un niño para jugar.";
+    const message = "¡Vamos a aprender! Elige un niño.";
     const utterance = new SpeechSynthesisUtterance(message);
     let timer;
 
@@ -66,7 +66,7 @@ function ChooseChild() {
   useEffect(() => {
     const soundButton = document.getElementById('soundButton');
     if (soundButton) {
-      const message = "Elige un niño para jugar.";
+      const message = "¡Vamos a aprender! Elige un niño.";
       const utterance = new SpeechSynthesisUtterance(message);
 
       const handleSoundClick = () => {
@@ -191,7 +191,7 @@ function ChooseChild() {
         </button>
       </div>
       <div className={styles.contentContainer}>
-        <h1 className={styles.chooseChildTitle}>Elige un niño para jugar</h1>
+        <h1 className={styles.chooseChildTitle}>Elige un niño para aprender</h1>
         <div className={styles.childrenList}>
           {children.map((child) => (
             <div
@@ -214,7 +214,7 @@ function ChooseChild() {
       <div className={styles.characterContainer}>
         {isBubbleVisible && (
           <div className={styles.speechBubble}>
-            <p className={styles.welcomeText}>Elige un niño para aprender</p>
+            <p className={styles.welcomeText}>¡Vamos a aprender! Elige un niño.</p>
             <button id="soundButton" className={styles.soundButton}>
               <i className="fas fa-volume-up"></i>
             </button>
@@ -230,7 +230,7 @@ function ChooseChild() {
         className={styles.modal}
         overlayClassName={styles.overlay}
       >
-        <h2 className={styles.modalTitle}>¿Deseas salir?</h2>
+        <h2 className={styles.modalTitle}>¿Quieres salir?</h2>
         <div className={styles.modalButtons}>
           <button onClick={confirmLogout} className={styles.confirmButton}>Sí</button>
           <button onClick={closeModal} className={styles.cancelButton}>No</button>
@@ -244,7 +244,7 @@ function ChooseChild() {
         className={styles.modal}
         overlayClassName={styles.overlay}
       >
-        <h2 className={styles.modalTitle}>¿Estás seguro de que deseas eliminar tu cuenta? Esto también eliminará todos los niños asociados.</h2>
+        <h2 className={styles.modalTitle}>¿Seguro que quieres borrar tu cuenta? Se borrarán todos los niños.</h2>
         <div className={styles.modalButtons}>
           <button onClick={confirmDeleteAccount} className={styles.confirmButton}>Sí</button>
           <button onClick={closeDeleteModal} className={styles.cancelButton}>No</button>
