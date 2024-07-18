@@ -55,7 +55,7 @@ function SyllableExercise() {
   useEffect(() => {
     if (selectedChild) {
       const currentScore = selectedChild.scores?.[`syllable_${fonema}_${currentSyllableType}`];
-      setExerciseScore(currentScore !== undefined ? currentScore : -1); // Set to -1 if score doesn't exist
+      setExerciseScore(currentScore !== undefined ? currentScore : -1);
     }
   }, [selectedChild, fonema, currentSyllableType]);
 
@@ -71,8 +71,14 @@ function SyllableExercise() {
         for (let i = 0; i < value[currentSyllableType].length; i++) {
           const word = value[currentSyllableType][i];
           try {
-            const imageRef = ref(storage, `images/silabas/${fonema.toUpperCase()}/${currentSyllableType}_${fonema.toUpperCase()}_${i}.webp`);
-            const imageUrl = await getDownloadURL(imageRef);
+            let imageUrl = '';
+            try {
+              const imageRefWebp = ref(storage, `images/silabas/${fonema.toUpperCase()}/${currentSyllableType}_${fonema.toUpperCase()}_${i}.webp`);
+              imageUrl = await getDownloadURL(imageRefWebp);
+            } catch {
+              const imageRefPng = ref(storage, `images/silabas/${fonema.toUpperCase()}/${currentSyllableType}_${fonema.toUpperCase()}_${i}.png`);
+              imageUrl = await getDownloadURL(imageRefPng);
+            }
             newImages[word] = imageUrl;
           } catch (error) {
             console.error(`Error loading image for ${word}:`, error);
@@ -97,6 +103,7 @@ function SyllableExercise() {
     if (soundButton) {
       const handleSoundClick = () => {
         const utterance = new SpeechSynthesisUtterance(bubbleMessage);
+        utterance.rate = 0.8;  // Ajusta la velocidad del habla
         speechSynthesis.speak(utterance);
       };
 
@@ -224,6 +231,7 @@ function SyllableExercise() {
   const renderWordAudioButton = (word) => {
     const speakWord = () => {
       const utterance = new SpeechSynthesisUtterance(word);
+      utterance.rate = 0.8;  // Ajusta la velocidad del habla
       speechSynthesis.speak(utterance);
     };
 

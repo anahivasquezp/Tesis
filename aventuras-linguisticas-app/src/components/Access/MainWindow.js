@@ -11,7 +11,7 @@ function App() {
     const [isBubbleVisible, setIsBubbleVisible] = useState(true);
 
     useEffect(() => {
-        const message = "¡Hola! Soy Nica. ¿Eres terapeuta o invitado? Elige uno.";
+        const message = "¡Hola! Soy Nica. ¿Eres terapista o invitado? Elige uno.";
         const utterance = new SpeechSynthesisUtterance(message);
         const soundButton = document.getElementById('soundButton');
 
@@ -45,6 +45,7 @@ function App() {
             </div>
             <div className={styles.contentContainer}>
                 <img src={titleImage} alt="Title" className={styles.titleImage} />
+                <h2 className={styles.Subtitle}>Seleccione si es terapista o invitado:</h2>
                 <div className={styles.buttonContainer}>
                     <Link to="/therapistLogin">
                         <button className={`${styles.accessButton} ${styles.terapistaBtn}`}>Terapista</button>
@@ -57,7 +58,7 @@ function App() {
             <div className={styles.characterContainer}>
                 {isBubbleVisible && (
                     <div className={styles.speechBubble}>
-                        <p className={styles.welcomeText}>¡Hola! Soy Nica. ¿Eres terapeuta o invitado? Elige uno.</p>
+                        <p className={styles.welcomeText}>¡Hola! Soy Nica. ¿Eres terapista o invitado? Elige uno.</p>
                         <div className={styles.bubbleButtons}>
                             <button id="soundButton" className={styles.soundButton}>
                                 <i className="fas fa-volume-up"></i>
