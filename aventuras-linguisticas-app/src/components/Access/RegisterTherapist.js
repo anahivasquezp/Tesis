@@ -145,6 +145,7 @@ function RegisterTherapist() {
       </div>
       <div className={styles.registerFormContainer}>
         <h1 className={styles.registerTitle}>Registrarse como Terapeuta</h1>
+        <h2 className={styles.Subtitle}>Por favor, ingrese su nombre, correo electrónico y contraseña para registrarse:</h2>
         {error !== null && <div className={styles.errorMessage}>{error}</div>}
         <form className={styles.registerForm}>
           <label htmlFor="userName" className={styles.formLabel}>

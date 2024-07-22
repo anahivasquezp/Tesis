@@ -19,29 +19,37 @@ function App() {
             speechSynthesis.speak(utterance);
         });
 
+        const timer = setTimeout(() => {
+            setIsBubbleVisible(false);
+        }, 10000);
+
         return () => {
             soundButton.removeEventListener('click', () => {
                 speechSynthesis.cancel();
             });
+            clearTimeout(timer);
         };
     }, []);
 
-    const handleHideBubble = () => {
-        setIsBubbleVisible(false);
-    };
-
     const handleShowBubble = () => {
         setIsBubbleVisible(true);
+        const timer = setTimeout(() => {
+            setIsBubbleVisible(false);
+        }, 10000);
+        return () => clearTimeout(timer);
     };
 
     return (
         <div className={styles.mainContainer} style={{ backgroundImage: `url(${farmBackground})` }}>
             <div className={styles.topButtonsContainer}>
                 <Link to="/instructions">
-                    <button className={`${styles.topButton} ${styles.infoButton}`}>
-                        <i className="fas fa-info"></i>
+                    <button className={`${styles.topButton} ${styles.aboutButton}`}>
+                        Acerca De
                     </button>
                 </Link>
+                <button onClick={handleShowBubble} className={`${styles.topButton} ${styles.infoButton}`}>
+                    <i className="fas fa-info"></i>
+                </button>
             </div>
             <div className={styles.contentContainer}>
                 <img src={titleImage} alt="Title" className={styles.titleImage} />
@@ -63,18 +71,10 @@ function App() {
                             <button id="soundButton" className={styles.soundButton}>
                                 <i className="fas fa-volume-up"></i>
                             </button>
-                            <button className={styles.hideButton} onClick={handleHideBubble}>
-                                <i className="fas fa-chevron-down"></i>
-                            </button>
                         </div>
                     </div>
                 )}
                 <img src={characterImage} alt="Character" className={styles.characterImage} />
-                {!isBubbleVisible && (
-                    <button className={styles.showButton} onClick={handleShowBubble}>
-                        <i className="fas fa-chevron-up"></i>
-                    </button>
-                )}
             </div>
             <div className={styles.logosContainer}>
                 <img src={logoEpn} alt="Logo EPN" className={styles.logo} />

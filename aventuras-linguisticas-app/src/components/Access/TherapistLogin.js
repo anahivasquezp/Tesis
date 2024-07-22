@@ -127,6 +127,7 @@ function TherapistLogin() {
       </div>
       <div className={styles.loginFormContainer}>
         <h1 className={styles.loginTitle}>Iniciar sesión como Terapista</h1>
+        <h2 className={styles.Subtitle}>Por favor, ingrese su correo electrónico y contraseña para iniciar sesión como terapista:</h2>
         {error !== null && <div className={styles.errorMessage}>{error}</div>}
         <form className={styles.loginForm}>
           <label htmlFor="userEmail" className={styles.formLabel}>

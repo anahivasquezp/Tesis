@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styles from '../../css/Access/Instructions.module.css';
 import farmBackground from '../../images/therapist_login_bg.webp';
-import characterImage from '../../images/Nica_Neutral.png';
+import characterImage from '../../images/Nica_presenta.png';
 import logoEpn from '../../images/logo_epn.png';
 import logoFis from '../../images/logo_fis.png';
 import logoLudolab from '../../images/logo_ludolab.png';
@@ -15,25 +15,31 @@ function Instructions() {
     useEffect(() => {
         const message = "¡Hola! Soy Nica. Vamos a conocer más sobre el juego.";
         const utterance = new SpeechSynthesisUtterance(message);
-        const soundButton = document.getElementById('soundButton');
+        speechSynthesis.speak(utterance);
 
-        soundButton.addEventListener('click', () => {
-            speechSynthesis.speak(utterance);
-        });
+        const hideBubbleTimer = setTimeout(() => {
+            setIsBubbleVisible(false);
+        }, 10000); // 10 seconds
 
         return () => {
-            soundButton.removeEventListener('click', () => {
-                speechSynthesis.cancel();
-            });
+            clearTimeout(hideBubbleTimer);
+            speechSynthesis.cancel();
         };
     }, []);
 
-    const handleHideBubble = () => {
-        setIsBubbleVisible(false);
-    };
-
     const handleShowBubble = () => {
         setIsBubbleVisible(true);
+        const message = "¡Hola! Soy Nica. Vamos a conocer más sobre el juego.";
+        const utterance = new SpeechSynthesisUtterance(message);
+        speechSynthesis.speak(utterance);
+
+        const hideBubbleTimer = setTimeout(() => {
+            setIsBubbleVisible(false);
+        }, 10000); // 10 seconds
+
+        return () => {
+            clearTimeout(hideBubbleTimer);
+        };
     };
 
     return (
@@ -44,6 +50,9 @@ function Instructions() {
                         <i className="fas fa-arrow-left"></i>
                     </button>
                 </Link>
+                <button className={`${styles.topButton} ${styles.infoButton}`} onClick={handleShowBubble}>
+                    <i className="fas fa-info"></i>
+                </button>
             </div>
             <div className={styles.contentContainer}>
                 <div className={styles.logosContainer}>
@@ -97,18 +106,10 @@ function Instructions() {
                             <button id="soundButton" className={styles.soundButton}>
                                 <i className="fas fa-volume-up"></i>
                             </button>
-                            <button className={styles.hideButton} onClick={handleHideBubble}>
-                                <i className="fas fa-chevron-down"></i>
-                            </button>
                         </div>
                     </div>
                 )}
                 <img src={characterImage} alt="Character" className={styles.characterImage} />
-                {!isBubbleVisible && (
-                    <button className={styles.showButton} onClick={handleShowBubble}>
-                        <i className="fas fa-chevron-up"></i>
-                    </button>
-                )}
             </div>
         </div>
     );

@@ -18,6 +18,14 @@
   gap: 20px;
 }
 
+.Subtitle {
+  font-family: 'Poppins', sans-serif;
+  font-size: 2rem;
+  color: #71401a;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
 .topButton {
   width: 70px;
   height: 70px;

@@ -9,6 +9,13 @@
   align-items: center;
   position: relative;
 }
+.Subtitle {
+  font-family: 'Poppins', sans-serif;
+  font-size: 2rem;
+  color: #71401a;
+  margin-bottom: 20px;
+  text-align: center;
+}
 
 .topButtonsContainer {
   position: absolute;

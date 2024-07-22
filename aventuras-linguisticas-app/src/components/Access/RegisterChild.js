@@ -181,6 +181,7 @@ function RegisterChild() {
       </div>
       <div className={styles.formContainer}>
         <h1 className={styles.registerTitle}>Registrar un niño</h1>
+        <h2 className={styles.Subtitle}>Ingrese el nombre, fecha de nacimiento y seleccione un personaje para registrar un niño.</h2>
         {error && <div className={styles.errorMessage}>{error}</div>}
         <form onSubmit={registerChild}>
           <label htmlFor="name" className={styles.formLabel}>Nombre:</label>
@@ -203,20 +204,21 @@ function RegisterChild() {
             onChange={(e) => setBirthDate(e.target.value)}
           />
 
+          <div className={styles.imageContainer}>
+            {characterImages.map((image) => (
+              <img
+                key={image.id}
+                src={image.url}
+                alt={image.id}
+                onClick={() => setSelectedImage(image.url)}
+                className={`${styles.characterImage} ${selectedImage === image.url ? styles.selected : ''}`}
+                style={selectedImage === image.url ? { width: '150px', height: '150px' } : {}}
+              />
+            ))}
+          </div>
+
           <button type="submit" className={styles.registerButton}>Registrar</button>
         </form>
-      </div>
-      <div className={styles.imageContainer}>
-        {characterImages.map((image) => (
-          <img
-            key={image.id}
-            src={image.url}
-            alt={image.id}
-            onClick={() => setSelectedImage(image.url)}
-            className={`${styles.characterImage} ${selectedImage === image.url ? styles.selected : ''}`}
-            style={selectedImage === image.url ? { width: '150px', height: '150px' } : {}}
-          />
-        ))}
       </div>
       <div className={styles.characterContainer}>
         {isBubbleVisible && (

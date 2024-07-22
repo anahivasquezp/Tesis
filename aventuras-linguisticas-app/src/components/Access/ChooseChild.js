@@ -192,6 +192,7 @@ function ChooseChild() {
       </div>
       <div className={styles.contentContainer}>
         <h1 className={styles.chooseChildTitle}>Elige un niño para aprender</h1>
+        <h2 className={styles.Subtitle}>Elija un niño para comenzar o presione el botón de más para registrar un nuevo niño</h2>
         <div className={styles.childrenList}>
           {children.map((child) => (
             <div

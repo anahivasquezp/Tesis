@@ -7,6 +7,7 @@
   justify-content: center;
   align-items: center;
   position: relative;
+  text-decoration: none;
 }
 
 .topButtonsContainer {
@@ -15,12 +16,13 @@
   left: 20px;
   display: flex;
   gap: 20px;
+  text-decoration: none;
 }
 
 .topButton {
-  width: 70px;
+  width: 200px;
   height: 70px;
-  background-image: url('../../images/button_cuadrado_pequeño.jpg');
+  background-image: url('../../images/button_rectangular.jpg'); /* Cambiar el fondo */
   background-size: cover;
   background-position: center;
   border: none;
@@ -28,12 +30,21 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 20px; /* Añade borde redondeado */
+  border-radius: 20px;
+  color: white; /* Añadir color de texto blanco */
+  font-size: 1.5rem; /* Ajustar tamaño de la fuente */
+  font-family: 'Poppins', sans-serif; /* Añadir familia de fuente */
+  text-decoration: none; /* Quitar subrayado */
 }
 
-.topButton i {
-  font-size: 32px; /* Aumenta el tamaño del ícono */
-  color: white;
+.infoButton {
+  width: 70px; /* Ancho para el botón de información */
+  height: 70px; /* Altura para el botón de información */
+  background-image: url('../../images/button_cuadrado_pequeño.jpg');
+}
+
+.infoButton i {
+  font-size: 32px; /* Tamaño del ícono para el botón de información */
 }
 
 .topButton:hover {
@@ -55,7 +66,7 @@
 }
 
 .contentContainer {
-  width: 70%; /* Aumenta el ancho del contenedor */
+  width: 70%;
   height: auto;
   background-color: rgba(255, 255, 255, 0.7);
   border-radius: 15px;
@@ -63,25 +74,25 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding: 40px; /* Reduce el padding */
+  padding: 40px;
 }
 
 .titleImage {
-  width: 80%; /* Ajusta el tamaño de la imagen del título */
+  width: 80%;
   height: auto;
-  margin-bottom: 20px; /* Añade un margen inferior */
+  margin-bottom: 20px;
 }
 
 .buttonContainer {
   display: flex;
-  gap: 40px; /* Aumenta el espacio entre botones */
+  gap: 40px;
   margin-top: 20px;
 }
 
 .accessButton {
   font-family: 'Poppins', sans-serif;
-  font-size: 2.5rem; /* Aumenta el tamaño de la fuente */
-  padding: 20px 40px; /* Aumenta el padding */
+  font-size: 2.5rem;
+  padding: 20px 40px;
   border: none;
   border-radius: 20px;
   cursor: pointer;
@@ -91,8 +102,8 @@
   color: white;
   box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2);
   transition: transform 0.2s, background-color 0.2s, box-shadow 0.2s;
-  width: 250px; /* Aumenta el ancho del botón */
-  height: 100px; /* Aumenta la altura del botón */
+  width: 250px;
+  height: 100px;
 }
 
 .accessButton:hover {
@@ -107,7 +118,7 @@
 
 .characterContainer {
   position: absolute;
-  bottom: 20px; /* Aumenta la distancia desde la parte inferior */
+  bottom: 20px;
   left: 20px;
   display: flex;
   flex-direction: column;
@@ -115,14 +126,14 @@
 }
 
 .characterImage {
-  width: 400px; /* Aumenta el tamaño de la imagen del personaje */
+  width: 400px;
   height: auto;
-  margin-top: 20px; /* Añade un margen superior para separar de la burbuja */
+  margin-top: 20px;
 }
 
 .speechBubble {
   background: rgba(255, 255, 255, 0.9);
-  border: 2px solid #A05A25; /* Añade un borde a la burbuja */
+  border: 2px solid #A05A25;
   border-radius: 30px;
   padding: 20px;
   position: relative;
@@ -130,8 +141,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  max-width: 350px; /* Ajusta el ancho máximo de la burbuja */
-  font-size: 1.5rem; /* Aumenta el tamaño de la letra */
+  max-width: 350px;
+  font-size: 1.5rem;
   color: #A05A25;
   font-family: 'Poppins', sans-serif;
   text-align: center;
@@ -160,7 +171,7 @@
   text-align: center;
 }
 
-.soundButton, .hideButton, .showButton {
+.soundButton {
   background-image: url('../../images/button_cuadrado_pequeño.jpg');
   background-size: cover;
   background-position: center;
@@ -174,54 +185,21 @@
   height: 50px;
 }
 
-.soundButton i, .hideButton i, .showButton i {
+.soundButton i {
   font-size: 24px;
   color: white;
 }
 
-.soundButton:hover, .hideButton:hover, .showButton:hover {
+.soundButton:hover {
   transform: scale(1.1);
   box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.3);
 }
 
-.soundButton:active, .hideButton:active, .showButton:active {
+.soundButton:active {
   transform: scale(0.9);
   box-shadow: inset 3px 3px 8px rgba(0, 0, 0, 0.4);
 }
 
-.showButton {
-  position: absolute;
-  top: 25%; /* Ajusta la altura para que esté más arriba */
-  left: 20px;
-}
-
-/* Añade las burbujas de pensamiento */
-.bubble {
-  position: absolute;
-  bottom: 50px;
-  left: 50px;
-  width: 20px;
-  height: 20px;
-  background-color: white;
-  border-radius: 50%;
-  border: 2px solid #A05A25;
-}
-
-.bubble:nth-child(2) {
-  bottom: 80px;
-  left: 70px;
-  width: 15px;
-  height: 15px;
-}
-
-.bubble:nth-child(3) {
-  bottom: 110px;
-  left: 90px;
-  width: 10px;
-  height: 10px;
-}
-
-/* Contenedor de logos */
 .logosContainer {
   position: absolute;
   bottom: 20px;
@@ -230,6 +208,6 @@
 }
 
 .logo {
-  width: 120px; /* Ajusta el tamaño de los logos */
+  width: 120px;
   height: auto;
 }
