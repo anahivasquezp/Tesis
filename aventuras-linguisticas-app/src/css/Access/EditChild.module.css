@@ -68,6 +68,14 @@
   margin-bottom: 20px;
 }
 
+.Subtitle {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.5rem;
+  color: #71401a;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
 .errorMessage {
   background-color: #dc544b;
   color: white;
@@ -157,8 +165,10 @@
 
 .buttonContainer {
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
+  gap: 20px; /* Ajusta el espacio entre los botones */
+  margin-top: 20px;
 }
 
 .imageContainer {
@@ -166,6 +176,7 @@
   flex-wrap: wrap;
   justify-content: center;
   gap: 20px;
+  margin-bottom: 20px; /* Agrega un margen inferior para separar las imágenes de los botones */
 }
 
 .characterImage {

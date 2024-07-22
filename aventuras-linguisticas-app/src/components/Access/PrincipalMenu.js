@@ -157,6 +157,7 @@ function PrincipalMenu() {
                 </button>
             </div>
             <div className={styles.contentContainer}>
+                <h2 className={styles.Subtitle}>Elige una actividad para comenzar:</h2>
                 <div className={styles.userInfo}>
                     {auth.currentUser ? (
                         <>

@@ -188,7 +188,8 @@ function VocalMenu() {
         )}
       </div>
       <div className={styles.contentContainer}>
-        <h1 className={styles.exerciseTitle}>Ejercicios con Vocales</h1>
+      <h1 className={styles.exerciseTitle}>Ejercicios Fonológicos: <span className={styles.exerciseTitle2} >Vocales</span></h1>
+        <h2 className={styles.Subtitle}>Seleccione una vocal y complete el ejercicio respectivo:</h2>
         {loading ? (
           <p className={styles.loadingText}>Cargando...</p>
         ) : (

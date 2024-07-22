@@ -18,7 +18,7 @@ function PhoneticExercises() {
   const [loading, setLoading] = useState(true);
   const [nicaImage, setNicaImage] = useState(nicaPresenting);
   const [isBubbleVisible, setIsBubbleVisible] = useState(true);
-  const [bubbleMessage, setBubbleMessage] = useState('¡Hola! Escucha y elige la respuesta correcta.');
+  const [bubbleMessage, setBubbleMessage] = useState('¡Hola! Escucha y repite el sonido en voz alta');
   const navigate = useNavigate();
   const auth = getAuth();
   const storage = getStorage();
@@ -55,7 +55,7 @@ function PhoneticExercises() {
   }, [storage]);
 
   useEffect(() => {
-    const message = "¡Hola! Escucha y elige la respuesta correcta.";
+    const message = "¡Hola! Escucha y repite el sonido en voz alta";
     const utterance = new SpeechSynthesisUtterance(message);
     let timer;
 
@@ -93,7 +93,7 @@ function PhoneticExercises() {
 
   const handleShowBubble = () => {
     setIsBubbleVisible(true);
-    setBubbleMessage('¡Hola! Escucha y elige la respuesta correcta.');
+    setBubbleMessage('¡Hola! Escucha y repite el sonido en voz alta');
     setNicaImage(nicaPresenting);
     const timer = setTimeout(() => {
       setIsBubbleVisible(false);
@@ -198,6 +198,7 @@ function PhoneticExercises() {
         )}
       </div>
       <div className={styles.contentContainer}>
+        <h2 className={styles.Subtitle}>Escucha el audio y repite el sonido en voz alta:</h2>
         <h1 className={styles.exerciseTitle}>Conciencia Fonética: <span className={styles.fileName}>{fileData.name}</span></h1>
         {loading ? (
           <p className={styles.loadingText}>Cargando...</p>
@@ -219,7 +220,7 @@ function PhoneticExercises() {
             </>
           )}
           <button className={`${styles.exerciseButton} ${styles.nextButton}`} onClick={handleNext}>
-            <i className="fas fa-arrow-right"></i> Adelante
+            <i className="fas fa-arrow-right"></i> Continuar
           </button>
         </div>
       </div>

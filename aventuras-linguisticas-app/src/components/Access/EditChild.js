@@ -190,6 +190,7 @@ function EditChild() {
       </div>
       <div className={styles.formContainer}>
         <h1 className={styles.editTitle}>Editar la información del niño</h1>
+        <h2 className={styles.Subtitle}>Modifique la información del niño y seleccione una imagen de personaje.</h2>
         {error && <div className={styles.errorMessage}>{error}</div>}
         <form onSubmit={handleUpdateChild}>
           <label htmlFor="name" className={styles.formLabel}>Nombre:</label>
@@ -211,24 +212,27 @@ function EditChild() {
             placeholder="Fecha de nacimiento"
             onChange={(e) => setBirthDate(e.target.value)}
           />
-          <button type="submit" className={styles.editButton}>Guardar</button>
-        </form>
-        <div className={styles.buttonContainer}>
-          <button onClick={handleDeleteChild} className={styles.deleteButton}>Eliminar</button>
-          <button onClick={handleTransferChild} className={styles.transferButton}>Transferir</button>
+
+        <div className={styles.imageContainer}>
+          {characterImages.map((image) => (
+            <img
+              key={image.id}
+              src={image.url}
+              alt={image.id}
+              onClick={() => setSelectedImage(image.url)}
+              className={`${styles.characterImage} ${selectedImage === image.url ? styles.selected : ''}`}
+              style={selectedImage === image.url ? { width: '150px', height: '150px' } : {}}
+            />
+          ))}
         </div>
-      </div>
-      <div className={styles.imageContainer}>
-        {characterImages.map((image) => (
-          <img
-            key={image.id}
-            src={image.url}
-            alt={image.id}
-            onClick={() => setSelectedImage(image.url)}
-            className={`${styles.characterImage} ${selectedImage === image.url ? styles.selected : ''}`}
-            style={selectedImage === image.url ? { width: '150px', height: '150px' } : {}}
-          />
-        ))}
+
+          <div className={styles.buttonContainer}>
+            <button onClick={handleDeleteChild} className={styles.deleteButton}>Eliminar</button>
+            <button type="submit" className={styles.editButton}>Guardar</button>
+            <button onClick={handleTransferChild} className={styles.transferButton}>Transferir</button>
+          </div>
+        </form>
+        
       </div>
       <div className={styles.characterContainer}>
         {isBubbleVisible && (

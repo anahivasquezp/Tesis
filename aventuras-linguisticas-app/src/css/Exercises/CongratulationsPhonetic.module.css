@@ -96,9 +96,9 @@
   margin-bottom: 20px;
 }
 
-.largeStar {
-  width: 100px;
-  height: 100px;
+.star {
+  width: 100px; /* Ajustar tamaño de la estrella */
+  height: 100px; /* Ajustar tamaño de la estrella */
   animation: sparkle 2s infinite;
 }
 

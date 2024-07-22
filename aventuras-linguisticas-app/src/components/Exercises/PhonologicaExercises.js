@@ -17,7 +17,7 @@ function PhonologicalExercises() {
   const [guestCharacter, setGuestCharacter] = useState(null);
   const [isBubbleVisible, setIsBubbleVisible] = useState(true);
   const [nicaImage, setNicaImage] = useState(nicaPresenting);
-  const [bubbleMessage, setBubbleMessage] = useState('¡Hola! Elige un ejercicio para empezar a jugar.');
+  const [bubbleMessage, setBubbleMessage] = useState('¡Hola! Elige un grupo de ejercicios para empezar a jugar.');
 
   useEffect(() => {
     const fetchGuestCharacter = () => {
@@ -31,7 +31,7 @@ function PhonologicalExercises() {
   }, []);
 
   useEffect(() => {
-    const message = "¡Hola! Elige un ejercicio para empezar a jugar.";
+    const message = "¡Hola! Elige un grupo de ejercicios para empezar a jugar.";
     const utterance = new SpeechSynthesisUtterance(message);
     let timer;
 
@@ -69,7 +69,7 @@ function PhonologicalExercises() {
 
   const handleShowBubble = () => {
     setIsBubbleVisible(true);
-    setBubbleMessage('¡Hola! Elige un ejercicio para empezar a jugar.');
+    setBubbleMessage('¡Hola! Elige un grupo de ejercicios para empezar a jugar.');
     setNicaImage(nicaPresenting);
     const timer = setTimeout(() => {
       setIsBubbleVisible(false);
@@ -144,6 +144,7 @@ function PhonologicalExercises() {
       </div>
       <div className={styles.contentContainer}>
         <h1 className={styles.exerciseTitle}>Ejercicios Fonológicos</h1>
+        <h2 className={styles.Subtitle}>Seleccione un grupo de ejercicios para completar:</h2>
         <div className={styles.buttonGroup}>
           <button className={`${styles.exerciseButton} ${styles.exerciseButtonTop}`} onClick={() => handleNavigate('/vocalMenu')}>
             <i className={`${styles.icon} fas fa-font`}></i> Vocales

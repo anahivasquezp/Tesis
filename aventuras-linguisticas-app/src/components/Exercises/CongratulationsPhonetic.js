@@ -73,7 +73,7 @@ const CongratulationsPhonetic = () => {
       <img
         src={starImage}
         alt="star"
-        className={styles.largeStar}
+        className={`${styles.star} ${isAuthenticated ? (score === 1 ? styles.filledStar : styles.emptyStar) : styles.filledStar}`}
       />
     );
   };
@@ -84,7 +84,7 @@ const CongratulationsPhonetic = () => {
         <button onClick={openModal} className={`${styles.topButton} ${styles.homeButton}`}>
           <i className="fas fa-home"></i>
         </button>
-        <Link to="/vocalMenu" className={`${styles.topButton} ${styles.menuButton}`}>
+        <Link to="/Menu" className={`${styles.topButton} ${styles.menuButton}`}>
           <i className="fas fa-bars"></i>
         </Link>
       </div>
@@ -116,7 +116,7 @@ const CongratulationsPhonetic = () => {
           </>
         )}
         <button className={styles.continueButton} onClick={handleContinue}>
-          Continuar
+          Regresar al Menú 
         </button>
       </div>
       <img src={nicaCorrecto} alt="Character" className={styles.mainCharacterImage} />
