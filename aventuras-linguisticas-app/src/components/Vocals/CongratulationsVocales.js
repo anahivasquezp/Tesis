@@ -26,7 +26,7 @@ const CongratulationsVocales = () => {
         if (childDoc.exists()) {
           const data = childDoc.data();
           const totalScore = ['a', 'e', 'i', 'o', 'u'].reduce(
-            (acc, vocal) => acc + (data[`phoneticAwarenessScore_${vocal}`] || 0),
+            (acc, vocal) => acc + (data.scores?.[`vocal_${vocal}_score`] || 0),  
             0
           );
           setScore(totalScore);
@@ -127,7 +127,7 @@ const CongratulationsVocales = () => {
           </>
         )}
         <button className={styles.continueButton} onClick={handleContinue}>
-          Continuar
+          Regresar al Menú Fonológico
         </button>
       </div>
       <img src={nicaCorrecto} alt="Character" className={styles.mainCharacterImage} />

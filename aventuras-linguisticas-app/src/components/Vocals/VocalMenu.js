@@ -63,8 +63,7 @@ function VocalMenu() {
         const childDoc = await getDoc(doc(db, 'children', selectedChild.id));
         if (childDoc.exists()) {
           const childData = childDoc.data();
-          console.log('Fetched child data:', childData);
-          setScores(childData);
+          setScores(childData.scores || {});
         }
       }
     };
@@ -140,8 +139,7 @@ function VocalMenu() {
 
   const getPhoneticAwarenessScore = (vocal) => {
     if (isAuthenticated) {
-      const score = scores[`phoneticAwarenessScore_${vocal}`] || 0;
-      console.log(`Score for ${vocal}:`, score);
+      const score = scores[`vocal_${vocal}_score`] || 0;
       return score;
     }
     return 0;
@@ -188,7 +186,7 @@ function VocalMenu() {
         )}
       </div>
       <div className={styles.contentContainer}>
-      <h1 className={styles.exerciseTitle}>Ejercicios Fonológicos: <span className={styles.exerciseTitle2} >Vocales</span></h1>
+        <h1 className={styles.exerciseTitle}>Ejercicios Fonológicos: <span className={styles.exerciseTitle2}>Vocales</span></h1>
         <h2 className={styles.Subtitle}>Seleccione una vocal y complete el ejercicio respectivo:</h2>
         {loading ? (
           <p className={styles.loadingText}>Cargando...</p>

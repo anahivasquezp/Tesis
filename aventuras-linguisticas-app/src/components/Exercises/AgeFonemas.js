@@ -215,7 +215,10 @@ function AgeFonemas() {
         )}
       </div>
       <div className={styles.contentContainer}>
-        <h1 className={styles.title}>Fonemas para {age} años</h1>
+        <h1 className={styles.title}>Ejercicios Fonológicos: 
+          <span className={styles.title2}>Fonemas para {age} años</span>
+          </h1>
+        <h2 className={styles.Subtitle}>Seleccione un fonema y complete los ejercicios respectivos:</h2>
         <div className={styles.fonemasContainer}>
           {fonemas.map(fonema => {
             const { totalExercises, score } = calculateStars(fonema);

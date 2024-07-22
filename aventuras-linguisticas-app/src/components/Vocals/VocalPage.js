@@ -25,7 +25,7 @@ const VocalPage = () => {
   const auth = getAuth();
   const storage = getStorage();
   const db = getFirestore();
-  const { selectedChild } = useContext(ChildContext);
+  const { selectedChild, setSelectedChild } = useContext(ChildContext);
   const [guestCharacter, setGuestCharacter] = useState(null);
 
   useEffect(() => {
@@ -118,6 +118,25 @@ const VocalPage = () => {
       setCharacterImage(neutralCharacterImage);
       setIsBubbleVisible(false);
     }, 5000);
+
+    if (auth.currentUser && selectedChild) {
+      const scoreField = `vocal_${vocal.toLowerCase()}_score`;
+      const newScore = isCorrect ? 1 : 0;
+      const updatedChild = {
+        ...selectedChild,
+        scores: {
+          ...selectedChild.scores,
+          [scoreField]: newScore,
+        },
+      };
+
+      const childRef = doc(db, 'children', selectedChild.id);
+      await updateDoc(childRef, {
+        [`scores.${scoreField}`]: newScore,
+      });
+
+      setSelectedChild(updatedChild);
+    }
 
     return () => clearTimeout(timer);
   };
@@ -212,7 +231,11 @@ const VocalPage = () => {
         )}
       </div>
       <div className={styles.contentContainer}>
+        <button className={`${styles.topButton} ${styles.closeButton}`} onClick={() => navigate('/phonological-exercises')}>
+          <i className="fas fa-times"></i>
+        </button>
         <h1 className={styles.vocalTitle}>Conciencia Fonémica: <span className={styles.fileName}>{vocal.toUpperCase()}</span></h1>
+        <h2 className={styles.Subtitle}>Reproduce el video e imita el fonema:</h2>
         <div className={styles.videoContainer}>
           {loading ? (
             <p className={styles.loadingText}>Cargando...</p>
@@ -225,7 +248,7 @@ const VocalPage = () => {
         <div className={styles.buttonContainer}>
           {['e', 'i', 'o', 'u'].includes(vocal) && (
             <button className={`${styles.exerciseButton} ${styles.backButton}`} onClick={handlePrev}>
-              <i className="fas fa-arrow-left"></i> Atrás
+              <i className="fas fa-arrow-left"></i> Anterior
             </button>
           )}
           {isAuthenticated && (
@@ -239,7 +262,7 @@ const VocalPage = () => {
             </>
           )}
           <button className={`${styles.exerciseButton} ${styles.nextButton}`} onClick={handleNext}>
-            <i className="fas fa-arrow-right"></i> Adelante
+            <i className="fas fa-arrow-right"></i> Siguiente
           </button>
         </div>
       </div>
