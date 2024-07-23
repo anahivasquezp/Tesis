@@ -13,10 +13,6 @@ function Instructions() {
     const [isBubbleVisible, setIsBubbleVisible] = useState(true);
 
     useEffect(() => {
-        const message = "¡Hola! Soy Nica. Vamos a conocer más sobre el juego.";
-        const utterance = new SpeechSynthesisUtterance(message);
-        speechSynthesis.speak(utterance);
-
         const hideBubbleTimer = setTimeout(() => {
             setIsBubbleVisible(false);
         }, 10000); // 10 seconds
@@ -103,7 +99,7 @@ function Instructions() {
                     <div className={styles.speechBubble}>
                         <p className={styles.welcomeText}>¡Hola! Soy Nica. Vamos a conocer más sobre el juego.</p>
                         <div className={styles.bubbleButtons}>
-                            <button id="soundButton" className={styles.soundButton}>
+                            <button id="soundButton" className={styles.soundButton} onClick={handleShowBubble}>
                                 <i className="fas fa-volume-up"></i>
                             </button>
                         </div>
