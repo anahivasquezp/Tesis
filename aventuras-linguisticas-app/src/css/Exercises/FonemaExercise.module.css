@@ -83,6 +83,53 @@
   border-radius: 15px;
   box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2);
   text-align: center;
+  position: relative;
+}
+
+.closeButton {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 50px;
+  height: 50px;
+  background-image: url('../../images/button_cuadrado_pequeño.jpg');
+  background-size: cover;
+  background-position: center;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+  text-decoration: none;
+}
+
+.closeButton i {
+  font-size: 24px;
+  color: white;
+}
+
+.closeButton:hover {
+  transform: scale(1.1);
+  box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.closeButton:active {
+  transform: scale(0.9);
+  box-shadow: inset 3px 3px 8px rgba(0, 0, 0, 0.4);
+}
+
+.exerciseHeader {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  font-size: 3rem;
+  color: #A05A25;
+  margin-bottom: 10px;
+}
+
+.ageText {
+  font-size: 3rem;
+  color: #48a858;
 }
 
 .exerciseTitle {
@@ -90,7 +137,7 @@
   font-weight: 700;
   font-size: 3rem;
   color: #A05A25;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .fileName {
@@ -99,6 +146,13 @@
   padding: 10px 20px;
   border-radius: 10px;
   margin-left: 10px;
+}
+
+.exerciseSubtitle {
+  font-family: 'Poppins', sans-serif;
+  font-size: 2rem;
+  color: #71401a;
+  margin-bottom: 20px;
 }
 
 .loadingText {

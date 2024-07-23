@@ -154,7 +154,7 @@ const CongratulationsExercises = () => {
           </>
         )}
         <button className={styles.continueButton} onClick={() => navigate(`/age-fonemas/${ageGroup}`)}>
-          Continuar
+          Regresar al Menú de {ageGroup} años
         </button>
       </div>
       <img src={nicaCorrecto} alt="Character" className={styles.mainCharacterImage} />

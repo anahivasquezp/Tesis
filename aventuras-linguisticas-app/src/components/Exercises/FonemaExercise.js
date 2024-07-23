@@ -55,7 +55,7 @@ function FonemaExercise() {
   useEffect(() => {
     const storage = getStorage();
     const imageRef = ref(storage, `images/fonemas/Fonema_${fonema.toUpperCase()}.webp`);
-    const audioRef = ref(storage, `audios/fonemas/Audio_Fonema_${fonema.toUpperCase()}.m4a`);
+    const audioRef = ref(storage, `audios/fonemas/Audio_Fonema_${fonema.toUpperCase()}.mp3`);
 
     getDownloadURL(imageRef)
       .then((url) => {
@@ -251,7 +251,14 @@ function FonemaExercise() {
         )}
       </div>
       <div className={styles.contentContainer}>
+        <button className={styles.closeButton} onClick={() => navigate('/phonological-exercises')}>
+          <i className="fas fa-times"></i>
+        </button>
+        {ageGroup && (
+          <h1 className={styles.exerciseTitle}>Ejercicios Fonológicos: <span className={styles.ageText}>{ageGroup} años</span></h1>
+        )} 
         <h1 className={styles.exerciseTitle}>Fonema: <span className={styles.fileName}>{fonema.toUpperCase() === 'ENIE' ? 'Ñ' : fonema.toUpperCase()}</span></h1>
+        <h2 className={styles.exerciseSubtitle}>Reproduce el sonido y repite el fonema:</h2>
         {loading ? (
           <p className={styles.loadingText}>Cargando...</p>
         ) : error ? (
@@ -286,7 +293,7 @@ function FonemaExercise() {
                 </>
               )}
               <button onClick={handleNextPage} className={`${styles.exerciseButton} ${styles.nextButton}`}>
-                <i className="fas fa-arrow-right"></i> Adelante
+                <i className="fas fa-arrow-right"></i> Siguiente
               </button>
             </div>
           </>

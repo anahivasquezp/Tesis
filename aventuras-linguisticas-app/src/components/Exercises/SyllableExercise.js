@@ -286,8 +286,15 @@ function SyllableExercise() {
           )
         )}
       </div>
-      <div className={styles.contentContainer}>
-        <h1 className={styles.title}>{currentSyllableType.replace('silaba_', 'Sílabas ').toUpperCase()} DE LA <span className={styles.fonema}>{fonema.toUpperCase() === 'ENIE' ? 'Ñ' : fonema.toUpperCase()}</span></h1>
+      <div className={styles.contentContainer}> 
+        <button className={styles.closeButton} onClick={() => navigate('/phonological-exercises')}>
+          <i className="fas fa-times"></i>
+        </button>
+
+        <h1 className={styles.exerciseTitle}>Ejercicios Fonológicos: <span className={styles.ageText}>{getAgeGroup(fonema)} años</span></h1>       
+        <h1 className={styles.exerciseTitle}>{currentSyllableType.replace('silaba_', 'Sílabas ').toUpperCase()} DE LA <span className={styles.fileName}>{fonema.toUpperCase() === 'ENIE' ? 'Ñ' : fonema.toUpperCase()}</span></h1>
+        <h2 className={styles.Subtitle1}>Reproduce cada una de las palabras y repite</h2>
+        
         <div className={styles.wordsContainer}>
           {value && value[currentSyllableType] && value[currentSyllableType].map((word, index) => (
             <div key={index} className={styles.wordItem}>
@@ -305,7 +312,7 @@ function SyllableExercise() {
         </div>
         <div className={styles.buttonGroup}>
           <button onClick={handlePreviousPage} className={`${styles.actionButton} ${styles.backButton}`}>
-            <i className="fas fa-arrow-left"></i> Atrás
+            <i className="fas fa-arrow-left"></i> Anterior
           </button>
           {isAuthenticated && (
             <>
@@ -318,7 +325,7 @@ function SyllableExercise() {
             </>
           )}
           <button onClick={handleNextPage} className={`${styles.actionButton} ${styles.nextButton}`}>
-            <i className="fas fa-arrow-right"></i> Adelante
+            <i className="fas fa-arrow-right"></i>Siguiente
           </button>
         </div>
       </div>

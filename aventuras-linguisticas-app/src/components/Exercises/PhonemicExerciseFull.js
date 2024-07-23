@@ -24,7 +24,7 @@ function ConcienciaFonemicaExerciseFull() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [guestCharacter, setGuestCharacter] = useState(null);
 
-  const syllables = ["A", "E", "I", "O", "U"];
+  const syllables = fonema.toUpperCase() === 'G' ? ["A", "UE", "UI", "O", "U"] : ["A", "E", "I", "O", "U"];
 
   const [value, loading, error] = useDocumentData(
     doc(collection(db, 'exercises'), fonema)
@@ -60,7 +60,9 @@ function ConcienciaFonemicaExerciseFull() {
   useEffect(() => {
     if (videoIndex < syllables.length) {
       const storage = getStorage();
-      const videoPath = `videos/${fonema.toUpperCase()}/Audio_ConcienciaFonemica_${fonema.toUpperCase()}${syllables[videoIndex]}.mp4`;
+      const videoPath = fonema.toUpperCase() === 'G' && (syllables[videoIndex] === 'UE' || syllables[videoIndex] === 'UI') 
+        ? `videos/${fonema.toUpperCase()}/Audio_ConcienciaFonemica_${fonema.toUpperCase()}${syllables[videoIndex]}.mp4`
+        : `videos/${fonema.toUpperCase()}/Audio_ConcienciaFonemica_${fonema.toUpperCase()}${syllables[videoIndex]}.mp4`;
       const videoRef = ref(storage, videoPath);
 
       getDownloadURL(videoRef)
@@ -257,7 +259,17 @@ function ConcienciaFonemicaExerciseFull() {
         )}
       </div>
       <div className={styles.contentContainer}>
-        <h1 className={styles.exerciseTitle}>Conciencia Fonémica: <span className={styles.fileName}>{fonema.toUpperCase() === 'ENIE' ? 'Ñ' : fonema.toUpperCase()}{syllables[videoIndex]}</span> </h1>
+        <button className={styles.closeButton} onClick={() => navigate('/phonological-exercises')}>
+          <i className="fas fa-times"></i>
+        </button>
+        
+        {ageGroup && (
+          <h1 className={styles.exerciseTitle}>Ejercicios Fonológicos: <span className={styles.ageText}>{ageGroup} años</span></h1>
+        )}        
+        <h1 className={styles.exerciseTitle}>Conciencia Fonémica: <span className={styles.fileName}>{fonema.toUpperCase() === 'ENIE' ? 'Ñ' : fonema.toUpperCase()}{syllables[videoIndex]}</span></h1>
+        <h2 className={styles.Subtitle}>Reproduce el video e imita el fonema</h2>
+        
+        
         {loading ? (
           <p className={styles.loadingText}>Cargando...</p>
         ) : error ? (
@@ -273,7 +285,7 @@ function ConcienciaFonemicaExerciseFull() {
             )}
             <div className={styles.buttonContainer}>
               <button onClick={handlePreviousVideo} className={`${styles.exerciseButton} ${styles.backButton}`}>
-                <i className="fas fa-arrow-left"></i> Atrás
+                <i className="fas fa-arrow-left"></i> Anterior
               </button>
               {isAuthenticated && (
                 <>
@@ -286,7 +298,7 @@ function ConcienciaFonemicaExerciseFull() {
                 </>
               )}
               <button onClick={handleNextVideo} className={`${styles.exerciseButton} ${styles.nextButton}`}>
-                <i className="fas fa-arrow-right"></i> Adelante
+                <i className="fas fa-arrow-right"></i> Siguiente
               </button>
             </div>
           </>

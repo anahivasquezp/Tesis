@@ -58,10 +58,16 @@ function FraseExercise() {
       try {
         if (value) {
           const storage = getStorage();
-          const imageRef = ref(storage, `images/frases/Frase_${fonema.toUpperCase()}.webp`);
+          const imageRefWebp = ref(storage, `images/frases/Frase_${fonema.toUpperCase()}.webp`);
+          const imageRefPng = ref(storage, `images/frases/Frase_${fonema.toUpperCase()}.png`);
 
-          const url = await getDownloadURL(imageRef);
-          setImageURL(url);
+          try {
+            const url = await getDownloadURL(imageRefWebp);
+            setImageURL(url);
+          } catch {
+            const url = await getDownloadURL(imageRefPng);
+            setImageURL(url);
+          }
           setImageLoading(false);
         }
       } catch (error) {
@@ -164,6 +170,7 @@ function FraseExercise() {
   const playPhraseAudio = () => {
     if (value && value.frase && typeof value.frase === 'string') {
       const utterance = new SpeechSynthesisUtterance(value.frase);
+      utterance.rate = 0.8;  // Velocidad más lenta
       speechSynthesis.speak(utterance);
     } else {
       setDataError("Error al cargar la frase.");
@@ -249,8 +256,15 @@ function FraseExercise() {
           )
         )}
       </div>
-      <div className={styles.contentContainer}>
-        <h1 className={styles.title}>Frase de la <span className={styles.fonema}>{fonema.toUpperCase() === 'ENIE' ? 'Ñ' : fonema.toUpperCase()}</span></h1>
+      <div className={styles.contentContainer}>      
+        <button className={styles.closeButton} onClick={() => navigate('/phonological-exercises')}>
+          <i className="fas fa-times"></i>
+        </button>
+
+        <h1 className={styles.exerciseTitle}>Ejercicios Fonológicos: <span className={styles.ageText}>{getAgeGroup(fonema)} años</span></h1>     
+        <h1 className={styles.exerciseTitle}>Frase de la <span className={styles.fileName}>{fonema.toUpperCase() === 'ENIE' ? 'Ñ' : fonema.toUpperCase()}</span></h1>  
+        <h2 className={styles.Subtitle1}>Reproduce la frase y repítela:</h2>
+        
         {value ? (
           <>
             <p className={styles.phrase}>{value.frase || "No se pudo cargar la frase."}</p>
@@ -272,7 +286,7 @@ function FraseExercise() {
           </button>
           <div className={styles.actionButtonsContainer}>
             <button onClick={handlePreviousPage} className={`${styles.actionButton} ${styles.navButton}`}>
-              <i className="fas fa-arrow-left"></i> Atrás
+              <i className="fas fa-arrow-left"></i> Anterior
             </button>
             {isAuthenticated && (
               <>
@@ -285,7 +299,7 @@ function FraseExercise() {
               </>
             )}
             <button onClick={handleNextPage} className={`${styles.actionButton} ${styles.navButton}`}>
-              <i className="fas fa-arrow-right"></i> Adelante
+              <i className="fas fa-arrow-right"></i> Siguiente
             </button>
           </div>
         </div>
