@@ -35,6 +35,9 @@
   border-radius: 20px;
 }
 
+.link {
+  text-decoration: none; /* Asegurar que el enlace no tenga subrayado */
+}
 
 .topButton i {
   font-size: 32px;
@@ -95,7 +98,7 @@
 
 .instructionsText {
   font-family: 'Poppins', sans-serif;
-  font-size: 1.2rem;
+  font-size: 1.1rem; /* Reducido un poco el tamaño de la letra */
   color: #333;
   margin-top: 10px;
   text-align: justify;
@@ -123,7 +126,7 @@
 
 .creditColumn p {
   font-family: 'Poppins', sans-serif;
-  font-size: 1.1rem;
+  font-size: 1rem; /* Reducido un poco el tamaño de la letra */
   color: #333;
 }
 
@@ -142,7 +145,7 @@
 
 .directorContainer p {
   font-family: 'Poppins', sans-serif;
-  font-size: 1.1rem;
+  font-size: 1rem; /* Reducido un poco el tamaño de la letra */
   color: #333;
 }
 

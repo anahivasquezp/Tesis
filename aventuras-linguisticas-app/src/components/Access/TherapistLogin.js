@@ -21,6 +21,11 @@ function TherapistLogin() {
   const auth = getAuth();
 
   useEffect(() => {
+    setEmail("");
+    setPassword("");
+  }, []);
+
+  useEffect(() => {
     const message = "Por favor, ingresa tu correo electrónico y contraseña para iniciar sesión.";
     const utterance = new SpeechSynthesisUtterance(message);
     let timer;

@@ -45,7 +45,7 @@ function Instructions() {
     return (
         <div className={styles.mainContainer} style={{ backgroundImage: `url(${farmBackground})` }}>
             <div className={styles.topButtonsContainer}>
-                <Link to="/">
+                <Link to="/" className={styles.link}>
                     <button className={`${styles.topButton} ${styles.backButton}`}>
                         <i className="fas fa-arrow-left"></i>
                     </button>

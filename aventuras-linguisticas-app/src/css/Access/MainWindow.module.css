@@ -37,6 +37,10 @@
   text-decoration: none; /* Quitar subrayado */
 }
 
+.link {
+  text-decoration: none; /* Asegurar que el enlace no tenga subrayado */
+}
+
 .infoButton {
   width: 70px; /* Ancho para el botón de información */
   height: 70px; /* Altura para el botón de información */

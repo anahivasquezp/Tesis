@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styles from '../../css/Access/MainWindow.module.css';
 import farmBackground from '../../images/therapist_login_bg.webp';
 import characterImage from '../../images/Nica_presenta.png';
@@ -9,6 +9,7 @@ import logoLudolab from '../../images/logo_ludolab.png';
 
 function App() {
     const [isBubbleVisible, setIsBubbleVisible] = useState(true);
+    const navigate = useNavigate(); // Definir navigate
 
     useEffect(() => {
         const message = "¡Hola! Soy Nica. ¿Eres terapista o invitado? Elige uno.";
@@ -42,7 +43,7 @@ function App() {
     return (
         <div className={styles.mainContainer} style={{ backgroundImage: `url(${farmBackground})` }}>
             <div className={styles.topButtonsContainer}>
-                <Link to="/instructions">
+                <Link to="/instructions" className={styles.link}>
                     <button className={`${styles.topButton} ${styles.aboutButton}`}>
                         Acerca De
                     </button>
@@ -55,10 +56,10 @@ function App() {
                 <img src={titleImage} alt="Title" className={styles.titleImage} />
                 <h2 className={styles.Subtitle}>Seleccione si es terapista o invitado:</h2>
                 <div className={styles.buttonContainer}>
-                    <Link to="/therapistLogin">
+                    <Link to="/therapistLogin" className={styles.link}>
                         <button className={`${styles.accessButton} ${styles.terapistaBtn}`}>Terapista</button>
                     </Link>
-                    <Link to="/Guest">
+                    <Link to="/Guest" className={styles.link}>
                         <button className={`${styles.accessButton} ${styles.guestBtn}`}>Invitado</button>
                     </Link>
                 </div>
