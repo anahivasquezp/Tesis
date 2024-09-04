@@ -181,7 +181,7 @@ function PrincipalMenu() {
                 </div>
                 <div className={styles.buttonContainer}>
                     <button className={styles.menuButton} onClick={handleNavigatePhonemicAwareness}>Conciencia Fonética</button>
-                    <button className={styles.menuButton} onClick={handleNavigatePhonologicalExercises}>Ejercicios fonológicos</button>
+                    <button className={styles.menuButton} onClick={handleNavigatePhonologicalExercises}>Ejercicios Fonológicos</button>
                 </div>
             </div>
             <div className={styles.characterContainer}>
